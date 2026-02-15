@@ -1,0 +1,183 @@
+/* ══════════════════════════════════════════════════════════════
+   REVIEW CARD — Steam / Team-BHP inspired
+   Dense, information-rich, professional, trustworthy
+   ══════════════════════════════════════════════════════════════ */
+
+.review-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1.2rem 1.4rem;
+    transition: border-color 0.15s ease;
+}
+
+.review-card:hover {
+    border-color: #c0c0c0;
+}
+
+/* ── Header ──────────────────── */
+.rc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+
+.rc-user {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.rc-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.rc-user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.rc-username {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.rc-ownership {
+    font-size: 0.7rem;
+    color: #999;
+    margin-top: 0.05rem;
+}
+
+.rc-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.15rem;
+}
+
+/* ── Stars ──────────────────── */
+.rc-stars {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.rc-star {
+    color: #d4d4d4;
+}
+
+.rc-star--filled {
+    color: #f59e0b;
+}
+
+.rc-date {
+    font-size: 0.68rem;
+    color: #bbb;
+}
+
+/* ── Body ──────────────────── */
+.rc-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #111;
+    margin: 0 0 0.4rem;
+    line-height: 1.3;
+}
+
+.rc-body {
+    font-size: 0.82rem;
+    color: #555;
+    line-height: 1.65;
+    margin: 0 0 0.8rem;
+}
+
+/* ── Verdict (Pros/Cons) ──── */
+.rc-verdict {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.rc-verdict-label {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.3rem;
+}
+
+.rc-verdict-label--pro {
+    color: #16a34a;
+}
+
+.rc-verdict-label--con {
+    color: #dc2626;
+}
+
+.rc-verdict ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.rc-verdict li {
+    font-size: 0.78rem;
+    color: #555;
+    padding: 0.15rem 0;
+    padding-left: 0.85rem;
+    position: relative;
+    line-height: 1.5;
+}
+
+.rc-pros li::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    color: #16a34a;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.rc-cons li::before {
+    content: '−';
+    position: absolute;
+    left: 0;
+    color: #dc2626;
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+/* ── Responsive ──────────────── */
+@media (max-width: 600px) {
+    .rc-header {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .rc-meta {
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .rc-verdict {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+}
