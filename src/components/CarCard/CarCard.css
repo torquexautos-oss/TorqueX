@@ -1,0 +1,121 @@
+.car-card-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px 6px 0 0;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.15s ease, border-color 0.15s ease;
+    flex: 1;
+}
+
+.car-card:hover {
+    border-color: #bbb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.car-card-image {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #eaeaea;
+}
+
+.car-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.car-card-body {
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.car-card-brand {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.car-card-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0.15rem 0 0;
+}
+
+.car-card-price {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #2563eb;
+    margin: 0;
+}
+
+.car-card-specs {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.25rem;
+}
+
+.car-card-specs td {
+    padding: 0.25rem 0;
+    font-size: 0.8rem;
+    border-top: 1px solid #f0f0f0;
+}
+
+.spec-key {
+    color: #888;
+    font-weight: 500;
+    width: 55px;
+}
+
+.spec-val {
+    color: #333;
+    font-weight: 500;
+}
+
+/* ── Compare Button ───────────────────────────────────────────── */
+.compare-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.compare-btn:hover:not(:disabled) {
+    background: #f0f0f0;
+    color: #2563eb;
+}
+
+.compare-btn--active {
+    background: #eff6ff;
+    color: #2563eb;
+    border-color: #bfdbfe;
+}
+
+.compare-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}

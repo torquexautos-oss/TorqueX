@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Toyota Urban Cruiser Taisor",
+    "brand": "Toyota",
+    "price": "\u20b97.74 - 13.04 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "SUV",
+    "engine": "1197 cc",
+    "power": "88.5 bhp",
+    "torque": "113 Nm",
+    "year": 2024
+  },
+  {
+    "name": "Volkswagen Virtus",
+    "brand": "Volkswagen",
+    "price": "\u20b911.56 - 19.41 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "Sedan",
+    "engine": "999\u20131498 cc",
+    "power": "114\u2013148 bhp",
+    "torque": "178\u2013250 Nm",
+    "year": 2022
+  },
+  {
+    "name": "Skoda Slavia",
+    "brand": "Skoda",
+    "price": "\u20b911.63 - 19.13 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "Sedan",
+    "engine": "999\u20131498 cc",
+    "power": "114\u2013148 bhp",
+    "torque": "178\u2013250 Nm",
+    "year": 2022
+  },
+  {
+    "name": "Skoda Kushaq",
+    "brand": "Skoda",
+    "price": "\u20b911.99 - 19.01 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "SUV",
+    "engine": "999\u20131498 cc",
+    "power": "114\u2013148 bhp",
+    "torque": "178\u2013250 Nm",
+    "year": 2021
+  },
+  {
+    "name": "Skoda Kylaq",
+    "brand": "Skoda",
+    "price": "\u20b98.00 - 14.00 Lakh (Expected)",
+    "fuel": "Petrol",
+    "bodyType": "SUV",
+    "engine": "999 cc",
+    "power": "114 bhp",
+    "torque": "178 Nm",
+    "year": 2025
+  },
+  {
+    "name": "Honda Elevate",
+    "brand": "Honda",
+    "price": "\u20b911.91 - 16.73 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "SUV",
+    "engine": "1498 cc",
+    "power": "119 bhp",
+    "torque": "145 Nm",
+    "year": 2023
+  },
+  {
+    "name": "Hyundai Verna 2023",
+    "brand": "Hyundai",
+    "price": "\u20b911.00 - 17.42 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "Sedan",
+    "engine": "1482 cc",
+    "power": "157 bhp",
+    "torque": "253 Nm",
+    "year": 2023
+  },
+  {
+    "name": "Mahindra XUV 3XO",
+    "brand": "Mahindra",
+    "price": "\u20b97.49 - 15.49 Lakh",
+    "fuel": "Petrol/Diesel",
+    "bodyType": "SUV",
+    "engine": "1197\u20131497 cc",
+    "power": "109\u2013129 bhp",
+    "torque": "200\u2013300 Nm",
+    "year": 2024
+  },
+  {
+    "name": "Tata Curvv",
+    "brand": "Tata",
+    "price": "\u20b910.50 - 19.00 Lakh",
+    "fuel": "Petrol/Diesel",
+    "bodyType": "SUV Coupe",
+    "engine": "1199 cc",
+    "power": "123 bhp",
+    "torque": "225 Nm",
+    "year": 2024
+  },
+  {
+    "name": "Maruti Suzuki Fronx",
+    "brand": "Maruti Suzuki",
+    "price": "\u20b97.51 - 13.04 Lakh",
+    "fuel": "Petrol",
+    "bodyType": "SUV",
+    "engine": "998\u20131197 cc",
+    "power": "99 bhp",
+    "torque": "147 Nm",
+    "year": 2023
+  }
+]

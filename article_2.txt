@@ -1,0 +1,25 @@
+Self-driving cars could receive notices of traffic violations under new law in 2026
+
+LAW ENFORCEMENT AGENCIES in California will soon be able to issue formal notices to self-driving cars for alleged traffic violations under a new law that goes into effect in 2026.
+
+AB 1777, authored by former state Assemblymember Philip Ting, D-San Francisco, establishes greater regulations on autonomous vehicles when encountering law enforcement or emergency response personnel.
+
+Law enforcement will be allowed to issue “notices of autonomous vehicle noncompliance” to the manufacturers of driverless cars. The manufacturers would then be required to notify the Department of Motor Vehicles of the alleged violation.
+
+An additional component of the law requires all self-driving cars to be equipped with two-way communication technology that allows law enforcement and emergency responders to contact a human operator who can direct vehicles remotely.
+
+Emergency personnel will be able to issue an emergency geofencing message to the manufacturer of a self-driving car and would require the manufacturer to direct its cars to leave or avoid a certain area within two minutes of receiving the message.
+
+The bill seeks to create a protocol for holding accountable autonomous vehicles that have no human driver to fault when committing traffic violations or obstructing emergency responses, issues that law enforcement have encountered in recent years as more self-driving cars fill Bay Area streets.
+
+In September, the San Bruno Police Department couldn’t issue a citation to a Waymo driverless car that had allegedly made an illegal U-turn. The department had to instead contact the company. An officer of the San Bruno Police Department conducts a traffic stop of a Waymo self-driving car on Saturday, Sept. 27, 2025 in San Bruno, Calif. (San Bruno Police Department via Bay City News)
+
+Autonomous vehicles have also obstructed emergency responses, including getting in the way of emergency response vehicles, according to the San Francisco County Transportation Authority.
+
+“This legislation would treat driverless cars as if there was a real person behind the wheel,” Ting said in a statement during a reading of the bill.
+
+The “notices of autonomous vehicle noncompliance” would be used by the DMV to assess permitting and help track vehicle safety of driverless cars.
+
+The bill does not define specific means of punishment for notices of noncompliance. The DMV must establish a system of addressing notices of noncompliance.
+
+Autonomous vehicle companies have until the summer to be in compliance with the new communication standards.

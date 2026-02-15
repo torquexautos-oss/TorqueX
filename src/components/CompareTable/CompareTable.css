@@ -1,0 +1,115 @@
+.compare-table-wrap {
+    overflow-x: auto;
+}
+
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+/* ── Header ───────────────────────────────────────────────────── */
+.ct-label-col {
+    width: 160px;
+}
+
+.ct-car-col {
+    width: 50%;
+    min-width: 220px;
+}
+
+.ct-car-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    gap: 0.3rem;
+}
+
+.ct-car-img {
+    width: 100%;
+    max-width: 200px;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #e8e8e8;
+    margin-bottom: 0.4rem;
+}
+
+.ct-car-brand {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ct-car-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.ct-remove {
+    margin-top: 0.3rem;
+    padding: 0.3rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    color: #dc2626;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.ct-remove:hover {
+    background: #fef2f2;
+}
+
+.ct-placeholder {
+    justify-content: center;
+    min-height: 180px;
+}
+
+.ct-placeholder p {
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+/* ── Body ─────────────────────────────────────────────────────── */
+.compare-table td,
+.compare-table th {
+    text-align: left;
+    vertical-align: top;
+}
+
+.compare-table tbody tr {
+    border-top: 1px solid #f0f0f0;
+}
+
+.compare-table tbody tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.ct-label {
+    padding: 0.6rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #888;
+    white-space: nowrap;
+}
+
+.ct-value {
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.ct-value--empty {
+    color: #ccc;
+}

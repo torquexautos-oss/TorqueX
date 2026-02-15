@@ -1,0 +1,81 @@
+.compare-page {
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+}
+
+.compare-header {
+    margin-bottom: 1.5rem;
+}
+
+.compare-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1a1a1a;
+}
+
+.compare-subtitle {
+    font-size: 0.88rem;
+    color: #777;
+    margin-top: 0.3rem;
+}
+
+.compare-clear {
+    margin-top: 0.6rem;
+    padding: 0.4rem 1rem;
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 500;
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    color: #dc2626;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.compare-clear:hover {
+    background: #fef2f2;
+}
+
+.compare-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.compare-empty p {
+    font-size: 0.95rem;
+    color: #888;
+    margin-bottom: 1rem;
+}
+
+.compare-browse {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2563eb;
+    border: 1px solid #2563eb;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+
+.compare-browse:hover {
+    background: #eff6ff;
+}
+
+.compare-back {
+    margin-top: 1.5rem;
+}
+
+.link-back {
+    font-size: 0.85rem;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.link-back:hover {
+    text-decoration: underline;
+}
