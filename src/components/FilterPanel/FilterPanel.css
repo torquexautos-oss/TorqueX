@@ -1,0 +1,91 @@
+.filter-panel {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 160px;
+    flex: 1;
+}
+
+.filter-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.filter-group select,
+.filter-group input[type="range"] {
+    font-family: inherit;
+    font-size: 0.85rem;
+}
+
+.filter-group select {
+    padding: 0.45rem 0.6rem;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+}
+
+.filter-group select:focus {
+    border-color: #2563eb;
+}
+
+.filter-group input[type="range"] {
+    width: 100%;
+    accent-color: #2563eb;
+    cursor: pointer;
+}
+
+.filter-reset {
+    padding: 0.45rem 1rem;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 500;
+    background: none;
+    border: 1px solid #d0d0d0;
+    border-radius: 4px;
+    color: #555;
+    cursor: pointer;
+    transition: background 0.15s;
+    white-space: nowrap;
+}
+
+.filter-reset:hover {
+    background: #f0f0f0;
+}
+
+.filter-count {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+@media (max-width: 640px) {
+    .filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group {
+        min-width: auto;
+    }
+}
