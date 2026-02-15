@@ -1,0 +1,316 @@
+[
+    {
+        "id": "rev-001",
+        "carId": "car-1",
+        "username": "Rajesh_K",
+        "rating": 5,
+        "title": "Best compact SUV in this price range",
+        "reviewText": "I've been driving the Kia Sonet for over a year now and it has been an absolute joy. The build quality is impressive, the features list is extensive, and the driving dynamics are sorted. The diesel engine is refined and the iMT gearbox is a unique offering. Highly recommended for city and highway driving.",
+        "pros": [
+            "Feature-loaded cabin",
+            "Refined diesel engine",
+            "Solid build quality",
+            "Good ground clearance"
+        ],
+        "cons": [
+            "Rear seat space could be better",
+            "Boot space is average",
+            "Turbo lag in lower RPMs"
+        ],
+        "ownershipDuration": "1 year",
+        "date": "2025-12-15"
+    },
+    {
+        "id": "rev-002",
+        "carId": "car-1",
+        "username": "Ananya_M",
+        "rating": 4,
+        "title": "Good value but some niggles",
+        "reviewText": "The Sonet delivers a premium experience at a competitive price. The infotainment system is top-notch and the connected car features work well. However, I've noticed some rattling from the dashboard after 8000 km. Service experience has been average so far.",
+        "pros": [
+            "Excellent infotainment",
+            "Connected car features",
+            "Ventilated seats"
+        ],
+        "cons": [
+            "Dashboard rattles",
+            "Average service experience",
+            "Hard suspension"
+        ],
+        "ownershipDuration": "8 months",
+        "date": "2025-11-20"
+    },
+    {
+        "id": "rev-003",
+        "carId": "car-1",
+        "username": "Vikram_S",
+        "rating": 4,
+        "title": "Stylish and feature-rich",
+        "reviewText": "Bought the HTX variant and it offers great value. The styling turns heads everywhere I go. The 1.5L diesel is peppy enough for overtakes and cruises effortlessly on highways. Air purifier and sunroof are great additions at this price point.",
+        "pros": [
+            "Head-turning design",
+            "Peppy diesel engine",
+            "Sunroof",
+            "Air purifier"
+        ],
+        "cons": [
+            "Stiff ride quality",
+            "No 6 airbags in base",
+            "Tyre quality could be better"
+        ],
+        "ownershipDuration": "6 months",
+        "date": "2025-10-05"
+    },
+    {
+        "id": "rev-004",
+        "carId": "car-2",
+        "username": "Suresh_P",
+        "rating": 5,
+        "title": "Luxury redefined in India",
+        "reviewText": "The Audi Q7 is a masterpiece of engineering. The virtual cockpit, the quattro system, the air suspension — everything works in perfect harmony. Yes, it's expensive to maintain, but if you can afford the car, the running costs are justified. The 3.0 TDI is silky smooth.",
+        "pros": [
+            "Virtual cockpit is stunning",
+            "quattro AWD",
+            "Air suspension comfort",
+            "Massive cabin space"
+        ],
+        "cons": [
+            "Expensive maintenance",
+            "Fuel efficiency is poor",
+            "Spare parts are costly"
+        ],
+        "ownershipDuration": "2 years",
+        "date": "2025-09-18"
+    },
+    {
+        "id": "rev-005",
+        "carId": "car-2",
+        "username": "Priya_N",
+        "rating": 4,
+        "title": "Great highway cruiser",
+        "reviewText": "We use the Q7 primarily for long road trips and it excels there. The ride quality is phenomenal, the 7-seater configuration is practical, and the Bose sound system is concert-quality. City driving is the only weak point due to its sheer size.",
+        "pros": [
+            "Supreme highway comfort",
+            "Bose sound system",
+            "Practical 7-seater",
+            "Advanced safety features"
+        ],
+        "cons": [
+            "Difficult to park in cities",
+            "High fuel consumption",
+            "Insurance costs are steep"
+        ],
+        "ownershipDuration": "1.5 years",
+        "date": "2025-08-22"
+    },
+    {
+        "id": "rev-006",
+        "carId": "car-3",
+        "username": "Amit_D",
+        "rating": 4,
+        "title": "Underrated sedan",
+        "reviewText": "The Skoda Slavia is genuinely underrated. The 1.5 TSI engine is an absolute gem — punchy, refined, and fuel-efficient for a turbo petrol. The handling is European and the build quality is reassuring. Just wish the after-sales network was better outside metros.",
+        "pros": [
+            "1.5 TSI is brilliant",
+            "European build quality",
+            "Sharp handling",
+            "Spacious cabin"
+        ],
+        "cons": [
+            "Aftersales outside metros",
+            "Infotainment could be better",
+            "No diesel option"
+        ],
+        "ownershipDuration": "10 months",
+        "date": "2025-07-14"
+    },
+    {
+        "id": "rev-007",
+        "carId": "car-4",
+        "username": "Karthik_R",
+        "rating": 5,
+        "title": "The ultimate driving machine lives up to its name",
+        "reviewText": "Upgraded from a Creta to the BMW X1 and the difference is night and day. The driving dynamics, the cabin quality, the badge value — everything is a massive step up. The 2.0L diesel is powerful yet efficient. BMW service packages make ownership hassle-free.",
+        "pros": [
+            "Phenomenal driving dynamics",
+            "Premium cabin",
+            "Efficient diesel",
+            "Good service packages"
+        ],
+        "cons": [
+            "Firm ride on bad roads",
+            "Rear seat is tight",
+            "Options are expensive"
+        ],
+        "ownershipDuration": "1 year",
+        "date": "2025-12-01"
+    },
+    {
+        "id": "rev-008",
+        "carId": "car-5",
+        "username": "Deepak_B",
+        "rating": 5,
+        "title": "Nothing comes close at this price",
+        "reviewText": "The Lexus RX is peak reliability meets luxury. Toyota's legendary quality with Lexus refinement. The hybrid powertrain is smooth and surprisingly efficient. The cabin is whisper-quiet and the Mark Levinson audio system is worth every rupee.",
+        "pros": [
+            "Legendary reliability",
+            "Hybrid efficiency",
+            "Whisper-quiet cabin",
+            "Mark Levinson audio"
+        ],
+        "cons": [
+            "Conservative styling",
+            "Infotainment feels dated",
+            "Not very engaging to drive"
+        ],
+        "ownershipDuration": "2 years",
+        "date": "2025-06-30"
+    },
+    {
+        "id": "rev-009",
+        "carId": "tata-nexon",
+        "username": "Mohit_G",
+        "rating": 4,
+        "title": "Best in segment safety",
+        "reviewText": "Bought the Nexon primarily for its 5-star safety rating and it hasn't disappointed. The turbo petrol is punchy, the cabin is well-equipped, and the ride quality is plush. Tata's build quality has improved dramatically. The touchscreen could be more responsive though.",
+        "pros": [
+            "5-star NCAP safety",
+            "Punchy turbo petrol",
+            "Good ride quality",
+            "Value for money"
+        ],
+        "cons": [
+            "Touchscreen lag",
+            "Wind noise at high speeds",
+            "Average fuel efficiency"
+        ],
+        "ownershipDuration": "1.5 years",
+        "date": "2025-11-08"
+    },
+    {
+        "id": "rev-010",
+        "carId": "tata-nexon",
+        "username": "Sneha_L",
+        "rating": 5,
+        "title": "Perfect city SUV",
+        "reviewText": "The Nexon is perfect for Bangalore traffic. Compact enough to maneuver, high enough to handle speed bumps, and loaded with features. The AMT works well in stop-and-go traffic. After 15 months, zero issues. Tata has really stepped up their game.",
+        "pros": [
+            "Compact dimensions",
+            "High ground clearance",
+            "Feature-rich",
+            "Zero issues in 15 months"
+        ],
+        "cons": [
+            "AMT could be smoother",
+            "No auto-dimming IRVM",
+            "Boot lip is high"
+        ],
+        "ownershipDuration": "15 months",
+        "date": "2025-10-22"
+    },
+    {
+        "id": "rev-011",
+        "carId": "hyundai-grand-i10-nios",
+        "username": "Rahul_V",
+        "rating": 4,
+        "title": "Great city hatchback",
+        "reviewText": "The Grand i10 Nios is the perfect first car. Refinement levels are class-leading, the cabin feels premium for the price, and Hyundai's aftersales is excellent. The 1.2 petrol is adequate and returns good mileage. Only miss a sunroof at this price.",
+        "pros": [
+            "Refined engine",
+            "Premium cabin feel",
+            "Excellent aftersales",
+            "Good mileage"
+        ],
+        "cons": [
+            "No sunroof",
+            "Safety could be better",
+            "Rear AC vents missing in base"
+        ],
+        "ownershipDuration": "2 years",
+        "date": "2025-09-15"
+    },
+    {
+        "id": "rev-012",
+        "carId": "maruti-suzuki-swift",
+        "username": "Arun_T",
+        "rating": 4,
+        "title": "The enthusiast's hatchback",
+        "reviewText": "The Swift continues to be the benchmark hot hatch in India. Light steering, peppy engine, and fun to drive character make it special. The new Z-series engine is more efficient too. Interior quality has improved but still falls behind Hyundai/Tata.",
+        "pros": [
+            "Fun to drive",
+            "Peppy engine",
+            "Light controls",
+            "Great resale value"
+        ],
+        "cons": [
+            "Interior quality average",
+            "Safety concerns",
+            "Road noise at highway speeds"
+        ],
+        "ownershipDuration": "6 months",
+        "date": "2025-12-10"
+    },
+    {
+        "id": "rev-013",
+        "carId": "honda-city",
+        "username": "Meera_J",
+        "rating": 5,
+        "title": "The complete sedan package",
+        "reviewText": "Honda City has been our family car for generations. This 5th gen continues the legacy. The 1.5 i-VTEC is bulletproof, the ride quality is plush, and the cabin is airy. Lane Watch camera is a thoughtful feature. Honda's reliability is unmatched in this segment.",
+        "pros": [
+            "Bulletproof engine",
+            "Plush ride quality",
+            "Airy cabin",
+            "Lane Watch camera"
+        ],
+        "cons": [
+            "Dated infotainment",
+            "No turbo option",
+            "Competitors offer more features"
+        ],
+        "ownershipDuration": "1 year",
+        "date": "2025-11-25"
+    },
+    {
+        "id": "rev-014",
+        "carId": "kia-seltos",
+        "username": "Naveen_C",
+        "rating": 4,
+        "title": "Feature king of SUVs",
+        "reviewText": "The Seltos set the benchmark for features in the mid-size SUV segment and continues to hold that crown. The 1.5 turbo petrol DCT is the sweet spot — fast, efficient, and smooth. The ADAS suite works reliably on highways. Excellent highway manners overall.",
+        "pros": [
+            "Class-leading features",
+            "ADAS works well",
+            "Turbo petrol is quick",
+            "Premium cabin"
+        ],
+        "cons": [
+            "DCT jerks in traffic",
+            "Boot could be bigger",
+            "Expensive top variants"
+        ],
+        "ownershipDuration": "8 months",
+        "date": "2025-10-30"
+    },
+    {
+        "id": "rev-015",
+        "carId": "tata-harrier",
+        "username": "Gaurav_H",
+        "rating": 4,
+        "title": "Road presence of a Range Rover",
+        "reviewText": "The Harrier commands attention on the road like no other Indian SUV. The 2.0 Kryotec diesel is torquey and the 6-speed AT shifts well. The ride quality on the ALFA platform is sorted. Wish the petrol option was available. Interior quality has massive improvements over the previous gen.",
+        "pros": [
+            "Stunning road presence",
+            "Torquey diesel",
+            "Sorted ride quality",
+            "Improved interiors"
+        ],
+        "cons": [
+            "No petrol option",
+            "Heavy steering in city",
+            "Average fuel efficiency"
+        ],
+        "ownershipDuration": "1 year",
+        "date": "2025-08-15"
+    }
+]

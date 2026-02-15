@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCarById } from '../../services/carService';
 import { formatPrice, formatMileage } from '../../utils/formatters';
+import ReviewsSection from '../ReviewsSection/ReviewsSection';
 import './CarDetailsPage.css';
 
 export default function CarDetailsPage() {
@@ -126,6 +127,7 @@ export default function CarDetailsPage() {
                     <a href="#problems">Problems</a>
                     <a href="#maintenance">Maintenance</a>
                     <a href="#verdict">Verdict</a>
+                    <a href="#reviews">Reviews</a>
                 </nav>
 
                 {/* ── Overview ─────────────────────────────────────── */}
@@ -262,6 +264,9 @@ export default function CarDetailsPage() {
                         </p>
                     </div>
                 </section>
+
+                {/* ── Customer Reviews ────────────────────────────── */}
+                <ReviewsSection carId={car.id} />
 
                 {/* Back */}
                 <div className="details-back">
