@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { groupCarsByModel } from '../../utils/carGrouper';
 import CarCard from '../../components/CarCard/CarCard';
 import './HomePage.css';
 
@@ -11,6 +12,7 @@ export default function HomePage() {
     const initialType = searchParams.get('type') || '';
 
     const [allCars, setAllCars] = useState([]);
+    const [models, setModels] = useState([]);
     const [visible, setVisible] = useState(PAGE_SIZE);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState(initialQuery);
@@ -24,39 +26,42 @@ export default function HomePage() {
             .then((res) => res.json())
             .then((data) => {
                 setAllCars(data);
+                const grouped = groupCarsByModel(data);
+                setModels(grouped);
                 setLoading(false);
             });
     }, []);
 
-    // Derived filter options
+    // Derived filter options (from all cars, not grouped)
     const brands = useMemo(() => [...new Set(allCars.map((c) => c.brand))].sort(), [allCars]);
     const fuels = useMemo(() => [...new Set(allCars.map((c) => c.fuelType))].sort(), [allCars]);
     const bodies = useMemo(() => [...new Set(allCars.map((c) => c.bodyType))].sort(), [allCars]);
 
-    // Filter + sort
-    const filteredCars = useMemo(() => {
-        let result = allCars;
+    // Filter + sort on grouped models
+    const filteredModels = useMemo(() => {
+        let result = models;
         if (search) {
             const q = search.toLowerCase();
             result = result.filter(
-                (c) =>
-                    c.name.toLowerCase().includes(q) ||
-                    c.brand.toLowerCase().includes(q)
+                (m) =>
+                    m.baseModel.toLowerCase().includes(q) ||
+                    m.brand.toLowerCase().includes(q)
             );
         }
-        if (brandFilter) result = result.filter((c) => c.brand === brandFilter);
-        if (fuelFilter) result = result.filter((c) => c.fuelType === fuelFilter);
-        if (bodyFilter) result = result.filter((c) => c.bodyType === bodyFilter);
+        if (brandFilter) result = result.filter((m) => m.brand === brandFilter);
+        if (fuelFilter) result = result.filter((m) => m.fuelType.includes(fuelFilter));
+        if (bodyFilter) result = result.filter((m) => m.bodyType === bodyFilter);
 
-        if (sortBy === 'price-low') result = [...result].sort((a, b) => a.price - b.price);
-        else if (sortBy === 'price-high') result = [...result].sort((a, b) => b.price - a.price);
-        else result = [...result].sort((a, b) => (b.year || 0) - (a.year || 0));
+        if (sortBy === 'price-low') result = [...result].sort((a, b) => a.priceMin - b.priceMin);
+        else if (sortBy === 'price-high') result = [...result].sort((a, b) => b.priceMax - a.priceMax);
+        else if (sortBy === 'variants') result = [...result].sort((a, b) => b.variantCount - a.variantCount);
+        else result = [...result].sort((a, b) => a.priceMin - b.priceMin); // default: price ascending
 
         return result;
-    }, [allCars, search, brandFilter, fuelFilter, bodyFilter, sortBy]);
+    }, [models, search, brandFilter, fuelFilter, bodyFilter, sortBy]);
 
-    const visibleCars = filteredCars.slice(0, visible);
-    const hasMore = visible < filteredCars.length;
+    const visibleModels = filteredModels.slice(0, visible);
+    const hasMore = visible < filteredModels.length;
 
     const handleReset = () => {
         setSearch('');
@@ -80,7 +85,7 @@ export default function HomePage() {
             <div className="home-header">
                 <h1>Cars in India</h1>
                 <p className="home-subtitle">
-                    {filteredCars.length} of {allCars.length} cars
+                    {filteredModels.length} models &middot; {allCars.length} variants
                 </p>
             </div>
 
@@ -112,9 +117,10 @@ export default function HomePage() {
                 </select>
 
                 <select value={sortBy} onChange={(e) => { setSortBy(e.target.value); setVisible(PAGE_SIZE); }}>
-                    <option value="newest">Newest First</option>
+                    <option value="newest">Price: Low → High</option>
                     <option value="price-low">Price: Low → High</option>
                     <option value="price-high">Price: High → Low</option>
+                    <option value="variants">Most Variants</option>
                 </select>
 
                 {(search || brandFilter || fuelFilter || bodyFilter) && (
@@ -123,10 +129,10 @@ export default function HomePage() {
             </div>
 
             {/* Car Grid */}
-            {visibleCars.length > 0 ? (
+            {visibleModels.length > 0 ? (
                 <div className="car-grid">
-                    {visibleCars.map((car) => (
-                        <CarCard key={car.id} car={car} />
+                    {visibleModels.map((model) => (
+                        <CarCard key={model.slug} car={model} />
                     ))}
                 </div>
             ) : (
@@ -140,7 +146,7 @@ export default function HomePage() {
             {hasMore && (
                 <div className="load-more">
                     <button onClick={() => setVisible((v) => v + PAGE_SIZE)}>
-                        Load More ({filteredCars.length - visible} remaining)
+                        Load More ({filteredModels.length - visible} remaining)
                     </button>
                 </div>
             )}
