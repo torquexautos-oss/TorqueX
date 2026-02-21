@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getCarById } from '../../services/carService';
 import { formatPrice, formatMileage } from '../../utils/formatters';
+import CarImage from '../../components/CarImage/CarImage';
 import ReviewsSection from '../ReviewsSection/ReviewsSection';
 import './CarDetailsPage.css';
 
@@ -9,14 +10,28 @@ export default function CarDetailsPage() {
     const { id } = useParams();
     const [car, setCar] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [selectedVariant, setSelectedVariant] = useState(null);
+    const [dynamicData, setDynamicData] = useState(null);
+    const [dynamicLoading, setDynamicLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
         getCarById(id).then((data) => {
             setCar(data);
-            setSelectedVariant(null);
             setLoading(false);
+
+            if (data) {
+                // Fetch dynamic real-time price
+                setDynamicLoading(true);
+                fetch(`http://localhost:3001/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
+                    .then(res => res.json())
+                    .then(fetchedData => {
+                        if (!fetchedData.error) {
+                            setDynamicData(fetchedData);
+                        }
+                    })
+                    .catch(err => console.error(err))
+                    .finally(() => setDynamicLoading(false));
+            }
         });
     }, [id]);
 
@@ -44,13 +59,11 @@ export default function CarDetailsPage() {
             <div className="hero">
                 <div className="hero-inner container">
                     <div className="hero-image">
-                        <img
-                            src={car.images[0]}
-                            alt={car.name}
-                            onError={(e) => {
-                                e.target.parentElement.classList.add('hero-image--fallback');
-                                e.target.style.display = 'none';
-                            }}
+                        <CarImage
+                            brand={car.brand}
+                            modelId={car.id}
+                            name={car.name}
+                            showSource={true}
                         />
                     </div>
                     <div className="hero-info">
@@ -61,34 +74,50 @@ export default function CarDetailsPage() {
                             <span>/</span>
                             <span>{car.brand}</span>
                             <span>/</span>
-                            <span className="current">{car.name}</span>
+                            <span className="current">{car.baseModel || car.name}</span>
                         </nav>
                         <span className="hero-brand">{car.brand}</span>
                         <h1 className="hero-name">{car.name}</h1>
-                        <p className="hero-price">
-                            {formatPrice(selectedVariant ? selectedVariant.price : car.price)}
-                            <span className="price-suffix">
-                                {selectedVariant ? ` — ${selectedVariant.name}` : ' onwards'}
-                            </span>
-                        </p>
-                        {car.priceRange && (
+
+                        {dynamicLoading ? (
+                            <div className="dynamic-price-skeleton pulse">
+                                <span className="skeleton-text short"></span>
+                            </div>
+                        ) : dynamicData ? (
+                            <div className="dynamic-price-container">
+                                <p className="hero-price dynamic">
+                                    {dynamicData.onRoadPrice}
+                                    <span className="price-suffix"> On-Road ({dynamicData.city})</span>
+                                </p>
+                                <a href={dynamicData.sourceUrl} target="_blank" rel="noopener noreferrer" className="live-source-link">
+                                    <span className="live-dot"></span> Live Scraped Data
+                                </a>
+                            </div>
+                        ) : (
+                            <p className="hero-price">
+                                {formatPrice(car.price)}
+                            </p>
+                        )}
+
+                        {!dynamicData && car.priceRange && (
                             <p className="hero-price-range">{car.priceRange}</p>
                         )}
 
                         {/* ── Variant Selector ──────────────────── */}
-                        {car.variants && car.variants.length > 0 && (
+                        {car.variants && car.variants.length > 1 && (
                             <div className="variant-selector">
-                                <span className="variant-label">Select Variant</span>
+                                <span className="variant-label">Select Variant ({car.variants.length})</span>
                                 <div className="variant-list">
-                                    {car.variants.map((v, i) => (
-                                        <button
-                                            key={i}
-                                            className={`variant-btn${selectedVariant && selectedVariant.name === v.name ? ' variant-btn--active' : ''}`}
-                                            onClick={() => setSelectedVariant(v)}
+                                    {car.variants.map((v) => (
+                                        <Link
+                                            key={v.id}
+                                            to={`/car/${v.id}`}
+                                            className={`variant-btn${car.id === v.id ? ' variant-btn--active' : ''}`}
+                                            preventScrollReset={true}
                                         >
-                                            <span className="variant-name">{v.name}</span>
+                                            <span className="variant-name">{v.label || v.name}</span>
                                             <span className="variant-price">{formatPrice(v.price)}</span>
-                                        </button>
+                                        </Link>
                                     ))}
                                 </div>
                             </div>
@@ -96,19 +125,19 @@ export default function CarDetailsPage() {
 
                         <div className="quick-specs">
                             <div className="qs-item">
-                                <span className="qs-value">{formatMileage(car.mileage)}</span>
+                                <span className="qs-value">{dynamicData?.specs?.mileage || (car.mileage && car.mileage !== '0' ? formatMileage(car.mileage) : (car.fuelType?.toLowerCase().includes('electric') ? 'Electric' : 'N/A'))}</span>
                                 <span className="qs-label">Mileage</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{(car.fuelType || '').split(' / ')[0]}</span>
+                                <span className="qs-value">{dynamicData?.specs?.fuelType || (car.fuelType || '').split(' / ')[0] || 'N/A'}</span>
                                 <span className="qs-label">Fuel</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{car.engine}</span>
+                                <span className="qs-value">{dynamicData?.specs?.engine || (car.engine && car.engine !== 'N/A' ? car.engine : (car.fuelType?.toLowerCase().includes('electric') ? 'Electric Motor' : 'N/A'))}</span>
                                 <span className="qs-label">Engine</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{(car.transmission || '').split(' / ')[0]}</span>
+                                <span className="qs-value">{dynamicData?.specs?.transmission || (car.transmission || '').split(' / ')[0] || 'N/A'}</span>
                                 <span className="qs-label">Transmission</span>
                             </div>
                         </div>

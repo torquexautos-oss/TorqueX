@@ -1,121 +1,172 @@
+/* ══════════════════════════════════════════════════════════════════
+   CAR CARD — TorqueX V3
+   ══════════════════════════════════════════════════════════════════ */
 .car-card-wrapper {
     display: flex;
     flex-direction: column;
+    height: 100%;
+    overflow: hidden;
 }
 
 .car-card {
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px 6px 0 0;
-    overflow: hidden;
     text-decoration: none;
     color: inherit;
     display: flex;
     flex-direction: column;
-    transition: box-shadow 0.15s ease, border-color 0.15s ease;
     flex: 1;
 }
 
 .car-card:hover {
-    border-color: #bbb;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    color: inherit;
 }
 
+.car-card-wrapper:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: rgba(79, 140, 255, 0.15);
+}
+
+/* ── Image ──────────────────────────────────── */
 .car-card-image {
     width: 100%;
     aspect-ratio: 16 / 10;
     overflow: hidden;
-    background: #eaeaea;
+    background: var(--bg-primary);
+    position: relative;
 }
 
 .car-card-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform var(--duration-slow) var(--ease-smooth);
 }
 
+.car-card-wrapper:hover .car-card-image img {
+    transform: scale(1.05);
+}
+
+/* ── Body ───────────────────────────────────── */
 .car-card-body {
-    padding: 0.9rem 1rem;
+    padding: 1rem 1.25rem 1.25rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     flex: 1;
 }
 
 .car-card-brand {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     font-weight: 600;
-    color: #888;
+    color: var(--accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
 
 .car-card-name {
-    font-size: 1rem;
+    font-size: 1.05rem;
+    font-family: 'Outfit', sans-serif;
     font-weight: 700;
-    color: #1a1a1a;
-    margin: 0.15rem 0 0;
+    color: var(--text-primary);
+    margin-top: 0.15rem;
 }
 
 .car-card-price {
     font-size: 0.95rem;
     font-weight: 700;
-    color: #2563eb;
-    margin: 0;
+    color: var(--accent-green);
+    margin-top: 0.5rem;
 }
 
-.car-card-specs {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.25rem;
+/* ── Variant Badge ─────────────────────────────── */
+.car-card-variants-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(79, 140, 255, 0.85);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 4px;
+    z-index: 2;
+    letter-spacing: 0.02em;
 }
 
-.car-card-specs td {
-    padding: 0.25rem 0;
-    font-size: 0.8rem;
-    border-top: 1px solid #f0f0f0;
+/* ── Price Range ───────────────────────────────── */
+.car-card-price-range {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
 }
 
-.spec-key {
-    color: #888;
-    font-weight: 500;
-    width: 55px;
+.car-card-price-sep {
+    font-size: 0.75rem;
+    color: var(--text-muted);
 }
 
-.spec-val {
-    color: #333;
-    font-weight: 500;
-}
-
-/* ── Compare Button ───────────────────────────────────────────── */
-.compare-btn {
-    display: block;
-    width: 100%;
-    padding: 0.5rem;
-    font-family: inherit;
+.car-card-price-high {
     font-size: 0.8rem;
     font-weight: 600;
-    background: #fafafa;
-    border: 1px solid #e0e0e0;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-    color: #555;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
+    color: var(--text-secondary);
+}
+
+/* ── Specs ──────────────────────────────────── */
+.car-card-specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.spec-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+/* ── Compare Button ─────────────────────────── */
+.compare-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.65rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    color: var(--text-muted);
+    transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .compare-btn:hover:not(:disabled) {
-    background: #f0f0f0;
-    color: #2563eb;
+    background: var(--accent-primary-glow);
+    color: var(--accent-primary);
 }
 
 .compare-btn--active {
-    background: #eff6ff;
-    color: #2563eb;
-    border-color: #bfdbfe;
+    background: var(--accent-primary);
+    color: #fff;
+}
+
+.compare-btn--active:hover {
+    background: var(--accent-primary-hover);
+    color: #fff;
 }
 
 .compare-btn:disabled {
-    opacity: 0.4;
-    cursor: default;
+    opacity: 0.3;
+    cursor: not-allowed;
 }
