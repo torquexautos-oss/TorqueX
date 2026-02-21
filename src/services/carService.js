@@ -3,6 +3,8 @@
  * Provides a cache so the data is fetched only once.
  */
 
+import { groupCarsByModel } from '../utils/carGrouper';
+
 let _cache = null;
 
 export async function fetchAllCars() {
@@ -14,6 +16,18 @@ export async function fetchAllCars() {
 
 export async function getCarById(id) {
     const cars = await fetchAllCars();
+    const grouped = groupCarsByModel(cars);
+
+    const group = grouped.find(g => g.variants.some(v => v.id === id));
+    if (group) {
+        const specificVariant = group.variants.find(v => v.id === id);
+        return {
+            ...specificVariant,
+            baseModel: group.baseModel,
+            variants: group.variants
+        };
+    }
+
     return cars.find((car) => car.id === id) || null;
 }
 

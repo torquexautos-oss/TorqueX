@@ -1,81 +1,81 @@
 .compare-page {
     padding-top: 2rem;
-    padding-bottom: 3rem;
+    padding-bottom: 5rem;
 }
 
 .compare-header {
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
 .compare-header h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #1a1a1a;
+    font-size: 2.5rem;
+    color: #fff;
+    text-shadow: 0 0 15px rgba(102, 192, 244, 0.2);
 }
 
 .compare-subtitle {
-    font-size: 0.88rem;
-    color: #777;
-    margin-top: 0.3rem;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
 }
 
 .compare-clear {
-    margin-top: 0.6rem;
-    padding: 0.4rem 1rem;
-    font-family: inherit;
-    font-size: 0.8rem;
-    font-weight: 500;
-    background: none;
-    border: 1px solid #d0d0d0;
-    border-radius: 4px;
-    color: #dc2626;
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--accent-red);
+    border-radius: var(--radius-sm);
+    color: var(--accent-red);
     cursor: pointer;
-    transition: background 0.15s;
+    transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .compare-clear:hover {
-    background: #fef2f2;
+    background: rgba(211, 47, 47, 0.1);
+    box-shadow: 0 0 10px rgba(211, 47, 47, 0.2);
 }
 
 .compare-empty {
     text-align: center;
-    padding: 3rem 1rem;
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
+    padding: 4rem 1rem;
+    background: var(--bg-panel);
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
 }
 
 .compare-empty p {
-    font-size: 0.95rem;
-    color: #888;
-    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
 }
 
 .compare-browse {
     display: inline-block;
-    padding: 0.5rem 1.5rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: #2563eb;
-    border: 1px solid #2563eb;
-    border-radius: 4px;
-    transition: background 0.15s;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+    transition: all var(--duration-fast) var(--ease-smooth);
 }
 
 .compare-browse:hover {
-    background: #eff6ff;
+    background: rgba(102, 192, 244, 0.1);
+    box-shadow: 0 0 15px rgba(102, 192, 244, 0.2);
 }
 
 .compare-back {
-    margin-top: 1.5rem;
+    margin-top: 2rem;
 }
 
 .link-back {
-    font-size: 0.85rem;
-    color: #2563eb;
-    font-weight: 500;
+    font-size: 1rem;
+    color: var(--accent-primary);
+    font-weight: 600;
 }
 
 .link-back:hover {
+    color: #fff;
     text-decoration: underline;
 }

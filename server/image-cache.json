@@ -1,0 +1,2367 @@
+{
+  "renault-kwid": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "maruti-suzuki-alto": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/cw/ec/39013/Maruti-Suzuki-Alto-Right-Front-Three-Quarter-154833.jpg?wm=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/alto/"
+  },
+  "maruti-suzuki-eeco": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/135523/eeco-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/eeco/"
+  },
+  "maruti-suzuki-s-presso": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/126463/s-presso-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/s-presso/"
+  },
+  "maruti-suzuki-celerio": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53695/celerio-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/celerio/"
+  },
+  "tata-tiago": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39345/tiago-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago/"
+  },
+  "renault-triber": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199767/triber-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/triber/"
+  },
+  "car-306": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-228": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/28379/q3-exterior-right-front-three-quarter-93482.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q3/"
+  },
+  "car-425": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "hyundai-grand-i10-nios": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136183/grand-i10-nios-exterior-right-front-three-quarter-17.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/grand-i10-nios/"
+  },
+  "car-373": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110437/zs-ev-exterior-right-front-three-quarter-70.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/zs-ev/"
+  },
+  "car-456": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-462": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "car-293": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/40453/tiago-ev-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago-ev/"
+  },
+  "car-269": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv300/"
+  },
+  "car-388": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/123185/grand-vitara-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/grand-vitara/"
+  },
+  "maruti-suzuki-swift": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/159099/swift-exterior-right-front-three-quarter-31.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/swift/"
+  },
+  "car-223": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/178535/c-class-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/c-class/"
+  },
+  "car-233": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132427/taisor-exterior-right-front-three-quarter-41.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/urban-cruiser-taisor/"
+  },
+  "tata-altroz": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "car-112": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-406": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/210987/bolero-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/bolero/"
+  },
+  "car-116": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-145": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "car-230": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-181": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/107543/brezza-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/brezza/"
+  },
+  "car-205": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139133/aura-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/aura/"
+  },
+  "car-385": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/109265/hilux-exterior-right-front-three-quarter-44.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/hilux/"
+  },
+  "car-193": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53591/q5-exterior-right-front-three-quarter-37.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q5/"
+  },
+  "maruti-suzuki-baleno": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/102663/baleno-exterior-right-front-three-quarter-69.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/baleno/"
+  },
+  "car-471": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132427/taisor-exterior-right-front-three-quarter-41.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/urban-cruiser-taisor/"
+  },
+  "car-474": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175993/kushaq-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kushaq/"
+  },
+  "car-250": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-398": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/127563/alto-k10-exterior-right-front-three-quarter-63.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/alto-k10/"
+  },
+  "tata-tigor": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/41160/tigor-exterior-right-front-three-quarter-25.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tigor/"
+  },
+  "car-339": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/135723/tigor-ev-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tigor-ev/"
+  },
+  "car-318": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/179903/x3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x3/"
+  },
+  "hyundai-aura": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139133/aura-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/aura/"
+  },
+  "car-210": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "car-158": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144851/exter-exterior-right-front-three-quarter-64.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/exter/"
+  },
+  "car-169": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/135523/eeco-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/eeco/"
+  },
+  "car-479": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "honda-amaze": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-498": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "car-430": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/109265/hilux-exterior-right-front-three-quarter-44.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/hilux/"
+  },
+  "car-246": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/152681/x5-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x5/"
+  },
+  "car-226": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144681/virtus-exterior-right-front-three-quarter-11.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/virtus/"
+  },
+  "car-434": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115601/xl6-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/xl6/"
+  },
+  "car-298": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175993/kushaq-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kushaq/"
+  },
+  "car-409": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-111": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-467": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/109123/i4-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/i4/"
+  },
+  "car-353": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53591/q5-exterior-right-front-three-quarter-37.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q5/"
+  },
+  "car-69": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/109123/i4-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/i4/"
+  },
+  "car-390": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/140591/x1-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x1/"
+  },
+  "car-299": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/152681/x5-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x5/"
+  },
+  "car-395": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/186465/ev6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/ev6/"
+  },
+  "car-302": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-369": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136217/x7-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x7/"
+  },
+  "car-362": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "car-62": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/112947/wagon-r-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/wagon-r/"
+  },
+  "car-408": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "tata-nexon": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141867/nexon-exterior-right-front-three-quarter-79.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/nexon/"
+  },
+  "car-164": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "toyota-glanza": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/112839/glanza-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/glanza/"
+  },
+  "car-377": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/210987/bolero-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/bolero/"
+  },
+  "car-229": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-493": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-241": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53695/celerio-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/celerio/"
+  },
+  "car-60": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/105799/rumion-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/rumion/"
+  },
+  "car-98": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/40432/scorpio-n-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/scorpio-n/"
+  },
+  "car-413": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39472/a6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a6/"
+  },
+  "car-419": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175993/kushaq-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kushaq/"
+  },
+  "car-90": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-260": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-349": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/204996/thar-2025-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/thar/"
+  },
+  "car-292": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "car-97": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-274": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/152681/x5-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x5/"
+  },
+  "car-185": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51940/astor-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/astor/"
+  },
+  "car-18": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/170173/dzire-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/dzire/"
+  },
+  "car-113": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/129689/gloster-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/gloster/"
+  },
+  "car-109": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-272": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-67": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/45278/xuv400-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv400/"
+  },
+  "car-267": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/188399/aircross-exterior-right-front-three-quarter.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3-aircross/"
+  },
+  "mahindra-xuv-3xo": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv-3xo/"
+  },
+  "maruti-suzuki-fronx": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/130591/fronx-exterior-right-front-three-quarter-109.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/fronx/"
+  },
+  "car-421": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "maruti-suzuki-ertiga": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115777/ertiga-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/ertiga/"
+  },
+  "car-381": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-202": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/129689/gloster-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/gloster/"
+  },
+  "toyota-urban-cruiser-taisor": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132427/taisor-exterior-right-front-three-quarter-41.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/urban-cruiser-taisor/"
+  },
+  "car-469": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/149123/nexon-ev-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/nexon-ev/"
+  },
+  "car-489": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132427/taisor-exterior-right-front-three-quarter-41.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/urban-cruiser-taisor/"
+  },
+  "car-468": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139139/harrier-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/harrier/"
+  },
+  "car-404": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/128413/scorpio-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/scorpio/"
+  },
+  "ford-ecosport": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/cw/ec/40369/Ford-EcoSport-Right-Front-Three-Quarter-159249.jpg?wm=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/ford-cars/ecosport/"
+  },
+  "car-439": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/40453/tiago-ev-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago-ev/"
+  },
+  "car-310": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/124027/hyryder-exterior-right-front-three-quarter-74.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/hyryder/"
+  },
+  "skoda-kylaq": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/171777/kylaq-exterior-right-front-three-quarter-10.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kylaq/"
+  },
+  "car-132": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv-3xo/"
+  },
+  "car-358": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/106821/tucson-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/tucson/"
+  },
+  "car-184": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-152": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39048/e-tron-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/e-tron/"
+  },
+  "car-77": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-41": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-212": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174423/sonet-exterior-right-front-three-quarter-12.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/sonet/"
+  },
+  "maruti-suzuki-ciaz": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/48542/ciaz-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/ciaz/"
+  },
+  "car-490": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/204996/thar-2025-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/thar/"
+  },
+  "car-141": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192443/camry-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/camry/"
+  },
+  "mahindra-xuv300": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv300/"
+  },
+  "car-248": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-137": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-278": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-453": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "car-360": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv-3xo/"
+  },
+  "car-120": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-440": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-365": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/172825/punch-facelift-exterior-right-front-three-quarter.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/punch/"
+  },
+  "car-281": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/44709/fortuner-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/fortuner/"
+  },
+  "car-475": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/109123/i4-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/i4/"
+  },
+  "car-81": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139139/harrier-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/harrier/"
+  },
+  "car-254": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/179903/x3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x3/"
+  },
+  "car-95": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/129689/gloster-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/gloster/"
+  },
+  "car-472": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/197163/venue-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/venue/"
+  },
+  "car-15": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175951/slavia-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/slavia/"
+  },
+  "car-182": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136217/x7-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x7/"
+  },
+  "car-121": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39048/e-tron-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/e-tron/"
+  },
+  "car-283": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-138": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-257": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "car-155": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-32": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139139/harrier-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/harrier/"
+  },
+  "car-256": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131141/xc40-exterior-right-front-three-quarter-108.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc40/"
+  },
+  "car-392": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/205104/xuv-7xo-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv700/"
+  },
+  "car-150": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131249/eqs-exterior-right-front-three-quarter-31.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/eqs/"
+  },
+  "car-355": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-49": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-259": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-59": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/197163/venue-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/venue/"
+  },
+  "car-190": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/109123/i4-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/i4/"
+  },
+  "car-27": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-314": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/152681/x5-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x5/"
+  },
+  "car-93": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175993/kushaq-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kushaq/"
+  },
+  "car-261": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-497": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174325/carens-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carens/"
+  },
+  "car-156": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110437/zs-ev-exterior-right-front-three-quarter-70.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/zs-ev/"
+  },
+  "car-220": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-481": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-87": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/167017/creta-electric-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/creta-ev/"
+  },
+  "car-399": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132427/taisor-exterior-right-front-three-quarter-41.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/urban-cruiser-taisor/"
+  },
+  "car-499": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/147201/invicto-exterior-right-front-three-quarter-68.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/invicto/"
+  },
+  "tata-tigor-ev": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/135723/tigor-ev-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tigor-ev/"
+  },
+  "car-374": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199767/triber-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/triber/"
+  },
+  "car-5": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-225": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "nissan-kicks": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/cw/ec/32596/Nissan-Kicks-Right-Front-Three-Quarter-159680.jpg?wm=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/kicks/"
+  },
+  "car-476": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-336": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174423/sonet-exterior-right-front-three-quarter-12.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/sonet/"
+  },
+  "car-251": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-271": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/28379/q3-exterior-right-front-three-quarter-93482.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q3/"
+  },
+  "car-320": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115025/innova-hycross-exterior-right-front-three-quarter-74.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/innova-hycross/"
+  },
+  "car-379": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-56": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/105799/rumion-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/rumion/"
+  },
+  "car-170": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-420": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-371": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174423/sonet-exterior-right-front-three-quarter-12.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/sonet/"
+  },
+  "car-450": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-237": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-110": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "maruti-suzuki-xl6": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115601/xl6-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/xl6/"
+  },
+  "car-33": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "kia-seltos": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "honda-city": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-438": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/142921/ignis-exterior-right-front-three-quarter-17.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/ignis/"
+  },
+  "car-263": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/121943/verna-exterior-right-front-three-quarter-103.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/verna/"
+  },
+  "car-443": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "car-22": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110437/zs-ev-exterior-right-front-three-quarter-70.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/zs-ev/"
+  },
+  "car-415": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-24": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/170173/dzire-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/dzire/"
+  },
+  "car-39": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/157825/alcazar-exterior-right-front-three-quarter-24.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/alcazar/"
+  },
+  "car-165": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-393": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136183/grand-i10-nios-exterior-right-front-three-quarter-17.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/grand-i10-nios/"
+  },
+  "car-366": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "tata-curvv": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139651/curvv-exterior-right-front-three-quarter-16.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/curvv/"
+  },
+  "car-363": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-252": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "car-94": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110289/ioniq-5-exterior-right-front-three-quarter-96.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/ioniq-5/"
+  },
+  "car-343": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39345/tiago-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago/"
+  },
+  "car-258": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-13": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "car-492": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/128413/scorpio-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/scorpio/"
+  },
+  "car-218": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174975/wrangler-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/wrangler/"
+  },
+  "car-400": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-99": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/106821/tucson-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/tucson/"
+  },
+  "car-37": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-444": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/140591/x1-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x1/"
+  },
+  "hyundai-verna-2023": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/121943/verna-exterior-right-front-three-quarter-103.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/verna-2023/"
+  },
+  "car-275": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-11": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/106821/tucson-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/tucson/"
+  },
+  "car-96": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "car-71": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv300/"
+  },
+  "car-264": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/157825/alcazar-exterior-right-front-three-quarter-24.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/alcazar/"
+  },
+  "car-273": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-171": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/152681/x5-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x5/"
+  },
+  "car-403": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "car-203": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-350": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/186465/ev6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/ev6/"
+  },
+  "car-429": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-412": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "car-114": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-494": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/41160/tigor-exterior-right-front-three-quarter-25.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tigor/"
+  },
+  "car-177": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/48067/s-class-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/s-class/"
+  },
+  "car-197": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/171777/kylaq-exterior-right-front-three-quarter-10.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kylaq/"
+  },
+  "car-478": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "volkswagen-virtus": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144681/virtus-exterior-right-front-three-quarter-11.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/virtus/"
+  },
+  "car-437": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-206": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-276": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39048/e-tron-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/e-tron/"
+  },
+  "car-329": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/129689/gloster-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/gloster/"
+  },
+  "skoda-slavia": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175951/slavia-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/slavia/"
+  },
+  "car-63": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-313": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/163317/gle-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/gle/"
+  },
+  "car-255": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-427": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/121943/verna-exterior-right-front-three-quarter-103.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/verna/"
+  },
+  "car-312": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/186465/ev6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/ev6/"
+  },
+  "honda-elevate": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/142515/elevate-exterior-right-front-three-quarter-29.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/elevate/"
+  },
+  "car-495": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174325/carens-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carens/"
+  },
+  "car-79": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-92": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "skoda-kushaq": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175993/kushaq-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kushaq/"
+  },
+  "car-128": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-423": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "car-215": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-352": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136217/x7-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x7/"
+  },
+  "tata-winger": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/cw/cars/tata/winger.jpg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/winger/"
+  },
+  "car-290": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199767/triber-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/triber/"
+  },
+  "car-485": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-367": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132427/taisor-exterior-right-front-three-quarter-41.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/urban-cruiser-taisor/"
+  },
+  "car-85": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-308": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv-3xo/"
+  },
+  "car-61": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/135523/eeco-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/eeco/"
+  },
+  "car-187": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131249/eqs-exterior-right-front-three-quarter-31.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/eqs/"
+  },
+  "car-239": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-389": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-4": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/140591/x1-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x1/"
+  },
+  "car-119": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "car-330": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-465": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51940/astor-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/astor/"
+  },
+  "car-321": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/194035/elevate-based-ev-exterior-right-side-view.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/elevate-ev/"
+  },
+  "car-70": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115777/ertiga-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/ertiga/"
+  },
+  "car-126": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-86": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-459": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-168": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136183/grand-i10-nios-exterior-right-front-three-quarter-17.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/grand-i10-nios/"
+  },
+  "car-72": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/194035/elevate-based-ev-exterior-right-side-view.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/elevate-ev/"
+  },
+  "car-162": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-178": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-147": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-270": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-380": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175993/kushaq-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kushaq/"
+  },
+  "car-359": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-477": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-309": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-446": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "car-231": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110437/zs-ev-exterior-right-front-three-quarter-70.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/zs-ev/"
+  },
+  "car-199": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51940/astor-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/astor/"
+  },
+  "car-16": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-102": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "car-426": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175951/slavia-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/slavia/"
+  },
+  "car-118": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "car-194": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-117": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "car-286": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110289/ioniq-5-exterior-right-front-three-quarter-96.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/ioniq-5/"
+  },
+  "car-186": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/197163/venue-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/venue/"
+  },
+  "car-189": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192279/q7-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q7/"
+  },
+  "car-146": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "tata-harrier": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139139/harrier-exterior-right-front-three-quarter-7.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/harrier/"
+  },
+  "car-296": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-407": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136183/grand-i10-nios-exterior-right-front-three-quarter-17.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/grand-i10-nios/"
+  },
+  "car-234": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/186465/ev6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/ev6/"
+  },
+  "car-338": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/157825/alcazar-exterior-right-front-three-quarter-24.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/alcazar/"
+  },
+  "car-391": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/186465/ev6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/ev6/"
+  },
+  "car-396": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174975/wrangler-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/wrangler/"
+  },
+  "car-384": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "car-222": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199767/triber-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/triber/"
+  },
+  "car-19": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/45278/xuv400-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv400/"
+  },
+  "car-487": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-452": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/48067/s-class-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/s-class/"
+  },
+  "car-414": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-191": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174423/sonet-exterior-right-front-three-quarter-12.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/sonet/"
+  },
+  "car-435": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131249/eqs-exterior-right-front-three-quarter-31.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/eqs/"
+  },
+  "car-211": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "tata-nexon-ev": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/149123/nexon-ev-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/nexon-ev/"
+  },
+  "car-57": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/41160/tigor-exterior-right-front-three-quarter-25.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tigor/"
+  },
+  "car-68": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/48067/s-class-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/s-class/"
+  },
+  "car-73": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-454": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/133165/x-trail-exterior-right-front-three-quarter-28.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/x-trail/"
+  },
+  "car-122": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174325/carens-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carens/"
+  },
+  "car-179": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-151": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/172825/punch-facelift-exterior-right-front-three-quarter.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/punch/"
+  },
+  "car-139": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/143275/city-hybrid-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city-hybrid/"
+  },
+  "car-129": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-348": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/46800/altroz-ev-exterior-left-front-three-quarter.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz-ev/"
+  },
+  "car-277": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-224": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/112947/wagon-r-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/wagon-r/"
+  },
+  "car-157": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110289/ioniq-5-exterior-right-front-three-quarter-96.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/ioniq-5/"
+  },
+  "car-376": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/178525/glc-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/glc/"
+  },
+  "car-372": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139133/aura-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/aura/"
+  },
+  "car-17": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-335": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/172825/punch-facelift-exterior-right-front-three-quarter.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/punch/"
+  },
+  "car-160": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-21": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136217/x7-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x7/"
+  },
+  "car-26": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139651/curvv-exterior-right-front-three-quarter-16.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/curvv/"
+  },
+  "car-106": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/210987/bolero-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/bolero/"
+  },
+  "toyota-innova-crysta": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/140809/innova-crysta-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/innova-crysta/"
+  },
+  "car-1": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174423/sonet-exterior-right-front-three-quarter-12.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/sonet/"
+  },
+  "car-55": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-159": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144681/virtus-exterior-right-front-three-quarter-11.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/virtus/"
+  },
+  "car-82": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "car-78": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-125": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "car-410": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "car-134": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "car-327": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/102663/baleno-exterior-right-front-three-quarter-69.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/baleno/"
+  },
+  "car-317": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141867/nexon-exterior-right-front-three-quarter-79.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/nexon/"
+  },
+  "car-91": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-25": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/112839/glanza-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/glanza/"
+  },
+  "car-216": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/171777/kylaq-exterior-right-front-three-quarter-10.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kylaq/"
+  },
+  "jeep-compass": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-322": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-148": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/188399/aircross-exterior-right-front-three-quarter.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3-aircross/"
+  },
+  "car-180": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199767/triber-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/triber/"
+  },
+  "car-76": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144681/virtus-exterior-right-front-three-quarter-11.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/virtus/"
+  },
+  "car-300": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/102663/baleno-exterior-right-front-three-quarter-69.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/baleno/"
+  },
+  "car-40": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "car-457": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-154": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/106815/creta-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/creta/"
+  },
+  "car-201": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47051/compass-exterior-right-front-three-quarter-84.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/compass/"
+  },
+  "car-3": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175951/slavia-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/slavia/"
+  },
+  "car-483": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/217141/punch-ev-facelift-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/punch-ev/"
+  },
+  "hyundai-elantra": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/41138/elantra-exterior-right-front-three-quarter-3.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/elantra/"
+  },
+  "car-301": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/169159/gla-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/gla/"
+  },
+  "car-48": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53591/q5-exterior-right-front-three-quarter-37.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q5/"
+  },
+  "car-161": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/103611/c3-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3/"
+  },
+  "car-448": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/163317/gle-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/gle/"
+  },
+  "car-370": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/150603/i20-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/i20/"
+  },
+  "car-432": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174553/carens-clavis-ev-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carens-ev/"
+  },
+  "car-319": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/172825/punch-facelift-exterior-right-front-three-quarter.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/punch/"
+  },
+  "car-245": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/169159/gla-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/gla/"
+  },
+  "car-326": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/124027/hyryder-exterior-right-front-three-quarter-74.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/hyryder/"
+  },
+  "car-235": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-378": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "car-354": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/188399/aircross-exterior-right-front-three-quarter.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3-aircross/"
+  },
+  "car-460": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131249/eqs-exterior-right-front-three-quarter-31.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/eqs/"
+  },
+  "car-291": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/175951/slavia-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/slavia/"
+  },
+  "car-124": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-458": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/40453/tiago-ev-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago-ev/"
+  },
+  "car-464": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "car-42": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/212881/hector-facelift-exterior-right-front-three-quarter.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/hector/"
+  },
+  "car-217": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-44": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/107543/brezza-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/brezza/"
+  },
+  "car-214": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-368": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "car-31": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/197163/venue-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/venue/"
+  },
+  "car-394": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192443/camry-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/toyota-cars/camry/"
+  },
+  "car-436": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/140591/x1-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x1/"
+  },
+  "car-83": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39345/tiago-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago/"
+  },
+  "car-331": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/210989/bolero-neo-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/bolero-neo/"
+  },
+  "car-8": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-265": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-294": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-43": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/134287/city-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/city/"
+  },
+  "car-287": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-244": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139133/aura-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/aura/"
+  },
+  "car-445": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-491": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/217141/punch-ev-facelift-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/punch-ev/"
+  },
+  "car-470": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39048/e-tron-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/e-tron/"
+  },
+  "car-416": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-198": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-221": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-213": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53591/q5-exterior-right-front-three-quarter-37.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q5/"
+  },
+  "car-344": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39345/tiago-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/tiago/"
+  },
+  "car-153": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/171777/kylaq-exterior-right-front-three-quarter-10.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kylaq/"
+  },
+  "car-486": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110289/ioniq-5-exterior-right-front-three-quarter-96.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/ioniq-5/"
+  },
+  "car-238": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/162929/e-class-exterior-right-front-three-quarter-35.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/e-class/"
+  },
+  "car-253": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/48542/ciaz-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/ciaz-hybrid/"
+  },
+  "car-305": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/xuv-3xo/"
+  },
+  "car-382": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139465/rx-exterior-right-front-three-quarter-15.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/rx/"
+  },
+  "car-64": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-386": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-482": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174975/wrangler-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/wrangler/"
+  },
+  "car-173": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/47139/meridian-exterior-right-front-three-quarter-18.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/meridian/"
+  },
+  "car-428": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115617/curvv-ev-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/curvv-ev/"
+  },
+  "car-188": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199863/altroz-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/tata-cars/altroz/"
+  },
+  "honda-civic": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/27074/civic-exterior-right-front-three-quarter-148156.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/civic/"
+  },
+  "car-480": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174325/carens-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carens/"
+  },
+  "car-451": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131141/xc40-exterior-right-front-three-quarter-108.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc40/"
+  },
+  "car-131": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192817/seltos-exterior-right-front-three-quarter-50.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/seltos/"
+  },
+  "car-280": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144681/virtus-exterior-right-front-three-quarter-11.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/virtus/"
+  },
+  "car-2": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192279/q7-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q7/"
+  },
+  "car-466": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/188399/aircross-exterior-right-front-three-quarter.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3-aircross/"
+  },
+  "car-346": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-144": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-433": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-422": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/178525/glc-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/glc/"
+  },
+  "car-196": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53591/q5-exterior-right-front-three-quarter-37.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q5/"
+  },
+  "car-133": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/139133/aura-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/aura/"
+  },
+  "car-383": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192279/q7-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q7/"
+  },
+  "car-295": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51940/astor-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/astor/"
+  },
+  "car-47": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/199767/triber-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/triber/"
+  },
+  "car-333": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53591/q5-exterior-right-front-three-quarter-37.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q5/"
+  },
+  "car-387": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/51909/a4-exterior-right-front-three-quarter-80.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a4/"
+  },
+  "car-328": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/106815/creta-exterior-right-front-three-quarter-6.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/hyundai-cars/creta/"
+  },
+  "car-14": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132771/ec3-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/ec3/"
+  },
+  "car-337": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-103": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/45299/jimny-exterior-right-front-three-quarter-23.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/jimny/"
+  },
+  "car-142": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-30": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-89": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/107543/brezza-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/brezza/"
+  },
+  "car-236": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/128413/scorpio-exterior-right-front-three-quarter-2.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mahindra-cars/scorpio/"
+  },
+  "car-307": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/53123/tiguan-exterior-right-front-three-quarter-4.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/tiguan/"
+  },
+  "car-402": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-172": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/141125/kwid-exterior-right-front-three-quarter-38.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kwid/"
+  },
+  "car-38": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/163317/gle-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/gle/"
+  },
+  "car-304": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-140": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/162929/e-class-exterior-right-front-three-quarter-35.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/e-class/"
+  },
+  "car-195": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/144689/taigun-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volkswagen-cars/taigun/"
+  },
+  "car-66": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131141/xc40-exterior-right-front-three-quarter-108.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc40/"
+  },
+  "car-232": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174325/carens-exterior-right-front-three-quarter-9.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carens/"
+  },
+  "car-247": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/188399/aircross-exterior-right-front-three-quarter.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3-aircross/"
+  },
+  "car-175": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/28379/q3-exterior-right-front-three-quarter-93482.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q3/"
+  },
+  "car-88": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/208550/kiger-exterior-right-front-three-quarter-30.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/renault-cars/kiger/"
+  },
+  "car-29": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/162929/e-class-exterior-right-front-three-quarter-35.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mercedes-benz-cars/e-class/"
+  },
+  "car-130": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/113023/nx-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/nx/"
+  },
+  "car-297": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/173325/magnite-exterior-right-front-three-quarter-27.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/nissan-cars/magnite/"
+  },
+  "car-397": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/188399/aircross-exterior-right-front-three-quarter.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/citroen-cars/c3-aircross/"
+  },
+  "car-288": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/35351/es-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lexus-cars/es/"
+  },
+  "car-345": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184377/amaze-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/honda-cars/amaze/"
+  },
+  "mg-zs-ev": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/110437/zs-ev-exterior-right-front-three-quarter-70.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/mg-cars/zs-ev/"
+  },
+  "kia-carnival": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/138947/carnival-exterior-right-front-three-quarter-20.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/kia-cars/carnival/"
+  },
+  "skoda-kodiaq-scout": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/158729/kodiaq-exterior-right-front-three-quarter-14.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/skoda-cars/kodiaq/"
+  },
+  "bmw-x1": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/140591/x1-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x1/"
+  },
+  "volvo-xc40": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/131141/xc40-exterior-right-front-three-quarter-108.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc40/"
+  },
+  "bmw-3-series": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198567/3-series-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/3-series/"
+  },
+  "jaguar-xe": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/43356/jaguar-xe-front-right-three-quarter-7.jpeg?q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jaguar-cars/xe/"
+  },
+  "audi-a6": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39472/a6-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a6/"
+  },
+  "land-rover-discovery-sport": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/24806/discovery-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/land-rover-cars/discovery/"
+  },
+  "bmw-x4": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/163337/x4-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x4/"
+  },
+  "jeep-wrangler": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/174975/wrangler-exterior-right-front-three-quarter-34.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/jeep-cars/wrangler/"
+  },
+  "bmw-z4-roadster": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/cw/ec/37095/BMW-Z4-Roadster-Right-Front-Three-Quarter-153914.jpg?wm=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/z4-roadster/"
+  },
+  "porsche-macan": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/99421/macan-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/porsche-cars/macan/"
+  },
+  "bmw-x7": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/136217/x7-exterior-right-front-three-quarter-10.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/x7/"
+  },
+  "porsche-cayenne": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/32951/cayenne-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/porsche-cars/cayenne/"
+  },
+  "bmw-7-series": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/132513/7-series-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/7-series/"
+  },
+  "porsche-cayenne-coupe": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/43728/cayenne-coupe-exterior-right-front-three-quarter-3.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/porsche-cars/cayenne-coupe/"
+  },
+  "audi-q8": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/184519/q8-exterior-right-front-three-quarter-26.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/q8/"
+  },
+  "bmw-m5": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/192747/m5-exterior-right-front-three-quarter-11.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/bmw-cars/m5/"
+  },
+  "audi-a8-l": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/124141/a8-l-exterior-right-front-three-quarter-5.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/audi-cars/a8-l/"
+  },
+  "porsche-911": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/39232/911-exterior-right-front-three-quarter-154385.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/porsche-cars/911/"
+  },
+  "maserati-quattroporte": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/19429/quattroporte-exterior-right-front-three-quarter-149976.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maserati-cars/quattroporte/"
+  },
+  "lamborghini-huracan": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/14054/huracan-evo-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/lamborghini-cars/huracan/"
+  },
+  "car-441": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/206978/xc60-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc60/"
+  },
+  "car-58": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/206978/xc60-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc60/"
+  },
+  "car-424": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/115601/xl6-exterior-right-front-three-quarter-13.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/maruti-suzuki-cars/xl6/"
+  },
+  "car-342": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/206978/xc60-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc60/"
+  },
+  "car-484": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-108": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-107": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  },
+  "car-488": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/206978/xc60-exterior-right-front-three-quarter-8.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc60/"
+  },
+  "car-455": {
+    "imageUrl": "https://imgd.aeplcdn.com/600x337/n/cw/ec/198257/xc90-exterior-right-front-three-quarter-4.png?isig=0&q=80",
+    "source": "CarWale",
+    "sourceUrl": "https://www.carwale.com/volvo-cars/xc90/"
+  }
+}

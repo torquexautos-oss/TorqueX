@@ -13,7 +13,12 @@ export function formatPrice(price) {
 }
 
 export function formatMileage(mileage) {
-    return `${mileage} km/l`;
+    if (!mileage || mileage === '0' || mileage === 0 || mileage === 'N/A') {
+        return 'N/A';
+    }
+    const num = parseFloat(mileage);
+    if (isNaN(num) || num === 0) return 'N/A';
+    return `${num} km/l`;
 }
 
 export function formatPriceForSlider(price) {

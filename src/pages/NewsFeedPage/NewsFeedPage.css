@@ -1,0 +1,422 @@
+/* ══════════════════════════════════════════════════════════════════
+   NEWS FEED PAGE — TorqueX V3 Wikipedia Edition
+   ══════════════════════════════════════════════════════════════════ */
+
+.news-page {
+    padding: 2.5rem 2rem 4rem;
+}
+
+/* ── Header ─────────────────────────────────────────────────────── */
+.news-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.news-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.75rem;
+}
+
+.news-header h1 {
+    font-size: 2.5rem;
+    color: #fff;
+}
+
+.gradient-text {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.news-header p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    max-width: 560px;
+    line-height: 1.7;
+}
+
+.refresh-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* ── Stats Bar ──────────────────────────────────────────────────── */
+.news-stats {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+}
+
+.news-stat {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.news-stat-sep {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+/* ── States ─────────────────────────────────────────────────────── */
+.news-loading,
+.news-error,
+.news-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    text-align: center;
+    gap: 1rem;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.08);
+    border-top-color: var(--accent-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.loading-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--accent-primary);
+}
+
+.loading-subtext {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.loading-progress {
+    width: 300px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.loading-progress-bar {
+    width: 30%;
+    height: 100%;
+    background: var(--accent-primary);
+    border-radius: 2px;
+    animation: shimmer 2s infinite;
+}
+
+.news-error {
+    color: var(--accent-red);
+}
+
+.news-error p {
+    color: var(--text-secondary);
+    max-width: 400px;
+}
+
+.news-empty {
+    color: var(--text-muted);
+}
+
+.news-empty h3 {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+}
+
+/* ── Articles List ──────────────────────────────────────────────── */
+.articles-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.article-card {
+    overflow: hidden;
+}
+
+/* ── Article Header (always visible) ────────────────────────────── */
+.article-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    color: inherit;
+    cursor: pointer;
+    transition: background var(--duration-fast);
+}
+
+.article-header:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.article-header-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.article-number {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+    opacity: 0.4;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+}
+
+.article-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.article-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    align-items: center;
+}
+
+.article-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.article-toggle {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ── Article Body (expandable) ──────────────────────────────────── */
+.article-body {
+    padding: 0 1.5rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    animation: fadeIn 0.3s var(--ease-smooth);
+}
+
+/* ── Markdown Content ───────────────────────────────────────────── */
+.markdown-body {
+    padding-top: 1.5rem;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+    color: #fff;
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    font-family: 'Outfit', sans-serif;
+}
+
+.markdown-body h2 {
+    font-size: 1.35rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.markdown-body h3 {
+    font-size: 1.1rem;
+    color: var(--accent-primary);
+}
+
+.markdown-body p {
+    color: var(--text-secondary);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    font-size: 0.92rem;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+    line-height: 1.7;
+}
+
+.markdown-body li {
+    margin-bottom: 0.4rem;
+    list-style: disc;
+}
+
+.markdown-body ol li {
+    list-style: decimal;
+}
+
+.markdown-body strong {
+    color: #e0e0e0;
+    font-weight: 600;
+}
+
+.markdown-body a {
+    color: var(--accent-primary);
+    border-bottom: 1px dotted var(--accent-primary);
+}
+
+.markdown-body a:hover {
+    color: #fff;
+    border-bottom-style: solid;
+}
+
+/* Markdown tables */
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.85rem;
+}
+
+.markdown-body thead th {
+    background: var(--bg-primary);
+    color: var(--accent-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 2px solid rgba(79, 140, 255, 0.15);
+}
+
+.markdown-body tbody td {
+    padding: 0.65rem 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.markdown-body tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Markdown blockquotes */
+.markdown-body blockquote {
+    border-left: 3px solid var(--accent-primary);
+    padding: 0.75rem 1.25rem;
+    margin: 1.25rem 0;
+    background: rgba(79, 140, 255, 0.04);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.markdown-body blockquote p {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+/* Markdown code */
+.markdown-body code {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+    color: var(--accent-primary);
+}
+
+/* ── References Section ─────────────────────────────────────────── */
+.article-references {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.article-references h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+}
+
+.article-references ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.article-references li {
+    list-style: none;
+}
+
+.article-references a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    padding: 0.4rem 0.75rem;
+    background: rgba(79, 140, 255, 0.05);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(79, 140, 255, 0.08);
+    transition: all var(--duration-fast);
+}
+
+.article-references a:hover {
+    background: rgba(79, 140, 255, 0.1);
+    border-color: rgba(79, 140, 255, 0.2);
+    color: #fff;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .news-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .news-header h1 {
+        font-size: 2rem;
+    }
+
+    .article-header {
+        padding: 1rem;
+    }
+
+    .article-body {
+        padding: 0 1rem 1rem;
+    }
+
+    .news-stats {
+        flex-wrap: wrap;
+    }
+}
