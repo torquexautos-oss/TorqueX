@@ -19,7 +19,7 @@ export default function NewsPage() {
         setSources([]);
 
         try {
-            const res = await fetch('http://localhost:3001/api/generate-news', {
+            const res = await fetch('http://localhost:3002/api/generate-news', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topic })
