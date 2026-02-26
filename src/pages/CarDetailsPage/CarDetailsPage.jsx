@@ -22,7 +22,7 @@ export default function CarDetailsPage() {
             if (data) {
                 // Fetch dynamic real-time price
                 setDynamicLoading(true);
-                fetch(`http://localhost:3001/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
+                fetch(`http://localhost:3002/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
                     .then(res => res.json())
                     .then(fetchedData => {
                         if (!fetchedData.error) {

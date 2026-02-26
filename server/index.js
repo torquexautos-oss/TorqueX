@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import Groq from 'groq-sdk';
 import NodeCache from 'node-cache';
+import http from 'http';
 import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
 import fs from 'fs';
@@ -171,7 +172,8 @@ app.get('/api/health', (req, res) => {
 // ── Start ──────────────────────────────────────────────────────
 loadImageCache();
 
-const server = app.listen(port, () => {
+const server = http.createServer(app);
+server.listen(port, () => {
     console.log(`TorqueX Backend running on port ${port}`);
     console.log(`  News: Live channel system (${Object.keys(CHANNELS).length} channels, 0 AI cost)`);
     console.log(`  On-demand summaries: ${groq ? 'enabled' : 'disabled (no API key)'}`);
@@ -190,3 +192,4 @@ const server = app.listen(port, () => {
 process.on('SIGTERM', () => { server.close(); });
 process.on('SIGINT', () => { server.close(); });
 setInterval(() => { }, 1 << 30);
+
