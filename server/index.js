@@ -6,6 +6,7 @@ import NodeCache from 'node-cache';
 import http from 'http';
 import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
+import { getAllCars, getCarById as getCarFromDb, getAllBrands, getStats } from './db.js';
 import fs from 'fs';
 
 dotenv.config();
@@ -22,6 +23,49 @@ if (!groqKey) {
     console.warn("[WARN] GROQ_API_KEY not set. On-demand summaries disabled.");
 }
 const groq = groqKey ? new Groq({ apiKey: groqKey }) : null;
+
+// ── Cars Database API ──────────────────────────────────────────
+// GET /api/cars — all cars from SQLite database
+app.get('/api/cars', (req, res) => {
+    try {
+        const cars = getAllCars();
+        res.json(cars);
+    } catch (e) {
+        console.error('[DB] Error fetching cars:', e.message);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/cars/:id — single car by database ID
+app.get('/api/cars/:id', (req, res) => {
+    try {
+        const car = getCarFromDb(parseInt(req.params.id));
+        if (!car) return res.status(404).json({ error: 'Car not found' });
+        res.json(car);
+    } catch (e) {
+        console.error('[DB] Error fetching car:', e.message);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/brands — all brands with car counts
+app.get('/api/brands', (req, res) => {
+    try {
+        res.json(getAllBrands());
+    } catch (e) {
+        console.error('[DB] Error fetching brands:', e.message);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/stats — quick counts
+app.get('/api/stats', (req, res) => {
+    try {
+        res.json(getStats());
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
 
 // ── Feed Cache (15-minute TTL per channel — keeps it live) ─────
 const feedCache = new NodeCache({ stdTTL: 900 }); // 15 minutes

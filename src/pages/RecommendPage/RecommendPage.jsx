@@ -16,7 +16,7 @@ export default function RecommendPage() {
     const [fuelType, setFuelType] = useState('Any');
 
     useEffect(() => {
-        fetch('/cars_full.json')
+        fetch('http://localhost:3002/api/cars')
             .then(res => res.json())
             .then(data => setCars(data));
     }, []);

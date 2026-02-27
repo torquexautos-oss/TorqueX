@@ -68,7 +68,7 @@ INSERT INTO brands (name, country, founded_year) VALUES ('Maruti', 'India', 1981
 -- ==================== TATA CARS (brand_id = 1) ====================
 
 -- 1. Nexon
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Nexon', 'Compact SUV', 5, 5, 5, 8.10, 15.50, 209, 350, 44, 'India''s safest compact SUV with 5-star safety rating. Available in petrol and diesel with turbo engines.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Nexon', 'SUV', 5, 5, 5, 8.10, 15.50, 209, 350, 44, 'India''s safest compact SUV with 5-star safety rating. Available in petrol and diesel with turbo engines.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (1, 'Smart (O) Petrol', 8.10, 'Petrol', 'Manual', 1199, 'Turbocharged', 120, 170, 17.4, 6, '215/60 R16'),
@@ -83,7 +83,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (1, 'Pure Grey', '#808080'), (1, 'Fearless Purple', '#6C3082'), (1, 'Daytona Grey', '#4A4A4A');
 
 -- 2. Punch
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Punch', 'Micro SUV', 5, 5, 5, 6.13, 10.20, 187, 366, 37, 'Bold micro SUV with 5-star safety. High ground clearance and rugged design for city and weekend getaways.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Punch', 'SUV', 5, 5, 5, 6.13, 10.20, 187, 366, 37, 'Bold micro SUV with 5-star safety. High ground clearance and rugged design for city and weekend getaways.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (2, 'Pure', 6.13, 'Petrol', 'Manual', 1199, 'Naturally Aspirated', 86, 113, 18.8, 2, '185/70 R16'),
@@ -109,7 +109,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (3, 'Arizona Blue', '#5D8AA8'), (3, 'Midnight Plum', '#4E2A5A');
 
 -- 4. Harrier
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Harrier', 'Mid-size SUV', 5, 5, 5, 15.49, 26.44, 198, 425, 50, 'Premium mid-size SUV built on Land Rover-derived OMEGARC platform. Powerful diesel engine with commanding road presence.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Harrier', 'SUV', 5, 5, 5, 15.49, 26.44, 198, 425, 50, 'Premium mid-size SUV built on Land Rover-derived OMEGARC platform. Powerful diesel engine with commanding road presence.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (4, 'Smart Diesel MT', 15.49, 'Diesel', 'Manual', 1956, 'Turbocharged', 170, 350, 16.8, 6, '235/65 R17'),
@@ -123,7 +123,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (4, 'Oberon Black', '#1C1C1C'), (4, 'Aurelia Green', '#2E5D45'), (4, 'Stellar Frost', '#D6E4E5');
 
 -- 5. Altroz
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Altroz', 'Premium Hatchback', 5, 5, NULL, 6.70, 10.86, 165, 345, 37, 'Gold standard premium hatchback with 5-star safety. Available in NA petrol, turbo petrol and diesel.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Altroz', 'Hatchback', 5, 5, NULL, 6.70, 10.86, 165, 345, 37, 'Gold standard premium hatchback with 5-star safety. Available in NA petrol, turbo petrol and diesel.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (5, 'XE Petrol', 6.70, 'Petrol', 'Manual', 1199, 'Naturally Aspirated', 86, 113, 22.0, 2, '185/60 R16'),
@@ -137,7 +137,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (5, 'Harbour Blue', '#3A75C4'), (5, 'Opera Blue', '#0047AB'), (5, 'Urban Bronze', '#826644');
 
 -- 6. Safari
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Safari', 'Full-size SUV', 7, 5, 5, 16.19, 28.49, 198, 340, 50, 'Flagship 3-row SUV with 6 and 7 seat options. Premium interiors with ADAS and Level-2 autonomous features.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Safari', 'SUV', 7, 5, 5, 16.19, 28.49, 198, 340, 50, 'Flagship 3-row SUV with 6 and 7 seat options. Premium interiors with ADAS and Level-2 autonomous features.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (6, 'Smart Diesel MT 7S', 16.19, 'Diesel', 'Manual', 1956, 'Turbocharged', 170, 350, 16.3, 6, '235/65 R17'),
@@ -150,7 +150,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (6, 'Cosmic Gold', '#C5A46B'), (6, 'Stellar Frost', '#D6E4E5'), (6, 'Supernova Copper', '#B87333');
 
 -- 7. Curvv
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Curvv', 'Coupe SUV', 5, NULL, 5, 10.00, 19.24, 208, 500, 45, 'India''s first mass-market coupe SUV. Bold design with sloping roofline, available in petrol turbo and diesel.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Curvv', 'SUV', 5, NULL, 5, 10.00, 19.24, 208, 500, 45, 'India''s first mass-market coupe SUV. Bold design with sloping roofline, available in petrol turbo and diesel.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (7, 'Smart Petrol MT', 10.00, 'Petrol', 'Manual', 1199, 'Turbocharged', 125, 225, 17.5, 6, '215/60 R16'),
@@ -164,7 +164,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (7, 'Opera Blue', '#0047AB'), (7, 'Virtual Sunrise', '#FF7043'), (7, 'Cosmic Gold', '#C5A46B');
 
 -- 8. Tigor
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Tigor', 'Compact Sedan', 5, 4, NULL, 6.30, 8.90, 170, 419, 35, 'Stylish compact sedan with spacious boot and peppy performance. Also available in CNG for budget-conscious buyers.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Tigor', 'Sedan', 5, 4, NULL, 6.30, 8.90, 170, 419, 35, 'Stylish compact sedan with spacious boot and peppy performance. Also available in CNG for budget-conscious buyers.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (8, 'XE Petrol', 6.30, 'Petrol', 'Manual', 1199, 'Naturally Aspirated', 86, 113, 20.3, 2, '175/65 R14'),
@@ -177,7 +177,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (8, 'Magnetic Red', '#B22234'), (8, 'Midnight Plum', '#4E2A5A');
 
 -- 9. Sierra
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Sierra', 'Lifestyle SUV', 5, NULL, NULL, 12.50, 22.00, 200, 370, 50, 'Iconic nameplate reborn as a modern lifestyle SUV. Retro-inspired design with contemporary technology and features.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (1, 'Sierra', 'SUV', 5, NULL, NULL, 12.50, 22.00, 200, 370, 50, 'Iconic nameplate reborn as a modern lifestyle SUV. Retro-inspired design with contemporary technology and features.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (9, 'Smart Petrol MT', 12.50, 'Petrol', 'Manual', 1497, 'Turbocharged', 150, 250, 16.0, 6, '215/65 R17'),
@@ -191,7 +191,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 -- ==================== MAHINDRA CARS (brand_id = 2) ====================
 
 -- 10. Scorpio-N
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Scorpio-N', 'Mid-size SUV', 7, NULL, 5, 13.99, 24.54, 200, 460, 57, 'Rugged body-on-frame SUV with 4x4 capability. Available in turbo petrol and diesel with powerful performance.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Scorpio-N', 'SUV', 7, NULL, 5, 13.99, 24.54, 200, 460, 57, 'Rugged body-on-frame SUV with 4x4 capability. Available in turbo petrol and diesel with powerful performance.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (10, 'Z4 Petrol MT', 13.99, 'Petrol', 'Manual', 1997, 'Turbocharged', 203, 370, 12.5, 6, '245/65 R17'),
@@ -204,7 +204,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (10, 'Napoli Black', '#1C1C1C'), (10, 'Grand Canyon', '#8B4513'), (10, 'Everest White', '#F8F8FF');
 
 -- 11. Thar
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Thar', 'Off-Road SUV', 4, NULL, NULL, 11.35, 17.99, 226, 0, 57, 'Iconic 4x4 off-roader with removable roof. Built for adventure with powerful engine options and go-anywhere capability.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Thar', 'SUV', 4, NULL, NULL, 11.35, 17.99, 226, 0, 57, 'Iconic 4x4 off-roader with removable roof. Built for adventure with powerful engine options and go-anywhere capability.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (11, 'AX (O) Petrol MT', 11.35, 'Petrol', 'Manual', 1997, 'Turbocharged', 152, 300, 15.2, 2, '245/75 R16'),
@@ -217,7 +217,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (11, 'Red Rage', '#DC143C'), (11, 'Rocky Beige', '#C8AD7F'), (11, 'Everest White', '#F8F8FF');
 
 -- 12. Bolero Neo
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Bolero Neo', 'Compact SUV', 7, NULL, NULL, 9.76, 12.09, 180, 0, 60, 'Rugged compact SUV with 7-seat configuration. Solid build quality and proven diesel engine for rough Indian roads.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Bolero Neo', 'SUV', 7, NULL, NULL, 9.76, 12.09, 180, 0, 60, 'Rugged compact SUV with 7-seat configuration. Solid build quality and proven diesel engine for rough Indian roads.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (12, 'N4', 9.76, 'Diesel', 'Manual', 1493, 'Turbocharged', 100, 260, 17.0, 2, '215/75 R15'),
@@ -230,7 +230,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (12, 'Napoli Black', '#1C1C1C'), (12, 'Burgundy Wine', '#722F37');
 
 -- 13. XUV 3XO
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XUV 3XO', 'Compact SUV', 5, NULL, NULL, 7.99, 15.49, 195, 364, 40, 'Feature-loaded compact SUV with segment-first tech. Panoramic sunroof, ADAS, and connected car features.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XUV 3XO', 'SUV', 5, NULL, NULL, 7.99, 15.49, 195, 364, 40, 'Feature-loaded compact SUV with segment-first tech. Panoramic sunroof, ADAS, and connected car features.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (13, 'MX1 Petrol MT', 7.99, 'Petrol', 'Manual', 1197, 'Turbocharged', 110, 200, 18.9, 2, '205/65 R16'),
@@ -244,7 +244,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (13, 'Napoli Black', '#1C1C1C'), (13, 'Burns Orange', '#CC5500'), (13, 'Deep Forest', '#003300');
 
 -- 14. XUV 7XO
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XUV 7XO', 'Full-size SUV', 7, 5, 5, 14.99, 27.49, 200, 451, 60, 'Tech-loaded flagship SUV with ADAS Level-2 and segment-best features. Available in 5 and 7 seat configurations.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XUV 7XO', 'SUV', 7, 5, 5, 14.99, 27.49, 200, 451, 60, 'Tech-loaded flagship SUV with ADAS Level-2 and segment-best features. Available in 5 and 7 seat configurations.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (14, 'MX Petrol MT', 14.99, 'Petrol', 'Manual', 1997, 'Turbocharged', 200, 380, 13.0, 7, '235/65 R17'),
@@ -258,45 +258,45 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (14, 'Red Rage', '#DC143C'), (14, 'Napoli Black', '#1C1C1C'), (14, 'Agate Beige', '#C8B88A');
 
 -- 15. XEV 9e
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XEV 9e', 'Electric Coupe SUV', 5, NULL, NULL, 21.90, 30.50, 207, 663, 0, 'Born Electric coupe SUV on Mahindra INGLO platform. Stunning design with 500+ km range and rapid charging.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XEV 9e', 'SUV', 5, NULL, NULL, 21.90, 30.50, 207, 663, 0, 'Born Electric coupe SUV on Mahindra INGLO platform. Stunning design with 500+ km range and rapid charging.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
-(15, 'Pack One 59 kWh', 21.90, 'Electric', 'Automatic', 0, 'Electric', 228, 380, 5.1, 7, '235/55 R19'),
-(15, 'Pack Two 59 kWh', 24.50, 'Electric', 'Automatic', 0, 'Electric', 228, 380, 5.1, 7, '235/55 R19'),
-(15, 'Pack Two 79 kWh', 27.00, 'Electric', 'Automatic', 0, 'Electric', 286, 380, 4.3, 7, '255/45 R20'),
-(15, 'Pack Three 79 kWh', 30.50, 'Electric', 'Automatic', 0, 'Electric', 286, 380, 4.3, 7, '255/45 R20');
+(15, 'Pack One 59 kWh', 21.90, 'EV', 'Automatic', 0, 'EV', 228, 380, 5.1, 7, '235/55 R19'),
+(15, 'Pack Two 59 kWh', 24.50, 'EV', 'Automatic', 0, 'EV', 228, 380, 5.1, 7, '235/55 R19'),
+(15, 'Pack Two 79 kWh', 27.00, 'EV', 'Automatic', 0, 'EV', 286, 380, 4.3, 7, '255/45 R20'),
+(15, 'Pack Three 79 kWh', 30.50, 'EV', 'Automatic', 0, 'EV', 286, 380, 4.3, 7, '255/45 R20');
 
 INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (15, 'Stealth Black', '#1C1C1C'), (15, 'Everest White', '#F8F8FF'), (15, 'Burnt Sienna', '#E97451'),
 (15, 'Tango Red', '#E44D2E'), (15, 'Nebula Blue', '#1E3A5F');
 
 -- 16. BE 6
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'BE 6', 'Electric SUV', 5, NULL, NULL, 18.90, 26.90, 207, 455, 0, 'Sporty born-electric SUV on INGLO platform. Aggressive design with fast charging and premium connected features.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'BE 6', 'SUV', 5, NULL, NULL, 18.90, 26.90, 207, 455, 0, 'Sporty born-electric SUV on INGLO platform. Aggressive design with fast charging and premium connected features.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
-(16, 'Pack One 59 kWh', 18.90, 'Electric', 'Automatic', 0, 'Electric', 228, 380, 5.3, 6, '235/55 R19'),
-(16, 'Pack Two 59 kWh', 21.50, 'Electric', 'Automatic', 0, 'Electric', 228, 380, 5.3, 6, '235/55 R19'),
-(16, 'Pack Three 79 kWh', 24.50, 'Electric', 'Automatic', 0, 'Electric', 286, 380, 4.5, 6, '255/45 R20'),
-(16, 'Pack Three 79 kWh Loaded', 26.90, 'Electric', 'Automatic', 0, 'Electric', 286, 380, 4.5, 6, '255/45 R20');
+(16, 'Pack One 59 kWh', 18.90, 'EV', 'Automatic', 0, 'EV', 228, 380, 5.3, 6, '235/55 R19'),
+(16, 'Pack Two 59 kWh', 21.50, 'EV', 'Automatic', 0, 'EV', 228, 380, 5.3, 6, '235/55 R19'),
+(16, 'Pack Three 79 kWh', 24.50, 'EV', 'Automatic', 0, 'EV', 286, 380, 4.5, 6, '255/45 R20'),
+(16, 'Pack Three 79 kWh Loaded', 26.90, 'EV', 'Automatic', 0, 'EV', 286, 380, 4.5, 6, '255/45 R20');
 
 INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (16, 'Satin Copper', '#B87333'), (16, 'Alpine White', '#F5F5F5'), (16, 'Stealth Black', '#1C1C1C'),
 (16, 'Ocean Blue', '#1B4F72'), (16, 'Deep Forest', '#003300');
 
 -- 17. XUV 400 EV
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XUV 400 EV', 'Electric Compact SUV', 5, 5, NULL, 15.99, 19.89, 180, 378, 0, 'Mahindra''s first electric SUV based on XUV300 platform. Proven 5-star NCAP safety with good range for city and highway.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'XUV 400 EV', 'SUV', 5, 5, NULL, 15.99, 19.89, 180, 378, 0, 'Mahindra''s first electric SUV based on XUV300 platform. Proven 5-star NCAP safety with good range for city and highway.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
-(17, 'EC Pro 34.5 kWh', 15.99, 'Electric', 'Automatic', 0, 'Electric', 150, 310, 6.5, 6, '205/65 R16'),
-(17, 'EL Pro 39.4 kWh', 17.50, 'Electric', 'Automatic', 0, 'Electric', 150, 310, 5.5, 6, '215/55 R17'),
-(17, 'EL Pro L 39.4 kWh', 19.89, 'Electric', 'Automatic', 0, 'Electric', 150, 310, 5.5, 6, '215/55 R17');
+(17, 'EC Pro 34.5 kWh', 15.99, 'EV', 'Automatic', 0, 'EV', 150, 310, 6.5, 6, '205/65 R16'),
+(17, 'EL Pro 39.4 kWh', 17.50, 'EV', 'Automatic', 0, 'EV', 150, 310, 5.5, 6, '215/55 R17'),
+(17, 'EL Pro L 39.4 kWh', 19.89, 'EV', 'Automatic', 0, 'EV', 150, 310, 5.5, 6, '215/55 R17');
 
 INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (17, 'Galaxy Grey', '#5C5C5C'), (17, 'Napoli Black', '#1C1C1C'), (17, 'Everest White', '#F8F8FF'),
 (17, 'Artic Blue', '#4682B4'), (17, 'Infinity Blue', '#003366');
 
 -- 18. Marazzo
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Marazzo', 'MPV', 8, NULL, NULL, 13.55, 16.10, 190, 190, 45, 'Shark-inspired MPV with spacious 8-seat cabin. Smooth diesel engine with excellent ride comfort for family use.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (2, 'Marazzo', 'MPV/Minivan', 8, NULL, NULL, 13.55, 16.10, 190, 190, 45, 'Shark-inspired MPV with spacious 8-seat cabin. Smooth diesel engine with excellent ride comfort for family use.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (18, 'M2 8-Seater', 13.55, 'Diesel', 'Manual', 1497, 'Turbocharged', 123, 300, 17.3, 2, '215/65 R16'),
@@ -310,7 +310,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 -- ==================== JEEP CARS (brand_id = 3) ====================
 
 -- 19. Compass
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Compass', 'Premium SUV', 5, 4, NULL, 18.99, 33.23, 178, 438, 60, 'Premium American SUV with Jeep heritage. Available in 4x4 diesel with off-road capability and refined highway manners.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Compass', 'SUV', 5, 4, NULL, 18.99, 33.23, 178, 438, 60, 'Premium American SUV with Jeep heritage. Available in 4x4 diesel with off-road capability and refined highway manners.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (19, 'Sport Petrol', 18.99, 'Petrol', 'Manual', 1368, 'Turbocharged', 163, 250, 14.0, 6, '215/65 R16'),
@@ -323,7 +323,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (19, 'Exotica Red', '#A91B0D'), (19, 'Galaxy Blue', '#1A237E');
 
 -- 20. Meridian
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Meridian', '3-Row SUV', 7, NULL, NULL, 29.90, 39.27, 203, 233, 60, 'Premium 7-seat SUV with genuine off-road capability. Luxurious interiors with panoramic sunroof and advanced tech.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Meridian', 'SUV', 7, NULL, NULL, 29.90, 39.27, 203, 233, 60, 'Premium 7-seat SUV with genuine off-road capability. Luxurious interiors with panoramic sunroof and advanced tech.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (20, 'Limited (O) Diesel AT', 29.90, 'Diesel', 'Automatic', 1956, 'Turbocharged', 170, 350, 14.5, 6, '235/55 R18'),
@@ -336,7 +336,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (20, 'Techno Green', '#315C2B');
 
 -- 21. Wrangler
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Wrangler', 'Off-Road SUV', 5, NULL, NULL, 55.49, 60.49, 217, 548, 66, 'Legendary off-road icon. Rock-crawling capability with removable doors, roof, and fold-down windshield.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Wrangler', 'SUV', 5, NULL, NULL, 55.49, 60.49, 217, 548, 66, 'Legendary off-road icon. Rock-crawling capability with removable doors, roof, and fold-down windshield.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (21, 'Unlimited Petrol AT', 55.49, 'Petrol', 'Automatic', 1995, 'Turbocharged', 272, 400, 10.0, 4, '255/70 R18'),
@@ -347,7 +347,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (21, 'Bikini Pearl', '#00CED1'), (21, 'Sarge Green', '#4B5320');
 
 -- 22. Grand Cherokee
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Grand Cherokee', 'Luxury SUV', 5, 5, NULL, 78.50, 85.99, 218, 1070, 68, 'Iconic luxury SUV with Quadra-Trac 4x4 system. Premium interiors with McIntosh audio and advanced driver aids.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (3, 'Grand Cherokee', 'SUV', 5, 5, NULL, 78.50, 85.99, 218, 1070, 68, 'Iconic luxury SUV with Quadra-Trac 4x4 system. Premium interiors with McIntosh audio and advanced driver aids.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (22, 'Limited Petrol AT', 78.50, 'Petrol', 'Automatic', 1995, 'Turbocharged', 272, 400, 8.5, 7, '265/60 R18'),
@@ -373,7 +373,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (23, 'Steel Grey', '#71797E'), (23, 'Candy Red', '#DC143C');
 
 -- 24. Aircross
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'Aircross', 'Compact SUV', 5, NULL, NULL, 9.99, 14.19, 190, 410, 45, 'Comfortable compact SUV with signature Citroen comfort. Progressive Hydraulic Cushion suspension for smooth rides.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'Aircross', 'SUV', 5, NULL, NULL, 9.99, 14.19, 190, 410, 45, 'Comfortable compact SUV with signature Citroen comfort. Progressive Hydraulic Cushion suspension for smooth rides.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (24, 'You 1.2 Turbo', 9.99, 'Petrol', 'Manual', 1199, 'Turbocharged', 110, 190, 18.7, 6, '205/65 R16'),
@@ -386,7 +386,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (24, 'Steel Grey', '#71797E'), (24, 'Perla Nera Black', '#0C0C0C');
 
 -- 25. Basalt Coupe
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'Basalt Coupe', 'Coupe SUV', 5, NULL, NULL, 7.99, 13.83, 180, 470, 45, 'India''s most affordable coupe SUV with bold design. Sloping roofline with best-in-class boot space.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'Basalt Coupe', 'SUV', 5, NULL, NULL, 7.99, 13.83, 180, 470, 45, 'India''s most affordable coupe SUV with bold design. Sloping roofline with best-in-class boot space.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (25, 'You 1.2 NA', 7.99, 'Petrol', 'Manual', 1199, 'Naturally Aspirated', 82, 115, 18.5, 6, '205/65 R16'),
@@ -399,18 +399,18 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (25, 'Platinum Grey', '#B5B5B5'), (25, 'Perla Nera Black', '#0C0C0C');
 
 -- 26. eC3
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'eC3', 'Electric Hatchback', 5, NULL, NULL, 11.50, 13.50, 170, 315, 0, 'Affordable electric hatchback for city commuting. 320 km range with practical design and low running cost.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'eC3', 'Hatchback', 5, NULL, NULL, 11.50, 13.50, 170, 315, 0, 'Affordable electric hatchback for city commuting. 320 km range with practical design and low running cost.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
-(26, 'Feel 29.2 kWh', 11.50, 'Electric', 'Automatic', 0, 'Electric', 57, 143, 7.1, 3, '195/65 R15'),
-(26, 'Shine 29.2 kWh', 13.50, 'Electric', 'Automatic', 0, 'Electric', 57, 143, 7.1, 6, '195/65 R15');
+(26, 'Feel 29.2 kWh', 11.50, 'EV', 'Automatic', 0, 'EV', 57, 143, 7.1, 3, '195/65 R15'),
+(26, 'Shine 29.2 kWh', 13.50, 'EV', 'Automatic', 0, 'EV', 57, 143, 7.1, 6, '195/65 R15');
 
 INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (26, 'Polar White', '#FFFFFF'), (26, 'Zesty Orange', '#FF5733'), (26, 'Platinum Grey', '#B5B5B5'),
 (26, 'Cosmo Blue', '#1B2A49');
 
 -- 27. C5 Aircross
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'C5 Aircross', 'Mid-size SUV', 5, 5, NULL, 36.91, 41.99, 230, 580, 53, 'Premium French SUV with Advanced Comfort suspension. Plush interiors and segment-best ride quality.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (4, 'C5 Aircross', 'SUV', 5, 5, NULL, 36.91, 41.99, 230, 580, 53, 'Premium French SUV with Advanced Comfort suspension. Plush interiors and segment-best ride quality.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (27, 'Feel Diesel AT', 36.91, 'Diesel', 'Automatic', 1997, 'Turbocharged', 177, 400, 14.0, 6, '235/55 R18'),
@@ -423,7 +423,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 -- ==================== SKODA CARS (brand_id = 5) ====================
 
 -- 28. Kylaq
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Kylaq', 'Compact SUV', 5, NULL, 5, 7.89, 14.40, 188, 446, 45, 'Skoda''s entry-level SUV for India. European build quality with TSI turbo engine and solid safety credentials.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Kylaq', 'SUV', 5, NULL, 5, 7.89, 14.40, 188, 446, 45, 'Skoda''s entry-level SUV for India. European build quality with TSI turbo engine and solid safety credentials.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (28, 'Classic 1.0 TSI MT', 7.89, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.7, 6, '205/60 R16'),
@@ -436,7 +436,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (28, 'Brilliant Silver', '#C4C4C4'), (28, 'Lava Blue', '#034694');
 
 -- 29. Slavia
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Slavia', 'Mid-size Sedan', 5, NULL, NULL, 10.99, 18.49, 179, 521, 50, 'European sedan with sharp handling and spacious rear. Available with 1.0 and 1.5 TSI turbo engines.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Slavia', 'Sedan', 5, NULL, NULL, 10.99, 18.49, 179, 521, 50, 'European sedan with sharp handling and spacious rear. Available with 1.0 and 1.5 TSI turbo engines.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (29, 'Active 1.0 TSI MT', 10.99, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.6, 6, '205/55 R16'),
@@ -449,7 +449,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (29, 'Brilliant Silver', '#C4C4C4'), (29, 'Lava Blue', '#034694');
 
 -- 30. Kushaq
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Kushaq', 'Mid-size SUV', 5, 5, NULL, 11.39, 19.49, 188, 385, 50, 'Made-in-India SUV with European genes. 5-star NCAP safety with powerful TSI engines and premium build.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Kushaq', 'SUV', 5, 5, NULL, 11.39, 19.49, 188, 385, 50, 'Made-in-India SUV with European genes. 5-star NCAP safety with powerful TSI engines and premium build.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (30, 'Active 1.0 TSI MT', 11.39, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.6, 6, '205/60 R16'),
@@ -462,7 +462,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (30, 'Honey Orange', '#E87811'), (30, 'Brilliant Silver', '#C4C4C4'), (30, 'Lava Blue', '#034694');
 
 -- 31. Kodiaq
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Kodiaq', 'Full-size SUV', 7, 5, NULL, 39.99, 44.99, 190, 630, 58, 'Premium 7-seat SUV with European refinement. Powerful 2.0 TSI engine with DSG and all-in-one family capability.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Kodiaq', 'SUV', 7, 5, NULL, 39.99, 44.99, 190, 630, 58, 'Premium 7-seat SUV with European refinement. Powerful 2.0 TSI engine with DSG and all-in-one family capability.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (31, 'Style 2.0 TSI DSG', 39.99, 'Petrol', 'DCT', 1984, 'Turbocharged', 190, 320, 12.0, 9, '235/50 R19'),
@@ -474,7 +474,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (31, 'Magic Black', '#0C0C0C');
 
 -- 32. Octavia
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Octavia', 'Premium Sedan', 5, 5, NULL, 27.40, 32.90, 155, 600, 50, 'Simply Clever premium sedan with class-leading space and refined 2.0 TSI performance. Perfect blend of luxury and practicality.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Octavia', 'Sedan', 5, 5, NULL, 27.40, 32.90, 155, 600, 50, 'Simply Clever premium sedan with class-leading space and refined 2.0 TSI performance. Perfect blend of luxury and practicality.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (32, 'Style 2.0 TSI DSG', 27.40, 'Petrol', 'DCT', 1984, 'Turbocharged', 190, 320, 13.5, 8, '225/45 R18'),
@@ -486,7 +486,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (32, 'Brilliant Silver', '#C4C4C4'), (32, 'Race Blue', '#0039A6');
 
 -- 33. Superb
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Superb', 'Luxury Sedan', 5, 5, NULL, 35.99, 40.99, 154, 625, 66, 'Flagship luxury sedan with first-class rear legroom and executive comfort. Czech craftsmanship at its finest.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (5, 'Superb', 'Sedan', 5, 5, NULL, 35.99, 40.99, 154, 625, 66, 'Flagship luxury sedan with first-class rear legroom and executive comfort. Czech craftsmanship at its finest.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (33, 'Sportline 2.0 TSI DSG', 35.99, 'Petrol', 'DCT', 1984, 'Turbocharged', 190, 320, 12.5, 8, '235/45 R18'),
@@ -499,7 +499,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 -- ==================== MARUTI CARS (brand_id = 6) ====================
 
 -- 34. Dzire
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Dzire', 'Compact Sedan', 5, NULL, 5, 6.79, 10.14, 163, 382, 37, 'India''s best-selling sedan. New generation with 5-star BNCAP safety, Z-Series engine, and premium design.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Dzire', 'Sedan', 5, NULL, 5, 6.79, 10.14, 163, 382, 37, 'India''s best-selling sedan. New generation with 5-star BNCAP safety, Z-Series engine, and premium design.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (34, 'LXi', 6.79, 'Petrol', 'Manual', 1197, 'Naturally Aspirated', 82, 112, 24.8, 6, '185/65 R15'),
@@ -513,7 +513,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (34, 'Splendid Silver', '#C0C0C0'), (34, 'Gallant Red', '#B22234'), (34, 'Nutmeg Brown', '#7B5B3A');
 
 -- 35. Ertiga
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Ertiga', 'MPV', 7, 3, NULL, 8.69, 13.03, 185, 209, 45, 'Best-selling MPV with versatile 7-seat layout. Efficient petrol and CNG options with Maruti reliability.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Ertiga', 'MPV/Minivan', 7, 3, NULL, 8.69, 13.03, 185, 209, 45, 'Best-selling MPV with versatile 7-seat layout. Efficient petrol and CNG options with Maruti reliability.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (35, 'LXi', 8.69, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 105, 138, 20.5, 6, '185/65 R15'),
@@ -541,7 +541,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (36, 'Magma Grey', '#5C5C5C'), (36, 'Midnight Black', '#1C1C1C'), (36, 'Pearl Metallic Lucent Orange', '#FF7036');
 
 -- 37. Brezza
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Brezza', 'Compact SUV', 5, 4, NULL, 8.39, 14.14, 198, 328, 48, 'India''s most popular compact SUV. Smart Hybrid technology with rugged design and feature-rich cabin.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Brezza', 'SUV', 5, 4, NULL, 8.39, 14.14, 198, 328, 48, 'India''s most popular compact SUV. Smart Hybrid technology with rugged design and feature-rich cabin.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (37, 'LXi', 8.39, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 103, 137, 20.2, 6, '215/60 R16'),
@@ -555,7 +555,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (37, 'Magma Grey', '#5C5C5C'), (37, 'Splendid Silver', '#C0C0C0'), (37, 'Pearl Midnight Black', '#1C1C1C');
 
 -- 38. Baleno
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Baleno', 'Premium Hatchback', 5, 3, NULL, 6.66, 9.88, 170, 318, 37, 'Premium hatchback with advanced infotainment and Heads-Up Display. Smart Hybrid for excellent fuel economy.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Baleno', 'Hatchback', 5, 3, NULL, 6.66, 9.88, 170, 318, 37, 'Premium hatchback with advanced infotainment and Heads-Up Display. Smart Hybrid for excellent fuel economy.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (38, 'Sigma', 6.66, 'Petrol', 'Manual', 1197, 'Naturally Aspirated', 90, 113, 22.4, 2, '185/65 R15'),
@@ -569,7 +569,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (38, 'Grandeur Grey', '#71797E'), (38, 'Opulent Red', '#8B0000'), (38, 'Midnight Black', '#1C1C1C');
 
 -- 39. Victoris
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Victoris', 'Mid-size SUV', 5, NULL, NULL, 11.99, 17.49, 195, 370, 48, 'Bold mid-size SUV from Maruti Suzuki. Feature-loaded urban-friendly SUV with strong hybrid technology.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Victoris', 'SUV', 5, NULL, NULL, 11.99, 17.49, 195, 370, 48, 'Bold mid-size SUV from Maruti Suzuki. Feature-loaded urban-friendly SUV with strong hybrid technology.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (39, 'Sigma 1.5 MT', 11.99, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 105, 138, 21.1, 6, '215/60 R16'),
@@ -582,7 +582,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (39, 'Midnight Black', '#1C1C1C'), (39, 'Celestial Blue', '#2E5090');
 
 -- 40. Wagon R
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Wagon R', 'Tall Boy Hatchback', 5, 2, NULL, 5.54, 7.42, 165, 341, 32, 'India''s favorite tall-boy hatchback. Spacious cabin with excellent CNG efficiency for daily commuting.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Wagon R', 'Hatchback', 5, 2, NULL, 5.54, 7.42, 165, 341, 32, 'India''s favorite tall-boy hatchback. Spacious cabin with excellent CNG efficiency for daily commuting.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (40, 'LXi 1.0', 5.54, 'Petrol', 'Manual', 998, 'Naturally Aspirated', 67, 89, 24.4, 2, '155/80 R13'),
@@ -596,7 +596,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (40, 'Midnight Black', '#1C1C1C'), (40, 'Gallant Red', '#B22234');
 
 -- 41. Fronx
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Fronx', 'Coupe SUV', 5, NULL, NULL, 7.51, 13.04, 190, 308, 37, 'Sporty coupe-style SUV with swept-back design. Available with turbo BoosterJet engine for enthusiast driving.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Fronx', 'SUV', 5, NULL, NULL, 7.51, 13.04, 190, 308, 37, 'Sporty coupe-style SUV with swept-back design. Available with turbo BoosterJet engine for enthusiast driving.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (41, 'Sigma 1.2', 7.51, 'Petrol', 'Manual', 1197, 'Naturally Aspirated', 90, 113, 22.9, 6, '195/60 R16'),
@@ -610,7 +610,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (41, 'Grandeur Grey', '#71797E'), (41, 'Opulent Red', '#8B0000'), (41, 'Midnight Black', '#1C1C1C');
 
 -- 42. Alto
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Alto', 'Entry Hatchback', 5, NULL, NULL, 3.54, 5.37, 160, 177, 27, 'India''s most affordable car. Perfect for first-time buyers with unmatched fuel efficiency and low maintenance.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Alto', 'Hatchback', 5, NULL, NULL, 3.54, 5.37, 160, 177, 27, 'India''s most affordable car. Perfect for first-time buyers with unmatched fuel efficiency and low maintenance.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (42, 'Std', 3.54, 'Petrol', 'Manual', 796, 'Naturally Aspirated', 48, 69, 22.1, 2, '145/80 R12'),
@@ -624,7 +624,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (42, 'Sizzling Red', '#CC0000'), (42, 'Cerulean Blue', '#2A52BE');
 
 -- 43. Eeco
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Eeco', 'Van/MPV', 7, NULL, NULL, 5.32, 6.58, 160, 0, 40, 'Versatile van for family and commercial use. Spacious cabin with 5 or 7 seats. Also available in CNG.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Eeco', 'MPV/Minivan', 7, NULL, NULL, 5.32, 6.58, 160, 0, 40, 'Versatile van for family and commercial use. Spacious cabin with 5 or 7 seats. Also available in CNG.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (43, '5 Seater', 5.32, 'Petrol', 'Manual', 1196, 'Naturally Aspirated', 73, 98, 16.1, 2, '155/70 R13'),
@@ -636,13 +636,13 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (43, 'Superior White', '#F5F5F5'), (43, 'Silky Silver', '#C0C0C0'), (43, 'Pearl Midnight Black', '#1C1C1C');
 
 -- 44. Grand Vitara
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Grand Vitara', 'Mid-size SUV', 5, 5, NULL, 11.00, 20.09, 210, 373, 45, 'Premium mid-size SUV with strong hybrid and AllGrip AWD. Best-in-class fuel efficiency with 5-star safety.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Grand Vitara', 'SUV', 5, 5, NULL, 11.00, 20.09, 210, 373, 45, 'Premium mid-size SUV with strong hybrid and AllGrip AWD. Best-in-class fuel efficiency with 5-star safety.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (44, 'Sigma 1.5 Smart Hybrid MT', 11.00, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 103, 137, 21.1, 6, '215/60 R16'),
 (44, 'Delta 1.5 Smart Hybrid MT', 12.50, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 103, 137, 21.1, 6, '215/60 R16'),
-(44, 'Zeta 1.5 Strong Hybrid eCVT', 16.00, 'Hybrid', 'CVT', 1462, 'Naturally Aspirated', 116, 122, 27.9, 6, '215/55 R17'),
-(44, 'Alpha+ 1.5 Strong Hybrid eCVT', 20.09, 'Hybrid', 'CVT', 1462, 'Naturally Aspirated', 116, 122, 27.9, 6, '215/55 R17'),
+(44, 'Zeta 1.5 Strong Hybrid eCVT', 16.00, 'Petrol', 'CVT', 1462, 'Naturally Aspirated', 116, 122, 27.9, 6, '215/55 R17'),
+(44, 'Alpha+ 1.5 Strong Hybrid eCVT', 20.09, 'Petrol', 'CVT', 1462, 'Naturally Aspirated', 116, 122, 27.9, 6, '215/55 R17'),
 (44, 'Zeta+ AllGrip MT', 15.50, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 103, 137, 20.4, 6, '215/60 R16');
 
 INSERT INTO colors (car_id, color_name, hex_code) VALUES
@@ -650,7 +650,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (44, 'Grandeur Grey', '#71797E'), (44, 'Celestial Blue', '#2E5090'), (44, 'Midnight Black', '#1C1C1C');
 
 -- 45. XL6
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'XL6', 'Premium MPV', 6, NULL, NULL, 11.29, 14.55, 185, 209, 45, 'Premium 6-seat MPV with captain seats. Upmarket Ertiga sibling with Smart Hybrid technology.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'XL6', 'MPV/Minivan', 6, NULL, NULL, 11.29, 14.55, 185, 209, 45, 'Premium 6-seat MPV with captain seats. Upmarket Ertiga sibling with Smart Hybrid technology.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (45, 'Zeta MT', 11.29, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 105, 138, 20.9, 6, '185/65 R15'),
@@ -663,7 +663,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (45, 'Brave Khaki', '#8B7D3C'), (45, 'Midnight Black', '#1C1C1C');
 
 -- 46. S Presso
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'S Presso', 'Micro SUV', 5, 1, NULL, 4.26, 6.12, 180, 270, 27, 'Entry SUV-style hatchback with tall stance. SUV-inspired design at hatchback pricing for first-time buyers.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'S Presso', 'SUV', 5, 1, NULL, 4.26, 6.12, 180, 270, 27, 'Entry SUV-style hatchback with tall stance. SUV-inspired design at hatchback pricing for first-time buyers.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (46, 'Std', 4.26, 'Petrol', 'Manual', 998, 'Naturally Aspirated', 67, 89, 25.3, 2, '165/70 R14'),
@@ -676,7 +676,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (46, 'Granite Grey', '#5C5C5C'), (46, 'Cerulean Blue', '#2A52BE');
 
 -- 47. Ignis
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Ignis', 'Urban Crossover', 5, 3, NULL, 5.84, 8.29, 180, 260, 32, 'Quirky urban crossover with retro-modern design. High ground clearance and peppy engine for city driving.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Ignis', 'SUV', 5, 3, NULL, 5.84, 8.29, 180, 260, 32, 'Quirky urban crossover with retro-modern design. High ground clearance and peppy engine for city driving.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (47, 'Sigma', 5.84, 'Petrol', 'Manual', 1197, 'Naturally Aspirated', 83, 113, 20.9, 2, '175/65 R15'),
@@ -703,7 +703,7 @@ INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (48, 'Glistening Grey', '#71797E'), (48, 'Caffeine Brown', '#6F4E37');
 
 -- 49. Jimny
-INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Jimny', 'Off-Road SUV', 4, 3, NULL, 12.74, 15.05, 210, 208, 40, 'Compact 4x4 off-roader with legendary Suzuki capability. Ladder-frame chassis with AllGrip Pro for serious off-roading.');
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description) VALUES (6, 'Jimny', 'SUV', 4, 3, NULL, 12.74, 15.05, 210, 208, 40, 'Compact 4x4 off-roader with legendary Suzuki capability. Ladder-frame chassis with AllGrip Pro for serious off-roading.');
 
 INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size) VALUES
 (49, 'Zeta MT', 12.74, 'Petrol', 'Manual', 1462, 'Naturally Aspirated', 105, 138, 16.9, 6, '195/80 R15'),
@@ -714,3 +714,56 @@ INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission,
 INSERT INTO colors (car_id, color_name, hex_code) VALUES
 (49, 'Kinetic Yellow', '#FFD700'), (49, 'Sizzling Red', '#CC0000'), (49, 'Nexa Blue', '#1A237E'),
 (49, 'Bluish Black', '#1C2331'), (49, 'Pearl Arctic White', '#F8F8FF'), (49, 'Granite Grey', '#5C5C5C');
+
+-- ═══════════════════════════════════════════════
+-- VOLKSWAGEN
+-- ═══════════════════════════════════════════════
+INSERT INTO brands (name, country, founded_year) VALUES ('Volkswagen', 'Germany', 1937);
+
+INSERT INTO cars (brand_id, model_name, body_type, seating_capacity, ncap_rating, bncap_rating, price_min, price_max, ground_clearance_mm, boot_space_litres, fuel_tank_capacity, description)
+VALUES
+(7, 'Virtus', 'Sedan', 5, 5, NULL, 11.56, 19.41, 179, 521, 45, 'Volkswagen''s premium midsize sedan with class-leading boot space, German build quality, and a choice of TSI turbo-petrol engines.'),
+(7, 'Taigun', 'SUV', 5, 5, NULL, 11.70, 19.45, 188, 392, 50, 'Volkswagen''s best-selling compact SUV in India with 5-star GNCAP safety, peppy TSI engines, and premium German engineering.'),
+(7, 'Tiguan', 'SUV', 5, 5, NULL, 35.17, 36.50, 200, 615, 60, 'Volkswagen''s flagship premium SUV with 2.0 TSI power, 4MOTION AWD, and luxurious cabin loaded with tech features.'),
+(7, 'Golf', 'Hatchback', 5, 5, NULL, 35.00, 45.00, 144, 381, 50, 'The iconic VW Golf — a sporty premium hatchback legend. The GTI variant is a hot-hatch benchmark with turbocharged thrills and precision handling.');
+
+-- Virtus variants
+INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size)
+VALUES
+(50, 'Comfortline 1.0 TSI MT', 11.56, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.44, 6, '205/55 R16'),
+(50, 'Highline 1.0 TSI MT', 13.97, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.44, 6, '205/55 R16'),
+(50, 'Highline 1.0 TSI AT', 15.07, 'Petrol', 'Automatic', 999, 'Turbocharged', 115, 178, 18.12, 6, '205/55 R16'),
+(50, 'Topline 1.0 TSI AT', 16.20, 'Petrol', 'Automatic', 999, 'Turbocharged', 115, 178, 18.12, 6, '205/55 R16'),
+(50, 'GT 1.5 TSI DSG', 19.41, 'Petrol', 'DCT', 1498, 'Turbocharged', 150, 250, 18.67, 6, '205/45 R17');
+
+-- Taigun variants
+INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size)
+VALUES
+(51, 'Comfortline 1.0 TSI MT', 11.70, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.20, 6, '205/65 R16'),
+(51, 'Highline 1.0 TSI MT', 14.18, 'Petrol', 'Manual', 999, 'Turbocharged', 115, 178, 19.20, 6, '205/65 R16'),
+(51, 'Highline 1.0 TSI AT', 15.33, 'Petrol', 'Automatic', 999, 'Turbocharged', 115, 178, 17.88, 6, '205/65 R16'),
+(51, 'Topline 1.0 TSI AT', 16.60, 'Petrol', 'Automatic', 999, 'Turbocharged', 115, 178, 17.88, 6, '215/55 R17'),
+(51, 'GT 1.5 TSI DSG', 19.45, 'Petrol', 'DCT', 1498, 'Turbocharged', 150, 250, 18.41, 6, '215/45 R18');
+
+-- Tiguan variants
+INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size)
+VALUES
+(52, 'Elegance 2.0 TSI DSG', 35.17, 'Petrol', 'DCT', 1984, 'Turbocharged', 190, 320, 14.10, 6, '235/55 R18'),
+(52, 'Luxury 2.0 TSI DSG 4MOTION', 36.50, 'Petrol', 'DCT', 1984, 'Turbocharged', 190, 320, 12.65, 8, '235/50 R19');
+
+-- Golf variants
+INSERT INTO variants (car_id, variant_name, price_lakh, fuel_type, transmission, engine_cc, engine_type, power_bhp, torque_nm, mileage_kmpl, num_airbags, tyre_size)
+VALUES
+(53, 'GTI 2.0 TSI DSG', 35.00, 'Petrol', 'DCT', 1984, 'Turbocharged', 245, 370, 13.50, 8, '225/40 R18'),
+(53, 'GTI Clubsport 2.0 TSI DSG', 40.00, 'Petrol', 'DCT', 1984, 'Turbocharged', 300, 400, 12.10, 8, '225/35 R19'),
+(53, 'R 2.0 TSI DSG 4MOTION', 45.00, 'Petrol', 'DCT', 1984, 'Turbocharged', 333, 420, 11.50, 8, '225/35 R19');
+
+-- VW Colors
+INSERT INTO colors (car_id, color_name, hex_code) VALUES
+(50, 'Candy White', '#FFFFFF'), (50, 'Carbon Steel Grey', '#4A4A4A'), (50, 'Wild Cherry Red', '#8B1A1A'),
+(50, 'Reflex Silver', '#C0C0C0'), (50, 'Curcuma Yellow', '#E8B000'), (50, 'Rising Blue', '#1E3A6E'),
+(51, 'Candy White', '#FFFFFF'), (51, 'Carbon Steel Grey', '#4A4A4A'), (51, 'Wild Cherry Red', '#8B1A1A'),
+(51, 'Reflex Silver', '#C0C0C0'), (51, 'Rising Blue', '#1E3A6E'), (51, 'Curcuma Yellow', '#E8B000'),
+(52, 'Oryx White Pearl', '#F5F0E8'), (52, 'Deep Black Pearl', '#1A1A1A'), (52, 'Dolphin Grey', '#6E6E6E'), (52, 'Kings Red', '#8B0000'),
+(53, 'Pure White', '#FFFFFF'), (53, 'Kings Red', '#8B0000'), (53, 'Moonstone Grey', '#7B7B7B'),
+(53, 'Atlantic Blue', '#1B3A5C'), (53, 'Lapiz Blue', '#2B4F8C');

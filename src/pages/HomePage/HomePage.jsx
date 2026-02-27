@@ -22,7 +22,7 @@ export default function HomePage() {
     const [sortBy, setSortBy] = useState('newest');
 
     useEffect(() => {
-        fetch('/cars_full.json')
+        fetch('http://localhost:3002/api/cars')
             .then((res) => res.json())
             .then((data) => {
                 setAllCars(data);
