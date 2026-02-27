@@ -109,9 +109,6 @@ export default function SearchPage() {
                             >
                                 <span className="category-icon">{cat.icon}</span>
                                 <span className="category-label">{cat.label}</span>
-                                <span className="category-count">
-                                    {cars.filter(c => (c.bodyType || '').toLowerCase().includes(cat.query.toLowerCase())).length} cars
-                                </span>
                             </div>
                         ))}
                     </div>
