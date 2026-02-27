@@ -1,0 +1,244 @@
+.depreciation-container {
+    background: linear-gradient(135deg, #1f2937, #111827);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.dep-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.dep-icon {
+    color: #f59e0b;
+    margin-bottom: 0.5rem;
+    animation: rotateSlowly 10s linear infinite;
+}
+
+@keyframes rotateSlowly {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(-360deg);
+    }
+}
+
+.dep-header h3 {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.dep-header p {
+    color: #9ca3af;
+}
+
+.dep-content {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+@media (max-width: 768px) {
+    .dep-content {
+        flex-direction: column;
+    }
+}
+
+.dep-visualizer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.dep-image-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 16/9;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.dep-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: filter 0.3s ease;
+}
+
+.dep-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 5rem;
+    background: #374151;
+    transition: filter 0.3s ease;
+}
+
+.dep-year-badge {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dep-controls {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.dep-stats {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.dep-stat-main {
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+}
+
+.dep-label {
+    display: block;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 0.5rem;
+}
+
+.dep-val-current {
+    color: #f59e0b;
+    font-size: 2.5rem;
+    font-weight: 800;
+}
+
+.dep-stat-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dep-stat-sub {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.dep-label-sub {
+    color: #6b7280;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+}
+
+.dep-val-sub {
+    color: #e5e7eb;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.dep-val-sub.loss {
+    color: #ef4444;
+}
+
+.dep-val-sub.retain {
+    color: #10b981;
+}
+
+.dep-slider-wrapper {
+    background: #0f172a;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.slider-labels {
+    display: flex;
+    justify-content: space-between;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    align-items: center;
+}
+
+.slider-labels span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dep-slider {
+    width: 100%;
+    accent-color: #f59e0b;
+    height: 8px;
+    background: #374151;
+    border-radius: 4px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    margin-bottom: 1rem;
+}
+
+.dep-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 24px;
+    height: 24px;
+    background: #f59e0b;
+    border-radius: 50%;
+    cursor: grab;
+    border: 3px solid #fff;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+}
+
+.dep-slider::-webkit-slider-thumb:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10px;
+}
+
+.tick {
+    width: 4px;
+    height: 4px;
+    background: #4b5563;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.tick.active {
+    background: #f59e0b;
+}

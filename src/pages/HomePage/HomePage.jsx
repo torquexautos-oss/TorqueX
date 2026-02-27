@@ -21,44 +21,53 @@ export default function HomePage() {
     const [bodyFilter, setBodyFilter] = useState(initialType);
     const [sortBy, setSortBy] = useState('newest');
 
+    // Filter options from API
+    const [brands, setBrands] = useState([]);
+    const [fuels, setFuels] = useState(['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid']);
+    const [bodies, setBodies] = useState([]);
+
     useEffect(() => {
-        fetch('/cars_full.json')
-            .then((res) => res.json())
-            .then((data) => {
-                setAllCars(data);
-                const grouped = groupCarsByModel(data);
-                setModels(grouped);
+        // Fetch all cars from DB
+        fetch('http://localhost:3002/api/db/cars')
+            .then(res => res.json())
+            .then(data => {
+                setAllCars(data.cars || []);
+                setModels(data.cars || []);
                 setLoading(false);
-            });
+            })
+            .catch(() => setLoading(false));
+
+        // Fetch brands and body types from DB
+        fetch('http://localhost:3002/api/db/brands')
+            .then(res => res.json())
+            .then(data => setBrands(data.brands.map(b => b.name) || []));
+
+        fetch('http://localhost:3002/api/db/stats')
+            .then(res => res.json())
+            .then(data => setBodies(data.bodyTypes || []));
     }, []);
 
-    // Derived filter options (from all cars, not grouped)
-    const brands = useMemo(() => [...new Set(allCars.map((c) => c.brand))].sort(), [allCars]);
-    const fuels = useMemo(() => [...new Set(allCars.map((c) => c.fuelType))].sort(), [allCars]);
-    const bodies = useMemo(() => [...new Set(allCars.map((c) => c.bodyType))].sort(), [allCars]);
-
-    // Filter + sort on grouped models
+    // Client-side filtering on the DB results
     const filteredModels = useMemo(() => {
         let result = models;
         if (search) {
             const q = search.toLowerCase();
             result = result.filter(
                 (m) =>
-                    m.baseModel.toLowerCase().includes(q) ||
+                    m.model_name.toLowerCase().includes(q) ||
                     m.brand.toLowerCase().includes(q)
             );
         }
         if (brandFilter) result = result.filter((m) => m.brand === brandFilter);
-        if (fuelFilter) result = result.filter((m) => m.fuelType.includes(fuelFilter));
-        if (bodyFilter) result = result.filter((m) => m.bodyType === bodyFilter);
+        if (bodyFilter) result = result.filter((m) => m.body_type === bodyFilter);
 
-        if (sortBy === 'price-low') result = [...result].sort((a, b) => a.priceMin - b.priceMin);
-        else if (sortBy === 'price-high') result = [...result].sort((a, b) => b.priceMax - a.priceMax);
-        else if (sortBy === 'variants') result = [...result].sort((a, b) => b.variantCount - a.variantCount);
-        else result = [...result].sort((a, b) => a.priceMin - b.priceMin); // default: price ascending
+        // Sort
+        if (sortBy === 'price-low') result = [...result].sort((a, b) => a.price_min - b.price_min);
+        else if (sortBy === 'price-high') result = [...result].sort((a, b) => b.price_max - a.price_max);
+        else result = [...result].sort((a, b) => a.price_min - b.price_min);
 
         return result;
-    }, [models, search, brandFilter, fuelFilter, bodyFilter, sortBy]);
+    }, [models, search, brandFilter, bodyFilter, sortBy]);
 
     const visibleModels = filteredModels.slice(0, visible);
     const hasMore = visible < filteredModels.length;
