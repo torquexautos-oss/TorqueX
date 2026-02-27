@@ -1,51 +1,63 @@
 /**
- * Car data service — fetches from public/cars_full.json.
- * Provides a cache so the data is fetched only once.
+ * Car data service — fetches from the SQLite database running on the backend.
  */
 
-import { groupCarsByModel } from '../utils/carGrouper';
-
-let _cache = null;
-
 export async function fetchAllCars() {
-    if (_cache) return _cache;
-    const res = await fetch('/cars_full.json');
-    _cache = await res.json();
-    return _cache;
+    try {
+        const res = await fetch('http://localhost:3002/api/db/cars');
+        const data = await res.json();
+        return data.cars || [];
+    } catch (e) {
+        console.error("Error fetching all cars:", e);
+        return [];
+    }
 }
 
 export async function getCarById(id) {
-    const cars = await fetchAllCars();
-    const grouped = groupCarsByModel(cars);
-
-    const group = grouped.find(g => g.variants.some(v => v.id === id));
-    if (group) {
-        const specificVariant = group.variants.find(v => v.id === id);
-        return {
-            ...specificVariant,
-            baseModel: group.baseModel,
-            variants: group.variants
-        };
+    try {
+        const res = await fetch(`http://localhost:3002/api/db/cars/${id}`);
+        if (!res.ok) return null;
+        const car = await res.json();
+        return car;
+    } catch (e) {
+        console.error(`Error fetching car ${id}:`, e);
+        return null;
     }
+}
 
-    return cars.find((car) => car.id === id) || null;
+export async function searchCars(query) {
+    try {
+        const res = await fetch(`http://localhost:3002/api/db/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        return data.cars || [];
+    } catch (e) {
+        console.error(`Error searching cars for "${query}":`, e);
+        return [];
+    }
 }
 
 export async function getUniqueBrands() {
-    const cars = await fetchAllCars();
-    return [...new Set(cars.map((car) => car.brand))].sort();
+    try {
+        const res = await fetch('http://localhost:3002/api/db/brands');
+        const data = await res.json();
+        return data.brands.map(b => b.name) || [];
+    } catch (e) {
+        console.error("Error fetching brands:", e);
+        return [];
+    }
 }
 
 export async function getUniqueFuelTypes() {
-    const cars = await fetchAllCars();
-    const fuelTypes = new Set();
-    cars.forEach((car) => {
-        (car.fuelType || '').split('/').forEach((ft) => fuelTypes.add(ft.trim()));
-    });
-    return [...fuelTypes].sort();
+    return ['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid'];
 }
 
 export async function getUniqueBodyTypes() {
-    const cars = await fetchAllCars();
-    return [...new Set(cars.map((car) => car.bodyType))].sort();
+    try {
+        const res = await fetch('http://localhost:3002/api/db/stats');
+        const data = await res.json();
+        return data.bodyTypes || [];
+    } catch (e) {
+        console.error("Error fetching body types:", e);
+        return [];
+    }
 }

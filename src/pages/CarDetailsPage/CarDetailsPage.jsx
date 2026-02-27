@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getCarById } from '../../services/carService';
 import { formatPrice, formatMileage } from '../../utils/formatters';
 import CarImage from '../../components/CarImage/CarImage';
 import ReviewsSection from '../ReviewsSection/ReviewsSection';
+import PitchDeckModal from '../../components/PitchDeckModal/PitchDeckModal';
+import DriveSimulator from '../../components/DriveSimulator/DriveSimulator';
+import CostCalculator from '../../components/CostCalculator/CostCalculator';
+import DepreciationSlider from '../../components/DepreciationSlider/DepreciationSlider';
 import './CarDetailsPage.css';
 
 export default function CarDetailsPage() {
@@ -13,26 +16,39 @@ export default function CarDetailsPage() {
     const [dynamicData, setDynamicData] = useState(null);
     const [dynamicLoading, setDynamicLoading] = useState(false);
 
+    // Feature: Pitch Deck State
+    const [showPitchDeck, setShowPitchDeck] = useState(false);
+    const [showDriveSim, setShowDriveSim] = useState(false);
+
     useEffect(() => {
         setLoading(true);
-        getCarById(id).then((data) => {
-            setCar(data);
-            setLoading(false);
+        fetch(`http://localhost:3002/api/db/cars/${id}`)
+            .then(res => {
+                if (!res.ok) throw new Error('Not found');
+                return res.json();
+            })
+            .then((data) => {
+                setCar(data);
+                setLoading(false);
 
-            if (data) {
-                // Fetch dynamic real-time price
-                setDynamicLoading(true);
-                fetch(`http://localhost:3002/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
-                    .then(res => res.json())
-                    .then(fetchedData => {
-                        if (!fetchedData.error) {
-                            setDynamicData(fetchedData);
-                        }
-                    })
-                    .catch(err => console.error(err))
-                    .finally(() => setDynamicLoading(false));
-            }
-        });
+                if (data) {
+                    // Fetch dynamic real-time price
+                    setDynamicLoading(true);
+                    fetch(`http://localhost:3002/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
+                        .then(res => res.json())
+                        .then(fetchedData => {
+                            if (!fetchedData.error) {
+                                setDynamicData(fetchedData);
+                            }
+                        })
+                        .catch(err => console.error(err))
+                        .finally(() => setDynamicLoading(false));
+                }
+            })
+            .catch(() => {
+                setCar(null);
+                setLoading(false);
+            });
     }, [id]);
 
     if (loading) {
@@ -53,6 +69,15 @@ export default function CarDetailsPage() {
         );
     }
 
+    // Extract basic specs for AI prompt
+    const pitchSpecs = {
+        price: formatPrice((car.variants?.[0]?.price_lakh || car.price_min) * 100000),
+        body: car.body_type,
+        seating: car.seating_capacity,
+        boot: car.boot_space_litres,
+        mileage: car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'Average'
+    };
+
     return (
         <div className="details-page">
             {/* ── Hero Section ────────────────────────────────────── */}
@@ -62,7 +87,7 @@ export default function CarDetailsPage() {
                         <CarImage
                             brand={car.brand}
                             modelId={car.id}
-                            name={car.name}
+                            name={car.model_name}
                             showSource={true}
                         />
                     </div>
@@ -74,10 +99,47 @@ export default function CarDetailsPage() {
                             <span>/</span>
                             <span>{car.brand}</span>
                             <span>/</span>
-                            <span className="current">{car.baseModel || car.name}</span>
+                            <span className="current">{car.model_name}</span>
                         </nav>
-                        <span className="hero-brand">{car.brand}</span>
-                        <h1 className="hero-name">{car.name}</h1>
+
+                        <div className="hero-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
+                            <div>
+                                <span className="hero-brand">{car.brand}</span>
+                                <h1 className="hero-name">{car.model_name}</h1>
+                            </div>
+
+                            <div className="epic-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                                {/* EPIC FEATURE 3: Drive Simulator Button */}
+                                <button
+                                    className="drive-sim-btn"
+                                    onClick={() => setShowDriveSim(true)}
+                                    style={{
+                                        background: 'linear-gradient(135deg, #ef4444, #b91c1c)',
+                                        color: 'white', border: 'none', padding: '10px 20px',
+                                        borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold',
+                                        display: 'flex', alignItems: 'center', gap: '8px',
+                                        boxShadow: '0 4px 15px rgba(239, 68, 68, 0.3)'
+                                    }}
+                                >
+                                    <span>Simulate Launch 🚀</span>
+                                </button>
+
+                                {/* EPIC FEATURE 2: Family Pitch Deck Button */}
+                                <button
+                                    className="pitch-deck-btn"
+                                    onClick={() => setShowPitchDeck(true)}
+                                    style={{
+                                        background: 'linear-gradient(135deg, #10b981, #059669)',
+                                        color: 'white', border: 'none', padding: '10px 20px',
+                                        borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold',
+                                        display: 'flex', alignItems: 'center', gap: '8px',
+                                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
+                                    }}
+                                >
+                                    <span>Convince Family 🤝</span>
+                                </button>
+                            </div>
+                        </div>
 
                         {dynamicLoading ? (
                             <div className="dynamic-price-skeleton pulse">
@@ -95,12 +157,12 @@ export default function CarDetailsPage() {
                             </div>
                         ) : (
                             <p className="hero-price">
-                                {formatPrice(car.price)}
+                                {formatPrice((car.variants?.[0]?.price_lakh || car.price_min) * 100000)}
                             </p>
                         )}
 
-                        {!dynamicData && car.priceRange && (
-                            <p className="hero-price-range">{car.priceRange}</p>
+                        {!dynamicData && car.price_min && car.price_max && (
+                            <p className="hero-price-range">₹{car.price_min} - {car.price_max} Lakh</p>
                         )}
 
                         {/* ── Variant Selector ──────────────────── */}
@@ -111,12 +173,12 @@ export default function CarDetailsPage() {
                                     {car.variants.map((v) => (
                                         <Link
                                             key={v.id}
-                                            to={`/car/${v.id}`}
-                                            className={`variant-btn${car.id === v.id ? ' variant-btn--active' : ''}`}
+                                            to={`/car/${car.id}?variant=${v.id}`}
+                                            className={`variant-btn`}
                                             preventScrollReset={true}
                                         >
-                                            <span className="variant-name">{v.label || v.name}</span>
-                                            <span className="variant-price">{formatPrice(v.price)}</span>
+                                            <span className="variant-name">{v.variant_name}</span>
+                                            <span className="variant-price">{formatPrice(v.price_lakh * 100000)}</span>
                                         </Link>
                                     ))}
                                 </div>
@@ -125,19 +187,19 @@ export default function CarDetailsPage() {
 
                         <div className="quick-specs">
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.mileage || (car.mileage && car.mileage !== '0' ? formatMileage(car.mileage) : (car.fuelType?.toLowerCase().includes('electric') ? 'Electric' : 'N/A'))}</span>
+                                <span className="qs-value">{dynamicData?.specs?.mileage || (car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'N/A')}</span>
                                 <span className="qs-label">Mileage</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.fuelType || (car.fuelType || '').split(' / ')[0] || 'N/A'}</span>
+                                <span className="qs-value">{dynamicData?.specs?.fuelType || car.variants?.[0]?.fuel_type || 'N/A'}</span>
                                 <span className="qs-label">Fuel</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.engine || (car.engine && car.engine !== 'N/A' ? car.engine : (car.fuelType?.toLowerCase().includes('electric') ? 'Electric Motor' : 'N/A'))}</span>
+                                <span className="qs-value">{dynamicData?.specs?.engine || (car.variants?.[0]?.engine_cc ? `${car.variants[0].engine_cc} cc` : 'N/A')}</span>
                                 <span className="qs-label">Engine</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.transmission || (car.transmission || '').split(' / ')[0] || 'N/A'}</span>
+                                <span className="qs-value">{dynamicData?.specs?.transmission || car.variants?.[0]?.transmission || 'N/A'}</span>
                                 <span className="qs-label">Transmission</span>
                             </div>
                         </div>
@@ -166,30 +228,44 @@ export default function CarDetailsPage() {
                     <div className="overview-grid">
                         <div className="overview-item">
                             <span className="ov-label">Body Type</span>
-                            <span className="ov-value">{car.bodyType}</span>
+                            <span className="ov-value">{car.body_type}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Fuel Type</span>
-                            <span className="ov-value">{car.fuelType}</span>
+                            <span className="ov-value">{car.variants?.[0]?.fuel_type || 'N/A'}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Transmission</span>
-                            <span className="ov-value">{car.transmission}</span>
+                            <span className="ov-value">{car.variants?.[0]?.transmission || 'N/A'}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Seating</span>
-                            <span className="ov-value">{car.seatingCapacity} persons</span>
+                            <span className="ov-value">{car.seating_capacity} persons</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Emission</span>
-                            <span className="ov-value">{car.emissionNorm || 'BS6'}</span>
+                            <span className="ov-value">BS6 Phase 2</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Price Range</span>
-                            <span className="ov-value">{car.priceRange || formatPrice(car.price)}</span>
+                            <span className="ov-value">₹{car.price_min} - {car.price_max} Lakh</span>
                         </div>
                     </div>
                 </section>
+
+                {/* ── EPIC FEATURE 4: Cost Calculator ──────────────── */}
+                <CostCalculator
+                    carPriceLakh={car.variants?.[0]?.price_lakh || car.price_min}
+                    mileageKmpl={car.variants?.[0]?.mileage_kmpl}
+                    fuelType={car.variants?.[0]?.fuel_type}
+                />
+
+                {/* ── EPIC FEATURE 5: Depreciation Slider ──────────── */}
+                <DepreciationSlider
+                    basePriceLakh={car.variants?.[0]?.price_lakh || car.price_min}
+                    brandName={car.brand}
+                    carImageSrc={`http://localhost:3002/api/car/image?modelId=${car.id}`}
+                />
 
                 {/* ── Specifications ───────────────────────────────── */}
                 <section className="section" id="specifications">
@@ -198,21 +274,21 @@ export default function CarDetailsPage() {
                         <table className="spec-table">
                             <caption>Engine & Performance</caption>
                             <tbody>
-                                <tr><td className="st-key">Engine</td><td>{car.engineDetails || car.engine}</td></tr>
-                                <tr><td className="st-key">Displacement</td><td>{car.engine}</td></tr>
-                                <tr><td className="st-key">Power</td><td>{car.power || 'N/A'}</td></tr>
-                                <tr><td className="st-key">Torque</td><td>{car.torque || 'N/A'}</td></tr>
-                                <tr><td className="st-key">Mileage (ARAI)</td><td>{formatMileage(car.mileage)}</td></tr>
+                                <tr><td className="st-key">Engine Details</td><td>{car.variants?.[0]?.engine_type || 'N/A'}</td></tr>
+                                <tr><td className="st-key">Displacement</td><td>{car.variants?.[0]?.engine_cc ? `${car.variants[0].engine_cc} cc` : 'N/A'}</td></tr>
+                                <tr><td className="st-key">Power</td><td>{car.variants?.[0]?.power_bhp ? `${car.variants[0].power_bhp} bhp` : 'N/A'}</td></tr>
+                                <tr><td className="st-key">Torque</td><td>{car.variants?.[0]?.torque_nm ? `${car.variants[0].torque_nm} Nm` : 'N/A'}</td></tr>
+                                <tr><td className="st-key">Mileage (ARAI)</td><td>{car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'N/A'}</td></tr>
                             </tbody>
                         </table>
                         <table className="spec-table">
                             <caption>Dimensions & Capacity</caption>
                             <tbody>
-                                <tr><td className="st-key">Fuel Tank</td><td>{car.fuelTankCapacity}</td></tr>
-                                <tr><td className="st-key">Boot Space</td><td>{car.bootSpace}</td></tr>
-                                <tr><td className="st-key">Ground Clearance</td><td>{car.groundClearance}</td></tr>
-                                <tr><td className="st-key">Seating</td><td>{car.seatingCapacity} persons</td></tr>
-                                <tr><td className="st-key">Body Type</td><td>{car.bodyType}</td></tr>
+                                <tr><td className="st-key">Fuel Tank</td><td>{car.fuel_tank_capacity} Litres</td></tr>
+                                <tr><td className="st-key">Boot Space</td><td>{car.boot_space_litres} Litres</td></tr>
+                                <tr><td className="st-key">Ground Clearance</td><td>{car.ground_clearance_mm} mm</td></tr>
+                                <tr><td className="st-key">Seating</td><td>{car.seating_capacity} persons</td></tr>
+                                <tr><td className="st-key">Body Type</td><td>{car.body_type}</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -302,6 +378,23 @@ export default function CarDetailsPage() {
                     <Link to="/cars" className="link-back">← Browse All Cars</Link>
                 </div>
             </div>
+
+            {showPitchDeck && (
+                <PitchDeckModal
+                    carName={car.model_name}
+                    specs={pitchSpecs}
+                    onClose={() => setShowPitchDeck(false)}
+                />
+            )}
+
+            {showDriveSim && (
+                <DriveSimulator
+                    carName={car.model_name}
+                    powerBhp={car.variants?.[0]?.power_bhp || 100}
+                    fuelType={car.variants?.[0]?.fuel_type}
+                    onClose={() => setShowDriveSim(false)}
+                />
+            )}
         </div>
     );
 }

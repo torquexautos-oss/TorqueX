@@ -31,44 +31,34 @@ export default function CarCard({ car }) {
                 <div className="car-card-image">
                     <CarImage
                         brand={car.brand}
-                        modelId={car.representative?.id || car.id}
-                        name={car.baseModel || car.name}
+                        modelId={car.id}
+                        name={car.model_name}
                     />
-                    {hasVariants && (
-                        <span className="car-card-variants-badge">
-                            <Layers size={11} />
-                            {car.variantCount} variants
-                        </span>
-                    )}
                 </div>
 
                 <div className="car-card-body">
                     <span className="car-card-brand">{car.brand}</span>
-                    <h3 className="car-card-name">{car.baseModel || car.name}</h3>
+                    <h3 className="car-card-name">{car.model_name}</h3>
 
-                    {/* Price: range for multi-variant, single for standalone */}
-                    {hasVariants ? (
-                        <div className="car-card-price-range">
-                            <span className="car-card-price">{formatPrice(car.priceMin)}</span>
-                            <span className="car-card-price-sep">—</span>
-                            <span className="car-card-price-high">{formatPrice(car.priceMax)}</span>
-                        </div>
-                    ) : (
-                        <p className="car-card-price">{formatPrice(car.price)}</p>
-                    )}
+                    {/* Price range display */}
+                    <div className="car-card-price-range">
+                        <span className="car-card-price">{formatPrice(car.price_min * 100000)}</span>
+                        {car.price_max && car.price_max > car.price_min && (
+                            <>
+                                <span className="car-card-price-sep">—</span>
+                                <span className="car-card-price-high">{formatPrice(car.price_max * 100000)}</span>
+                            </>
+                        )}
+                    </div>
 
                     <div className="car-card-specs">
                         <div className="spec-item">
                             <Fuel size={13} />
-                            <span>{car.fuelType}</span>
+                            <span>{car.body_type}</span>
                         </div>
                         <div className="spec-item">
                             <Gauge size={13} />
-                            <span>{formatMileage(car.mileage)}</span>
-                        </div>
-                        <div className="spec-item">
-                            <Settings2 size={13} />
-                            <span>{displayEngine}</span>
+                            <span>NCAP: {car.ncap_rating || car.bncap_rating || 'N/A'}★</span>
                         </div>
                     </div>
                 </div>
