@@ -1,113 +1,76 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Search, ChevronRight, Fuel, Gauge, Users, Car, Zap, BarChart3, Shield, Newspaper } from 'lucide-react';
+import {
+    Search, ChevronRight, Zap, BarChart3, Shield, Newspaper,
+    Car, Gauge, Fuel, Settings
+} from 'lucide-react';
+import VibeCheck from '../../components/VibeCheck/VibeCheck';
 import './SearchPage.css';
+
+const CATEGORIES = [
+    { label: 'SUVs', icon: <Car size={24} />, query: 'SUV' },
+    { label: 'Sedans', icon: <Gauge size={24} />, query: 'Sedan' },
+    { label: 'Hatchbacks', icon: <Settings size={24} />, query: 'Hatchback' },
+    { label: 'MPVs/Minivans', icon: <Fuel size={24} />, query: 'MPV/Minivan' },
+    { label: 'Coupes', icon: <Car size={24} />, query: 'Coupe' },
+    { label: 'Convertibles', icon: <Car size={24} />, query: 'Convertible' },
+];
+
+const BRANDS = [
+    'Maruti Suzuki', 'Hyundai', 'Tata', 'Honda', 'Kia',
+    'Toyota', 'Mahindra', 'Ford', 'Renault', 'BMW',
+    'Mercedes-Benz', 'Volkswagen', 'Skoda', 'MG', 'Jeep',
+];
 
 export default function SearchPage() {
     const [query, setQuery] = useState('');
-    const [allCars, setAllCars] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [cars, setCars] = useState([]);
+    const [stats, setStats] = useState({ totalCars: 0, totalBrands: 0, electricVariants: 0 });
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/cars')
-            .then((res) => res.json())
-            .then((data) => {
-                setAllCars(data);
-                setLoading(false);
-            })
-            .catch(() => setLoading(false));
+        // Fetch stats from DB
+        fetch('http://localhost:3002/api/db/stats')
+            .then(r => r.json())
+            .then(data => setStats(data))
+            .catch(() => { });
+        // Fetch all cars for featured section
+        fetch('http://localhost:3002/api/db/cars')
+            .then(r => r.json())
+            .then(data => setCars(data.cars || []))
+            .catch(() => setCars([]));
     }, []);
 
-    // Derived stats
-    const stats = useMemo(() => {
-        const brands = new Set(allCars.map(c => c.brand));
-        const bodies = new Set(allCars.map(c => c.bodyType));
-        const fuels = new Set(allCars.map(c => c.fuelType));
-        return {
-            totalCars: allCars.length,
-            totalBrands: brands.size,
-            bodyTypes: bodies.size,
-            fuelTypes: fuels.size,
-        };
-    }, [allCars]);
-
-    // Featured cars — pick 6 popular ones spread across price range
-    const featuredCars = useMemo(() => {
-        if (allCars.length === 0) return [];
-        const popular = ['Nexon', 'Creta', 'Thar', 'Swift', 'XUV700', 'Fortuner', 'Taigun', 'Seltos'];
-        const matches = [];
-        for (const name of popular) {
-            const car = allCars.find(c => c.name?.toLowerCase().includes(name.toLowerCase()));
-            if (car && matches.length < 6) matches.push(car);
-        }
-        // Fill with random if needed
-        if (matches.length < 6) {
-            const rest = allCars.filter(c => !matches.includes(c)).slice(0, 6 - matches.length);
-            matches.push(...rest);
-        }
-        return matches;
-    }, [allCars]);
-
-    // Brand list
-    const brands = useMemo(() => {
-        const brandNames = [...new Set(allCars.map(c => c.brand))].sort();
-        return brandNames.slice(0, 14);
-    }, [allCars]);
-
-    // Body type categories with icons
-    const categories = [
-        { label: 'SUVs', query: 'SUV', icon: <Car size={28} /> },
-        { label: 'Hatchbacks', query: 'Hatchback', icon: <Car size={28} /> },
-        { label: 'Sedans', query: 'Sedan', icon: <Car size={28} /> },
-        { label: 'MPVs/Minivans', query: 'MPV/Minivan', icon: <Users size={28} /> },
-        { label: 'Coupes', query: 'Coupe', icon: <Car size={28} /> },
-        { label: 'Convertibles', query: 'Convertible', icon: <Car size={28} /> },
-    ];
-
-    // Body type counts
-    const bodyCounts = useMemo(() => {
-        const counts = {};
-        allCars.forEach(c => {
-            counts[c.bodyType] = (counts[c.bodyType] || 0) + 1;
-        });
-        return counts;
-    }, [allCars]);
+    const featured = useMemo(() => {
+        if (!cars.length) return [];
+        const shuffled = [...cars].sort(() => Math.random() - 0.5);
+        return shuffled.slice(0, 8);
+    }, [cars]);
 
     const handleSearch = (e) => {
         e.preventDefault();
         navigate(`/cars${query ? `?q=${encodeURIComponent(query)}` : ''}`);
     };
 
-    const formatPrice = (price) => {
-        if (!price) return '';
-        if (price >= 10000000) return `₹ ${(price / 10000000).toFixed(2)} Cr`;
-        if (price >= 100000) return `₹ ${(price / 100000).toFixed(2)} L`;
-        return `₹ ${price.toLocaleString('en-IN')}`;
-    };
-
     return (
         <main className="hero-page">
-            {/* ── Hero Section ──────────────────────────────────────── */}
+            {/* ── Hero Section ─────────────────────────────────── */}
             <section className="hero-section">
                 <div className="hero-bg-gradient" />
                 <div className="hero-content container">
                     <div className="hero-text animate-fade-in-up">
-                        <span className="badge badge-blue">
-                            <Zap size={12} /> India's Premium Auto Intelligence
+                        <span className="badge badge-glow">
+                            <Zap size={12} /> India's most detailed car database
                         </span>
-                        <h1>
-                            Find Your Perfect <span className="hero-highlight">Dream Car</span>
-                        </h1>
+                        <h1>Find your <span className="hero-highlight">perfect car</span></h1>
                         <p className="hero-description">
-                            Real specs, honest pros & cons, AI-powered insights.
-                            Compare {stats.totalBrands}+ brands, {stats.totalCars} variants — all in one place.
+                            {stats.total} BS6-compliant cars with real specs, honest pros &amp; cons,
+                            known problems, and AI-powered insights.
                         </p>
                     </div>
 
-                    {/* Search */}
-                    <div className="hero-search animate-fade-in-up delay-1">
-                        <form className="hero-search-inner" onSubmit={handleSearch}>
+                    <form className="hero-search animate-fade-in-up delay-1" onSubmit={handleSearch}>
+                        <div className="hero-search-inner">
                             <Search size={20} className="search-icon" />
                             <input
                                 type="text"
@@ -117,7 +80,11 @@ export default function SearchPage() {
                                 autoFocus
                             />
                             <button type="submit" className="btn btn-primary">Search</button>
-                        </form>
+                        </div>
+                    </form>
+                    {/* Inject Epic Vibe Check AI Feature */}
+                    <div className="sp-vibecheck-wrapper" style={{ marginTop: '2rem' }}>
+                        <VibeCheck />
                     </div>
 
 
@@ -125,81 +92,38 @@ export default function SearchPage() {
             </section>
 
             <div className="container">
-                {/* ── Browse by Category ────────────────────────────────── */}
+                {/* ── Browse by Type ──────────────────────────────── */}
                 <section className="section animate-fade-in-up delay-3">
                     <div className="section-header">
-                        <h2>Browse by Category</h2>
+                        <h2>Browse by Type</h2>
                         <Link to="/cars" className="section-link">
                             View all <ChevronRight size={16} />
                         </Link>
                     </div>
                     <div className="category-grid">
-                        {categories.map((cat) => (
+                        {CATEGORIES.map(cat => (
                             <div
                                 key={cat.label}
                                 className="category-card card"
-                                onClick={() => navigate(
-                                    cat.fuelFilter
-                                        ? `/cars?q=${encodeURIComponent(cat.fuelFilter)}`
-                                        : `/cars?type=${encodeURIComponent(cat.query)}`
-                                )}
+                                onClick={() => navigate(`/cars?type=${encodeURIComponent(cat.query)}`)}
                             >
-                                <div className="category-icon">{cat.icon}</div>
+                                <span className="category-icon">{cat.icon}</span>
                                 <span className="category-label">{cat.label}</span>
+                                <span className="category-count">
+                                    {cars.filter(c => (c.bodyType || '').toLowerCase().includes(cat.query.toLowerCase())).length} cars
+                                </span>
                             </div>
                         ))}
                     </div>
                 </section>
 
-                {/* ── Featured Cars ─────────────────────────────────────── */}
-                {featuredCars.length > 0 && (
-                    <section className="section animate-fade-in-up delay-4">
-                        <div className="section-header">
-                            <h2>Featured Cars</h2>
-                            <Link to="/cars" className="section-link">
-                                Explore all <ChevronRight size={16} />
-                            </Link>
-                        </div>
-                        <div className="featured-grid">
-                            {featuredCars.map((car) => (
-                                <Link
-                                    key={car.id}
-                                    to={`/car/${car.id}`}
-                                    className="featured-card card"
-                                >
-                                    <div className="featured-img">
-                                        <img
-                                            src={car.images?.[0] || '/images/placeholder-car.svg'}
-                                            alt={car.name}
-                                            loading="lazy"
-                                            onError={(e) => { e.target.src = '/images/placeholder-car.svg'; }}
-                                        />
-                                    </div>
-                                    <div className="featured-info">
-                                        <span className="featured-brand">{car.brand}</span>
-                                        <h3 className="featured-name">{car.name}</h3>
-                                        <div className="featured-price">{car.priceRange || formatPrice(car.price)}</div>
-                                        <div className="featured-specs">
-                                            <span><Fuel size={13} /> {car.fuelType}</span>
-                                            <span><Gauge size={13} /> {car.mileage} kmpl</span>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
-                    </section>
-                )}
-
-                {/* ── Browse by Brand ───────────────────────────────────── */}
-                <section className="section animate-fade-in-up delay-5">
+                {/* ── Popular Brands ──────────────────────────────── */}
+                <section className="section animate-fade-in-up delay-4">
                     <div className="section-header">
                         <h2>Popular Brands</h2>
-                        <Link to="/cars" className="section-link">
-                            All brands <ChevronRight size={16} />
-                        </Link>
                     </div>
                     <div className="brands-grid">
-                        {brands.map((brand) => (
+                        {BRANDS.map(brand => (
                             <button
                                 key={brand}
                                 className="brand-chip"
@@ -211,32 +135,63 @@ export default function SearchPage() {
                     </div>
                 </section>
 
-                {/* ── Why TorqueX ───────────────────────────────────────── */}
-                <section className="section">
+                {/* ── Featured Cars ───────────────────────────────── */}
+                {featured.length > 0 && (
+                    <section className="section animate-fade-in-up delay-5">
+                        <div className="section-header">
+                            <h2>Featured Cars</h2>
+                            <Link to="/cars" className="section-link">
+                                Browse all <ChevronRight size={16} />
+                            </Link>
+                        </div>
+                        <div className="featured-grid">
+                            {featured.map(car => (
+                                <Link
+                                    key={car.modelId || car.name}
+                                    to={`/car/${car.brand?.toLowerCase().replace(/\s+/g, '-')}/${car.modelId}`}
+                                    className="featured-card card"
+                                >
+                                    <div className="featured-info">
+                                        <span className="featured-brand">{car.brand}</span>
+                                        <span className="featured-name">{car.name}</span>
+                                        {car.price && <span className="featured-price">{car.price}</span>}
+                                        <div className="featured-specs">
+                                            {car.fuelType && <span><Fuel size={12} /> {car.fuelType}</span>}
+                                            {car.transmission && <span><Settings size={12} /> {car.transmission}</span>}
+                                        </div>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* ── Why TorqueX ─────────────────────────────────── */}
+                <section className="section animate-fade-in-up">
                     <div className="section-header">
                         <h2>Why TorqueX?</h2>
                     </div>
                     <div className="highlights-grid">
                         <div className="highlight-card card">
-                            <div className="highlight-icon-wrap"><BarChart3 size={24} /></div>
-                            <h3>Real Specs, No Fluff</h3>
-                            <p>Every figure is verified — engine CC, BHP, torque, mileage, tank capacity, ground clearance. No marketing filler.</p>
+                            <div className="highlight-icon-wrap"><BarChart3 size={22} /></div>
+                            <h3>Real Data, No Fluff</h3>
+                            <p>Every spec verified from official sources. No paid reviews, no sponsored rankings.</p>
                             <Link to="/cars" className="highlight-link">
-                                Browse specs <ChevronRight size={14} />
+                                Explore cars <ChevronRight size={14} />
                             </Link>
                         </div>
                         <div className="highlight-card card">
-                            <div className="highlight-icon-wrap"><Shield size={24} /></div>
-                            <h3>Safety First</h3>
-                            <p>GNCAP & BNCAP crash-test ratings, airbag count, and real-world safety insights for every model. Know before you buy.</p>
-                            <Link to="/cars" className="highlight-link">
-                                Compare safety <ChevronRight size={14} />
+                            <div className="highlight-icon-wrap"><Shield size={22} /></div>
+                            <h3>Known Problems Listed</h3>
+                            <p>We list the actual issues owners report — not just the good stuff.</p>
+                            <Link to="/compare" className="highlight-link">
+                                Compare cars <ChevronRight size={14} />
                             </Link>
                         </div>
                         <div className="highlight-card card">
-                            <div className="highlight-icon-wrap"><Newspaper size={24} /></div>
-                            <h3>AI-Powered News</h3>
-                            <p>Live RSS feeds from 15+ channels — Autocar India, Electrek, Reddit, and more. AI summaries on demand, zero cost.</p>
+                            <div className="highlight-icon-wrap"><Newspaper size={22} /></div>
+                            <h3>Live Auto News</h3>
+                            <p>15 channels of live RSS news from top automotive sources, updated every 15 minutes.</p>
                             <Link to="/news" className="highlight-link">
                                 Read news <ChevronRight size={14} />
                             </Link>

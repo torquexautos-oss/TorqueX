@@ -1,42 +1,158 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCompare } from '../../context/CompareContext';
-import CompareTable from '../../components/CompareTable/CompareTable';
+import { X, BatteryCharging, MountainSnow, Search } from 'lucide-react';
+import CarImage from '../../components/CarImage/CarImage';
+import { formatPrice } from '../../utils/formatters';
 import './ComparePage.css';
 
 export default function ComparePage() {
-    const { compareList, removeFromCompare, clearCompare } = useCompare();
+    const { compareList, removeFromCompare } = useCompare();
+    const [carsData, setCarsData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [envType, setEnvType] = useState('garage'); // garage, ev, offroad
+
+    useEffect(() => {
+        if (compareList.length === 0) {
+            setCarsData([]);
+            setLoading(false);
+            return;
+        }
+
+        setLoading(true);
+        fetch(`http://localhost:3002/api/db/cars/compare?ids=${compareList.join(',')}`)
+            .then(res => res.json())
+            .then(data => {
+                setCarsData(data.cars || []);
+
+                // Determine epic background environment
+                const isEvPresent = data.cars.some(c => c.variants?.[0]?.fuel_type === 'Electric');
+                const isSuvPresent = data.cars.some(c => c.body_type?.toLowerCase().includes('suv') && c.ground_clearance_mm >= 200);
+
+                if (isEvPresent) setEnvType('ev');
+                else if (isSuvPresent) setEnvType('offroad');
+                else setEnvType('garage');
+
+                setLoading(false);
+            })
+            .catch(err => {
+                console.error("Compare fetch error:", err);
+                setLoading(false);
+            });
+    }, [compareList]);
+
+    if (compareList.length === 0) {
+        return (
+            <div className="compare-empty">
+                <h2>Your Virtual Garage is Empty</h2>
+                <p>Select up to 3 cars to compare them side-by-side in your garage.</p>
+                <Link to="/cars" className="btn btn-primary">Find Cars to Add</Link>
+            </div>
+        );
+    }
 
     return (
-        <main className="compare-page container">
-            <div className="compare-header">
-                <h1>Compare Cars</h1>
-                <p className="compare-subtitle">
-                    {compareList.length === 0
-                        ? 'No cars selected. Go to the car listings and click "+ Compare" on any car card.'
-                        : compareList.length === 1
-                            ? '1 car selected. Add one more to compare side by side.'
-                            : 'Comparing 2 cars side by side.'
-                    }
-                </p>
-                {compareList.length > 0 && (
-                    <button className="compare-clear" onClick={clearCompare}>
-                        Clear All
-                    </button>
+        <div className={`compare-page env-${envType}`}>
+            {/* Dynamic Environment Overlay */}
+            <div className="env-effects">
+                {envType === 'ev' && (
+                    <div className="ev-aura">
+                        <BatteryCharging className="env-icon" size={200} />
+                        <div className="electric-sparks"></div>
+                    </div>
+                )}
+                {envType === 'offroad' && (
+                    <div className="offroad-aura">
+                        <MountainSnow className="env-icon" size={300} />
+                        <div className="mud-splatters"></div>
+                    </div>
+                )}
+                {envType === 'garage' && (
+                    <div className="garage-aura">
+                        <div className="spotlights"></div>
+                    </div>
                 )}
             </div>
 
-            {compareList.length > 0 ? (
-                <CompareTable cars={compareList} onRemove={removeFromCompare} />
-            ) : (
-                <div className="compare-empty">
-                    <p>Select up to 2 cars from the listings to compare.</p>
-                    <Link to="/cars" className="compare-browse">Browse Cars →</Link>
-                </div>
-            )}
+            <div className="compare-content container">
+                <header className="compare-header">
+                    <h1>Virtual Garage</h1>
+                    <p className="env-status">
+                        {envType === 'ev' && '⚡ High-Voltage Charging Bay Active'}
+                        {envType === 'offroad' && '⛰️ All-Terrain Analysis Mode'}
+                        {envType === 'garage' && '🏎️ Premium Showcase Bay'}
+                    </p>
+                </header>
 
-            <div className="compare-back">
-                <Link to="/cars" className="link-back">← Back to listings</Link>
+                {loading ? (
+                    <div className="loading-state">Parking vehicles in your garage...</div>
+                ) : (
+                    <div className="compare-grid" style={{ gridTemplateColumns: `repeat(${carsData.length}, 1fr)` }}>
+                        {carsData.map((car, idx) => {
+                            const mainVariant = car.variants?.[0] || {};
+                            return (
+                                <div key={car.id} className={`compare-vehicle delay-${idx + 1}`}>
+                                    <button
+                                        className="remove-btn"
+                                        onClick={() => removeFromCompare(car.id)}
+                                        title="Remove from Garage"
+                                    >
+                                        <X size={20} />
+                                    </button>
+
+                                    <div className="vehicle-stage">
+                                        <div className="stage-platform"></div>
+                                        <CarImage
+                                            brand={car.brand}
+                                            modelId={car.id}
+                                            name={car.model_name}
+                                        />
+                                    </div>
+
+                                    <div className="vehicle-info">
+                                        <h3 className="v-brand">{car.brand}</h3>
+                                        <h2 className="v-name">{car.model_name}</h2>
+                                        <div className="v-price">
+                                            {formatPrice((car.price_min || mainVariant.price_lakh) * 100000)}
+                                        </div>
+                                    </div>
+
+                                    <div className="vehicle-specs-list">
+                                        <div className="v-spec">
+                                            <span className="v-spec-label">Body</span>
+                                            <span className="v-spec-val">{car.body_type}</span>
+                                        </div>
+                                        <div className="v-spec">
+                                            <span className="v-spec-label">Engine</span>
+                                            <span className="v-spec-val">{mainVariant.engine_cc || 'N/A'}{mainVariant.engine_cc ? ' cc' : ''}</span>
+                                        </div>
+                                        <div className="v-spec">
+                                            <span className="v-spec-label">Power</span>
+                                            <span className="v-spec-val">{mainVariant.power_bhp} bhp</span>
+                                        </div>
+                                        <div className="v-spec">
+                                            <span className="v-spec-label">Efficiency</span>
+                                            <span className="v-spec-val">{mainVariant.mileage_kmpl} kmpl</span>
+                                        </div>
+                                        <div className="v-spec">
+                                            <span className="v-spec-label">Safety</span>
+                                            <span className="v-spec-val">{car.ncap_rating} ★</span>
+                                        </div>
+                                        <div className="v-spec">
+                                            <span className="v-spec-label">Ground Clearance</span>
+                                            <span className="v-spec-val">{car.ground_clearance_mm} mm</span>
+                                        </div>
+                                    </div>
+
+                                    <Link to={`/car/${car.id}`} className="v-details-btn">
+                                        View Details <Search size={16} />
+                                    </Link>
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
             </div>
-        </main>
+        </div>
     );
 }

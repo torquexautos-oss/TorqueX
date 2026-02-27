@@ -6,7 +6,7 @@ import NodeCache from 'node-cache';
 import http from 'http';
 import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
-import { getAllCars, getCarById as getCarFromDb, getAllBrands, getStats } from './db.js';
+import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
 import fs from 'fs';
 
 dotenv.config();
@@ -23,49 +23,6 @@ if (!groqKey) {
     console.warn("[WARN] GROQ_API_KEY not set. On-demand summaries disabled.");
 }
 const groq = groqKey ? new Groq({ apiKey: groqKey }) : null;
-
-// ── Cars Database API ──────────────────────────────────────────
-// GET /api/cars — all cars from SQLite database
-app.get('/api/cars', (req, res) => {
-    try {
-        const cars = getAllCars();
-        res.json(cars);
-    } catch (e) {
-        console.error('[DB] Error fetching cars:', e.message);
-        res.status(500).json({ error: e.message });
-    }
-});
-
-// GET /api/cars/:id — single car by database ID
-app.get('/api/cars/:id', (req, res) => {
-    try {
-        const car = getCarFromDb(parseInt(req.params.id));
-        if (!car) return res.status(404).json({ error: 'Car not found' });
-        res.json(car);
-    } catch (e) {
-        console.error('[DB] Error fetching car:', e.message);
-        res.status(500).json({ error: e.message });
-    }
-});
-
-// GET /api/brands — all brands with car counts
-app.get('/api/brands', (req, res) => {
-    try {
-        res.json(getAllBrands());
-    } catch (e) {
-        console.error('[DB] Error fetching brands:', e.message);
-        res.status(500).json({ error: e.message });
-    }
-});
-
-// GET /api/stats — quick counts
-app.get('/api/stats', (req, res) => {
-    try {
-        res.json(getStats());
-    } catch (e) {
-        res.status(500).json({ error: e.message });
-    }
-});
 
 // ── Feed Cache (15-minute TTL per channel — keeps it live) ─────
 const feedCache = new NodeCache({ stdTTL: 900 }); // 15 minutes
@@ -203,13 +160,161 @@ app.get('/api/car/image', (req, res) => {
     res.json(img || { imageUrl: null, source: null });
 });
 
+import { parseVibeQuery, generateVibePitch, generatePitchDeck } from './ai.js';
+
+// ── Database API Endpoints ─────────────────────────────────────
+
+// POST /api/pitch-deck — Generates spouse/family pitch
+app.post('/api/pitch-deck', async (req, res) => {
+    try {
+        const { carName, specs } = req.body;
+        if (!carName) return res.status(400).json({ error: 'carName is required' });
+
+        const pitch = await generatePitchDeck(carName, specs);
+        res.json(pitch);
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// POST /api/vibe-check — AI search
+app.post('/api/vibe-check', async (req, res) => {
+    try {
+        const { query } = req.body;
+        if (!query) return res.status(400).json({ error: 'Query is required' });
+
+        const searchParams = await parseVibeQuery(query);
+        let cars = getAllCars();
+
+        // 1. Filter by Body Type (if specified)
+        if (searchParams.body_type && searchParams.body_type !== 'Any') {
+            const filtered = cars.filter(c => c.body_type && c.body_type.toLowerCase().includes(searchParams.body_type.toLowerCase()));
+            if (filtered.length > 0) cars = filtered; // fallback to all if strict filter fails
+        }
+
+        // 2. Budget Scoring & Priority Scoring
+        const scoredCars = cars.map(car => {
+            let score = 0;
+            const carPrice = car.price_min * 100000;
+
+            if (carPrice <= searchParams.budget) score += 50;
+            else if (carPrice <= searchParams.budget * 1.2) score -= 10;
+            else score -= 100;
+
+            if (searchParams.priority === 'Performance' && carPrice > 1500000) score += 20;
+            if (searchParams.priority === 'Family' && ['SUV', 'MUV', 'Minivan'].includes(car.body_type)) score += 20;
+
+            return { ...car, score };
+        });
+
+        // 3. Find Best Match
+        scoredCars.sort((a, b) => b.score - a.score);
+        const bestMatch = scoredCars[0];
+
+        // 4. Generate Pitch
+        const pitch = await generateVibePitch(bestMatch, query);
+
+        res.json({
+            car: bestMatch,
+            pitch: pitch,
+            understoodParams: searchParams
+        });
+
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/cars — all cars (list)
+app.get('/api/db/cars', (req, res) => {
+    try {
+        const { q, type, brand } = req.query;
+        let cars;
+        if (q) cars = searchCars(q);
+        else if (type) cars = getCarsByBodyType(type);
+        else if (brand) cars = getCarsByBrand(brand);
+        else cars = getAllCars();
+        res.json({ cars, total: cars.length });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/cars/:id — single car with variants & colors
+app.get('/api/db/cars/:id', (req, res) => {
+    try {
+        const car = getCarById(parseInt(req.params.id));
+        if (!car) return res.status(404).json({ error: 'Car not found' });
+        res.json(car);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/brands — all brands with car count
+app.get('/api/db/brands', (req, res) => {
+    try {
+        res.json({ brands: getAllBrands() });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/brands/:name/cars — all cars for a brand
+app.get('/api/db/brands/:name/cars', (req, res) => {
+    try {
+        const cars = getCarsByBrand(req.params.name);
+        res.json({ cars, total: cars.length });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/search?q=... — search cars
+app.get('/api/db/search', (req, res) => {
+    try {
+        const { q } = req.query;
+        if (!q) return res.status(400).json({ error: 'Missing: q' });
+        const cars = searchCars(q);
+        res.json({ cars, total: cars.length, query: q });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/stats — database stats
+app.get('/api/db/stats', (req, res) => {
+    try {
+        res.json(getStats());
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// POST /api/db/compare — compare multiple cars
+app.post('/api/db/compare', (req, res) => {
+    try {
+        const { ids } = req.body;
+        if (!ids || !Array.isArray(ids)) return res.status(400).json({ error: 'Missing: ids array' });
+        const cars = compareCars(ids);
+        res.json({ cars });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // Health check
 app.get('/api/health', (req, res) => {
+    let dbStats;
+    try { dbStats = getStats(); } catch { dbStats = null; }
     res.json({
         status: 'ok',
         channelsAvailable: Object.keys(CHANNELS).length,
         cachedFeeds: feedCache.keys().length,
         imagesLoaded: Object.keys(getImageMap()).length,
+        database: dbStats ? { connected: true, ...dbStats } : { connected: false },
     });
 });
 

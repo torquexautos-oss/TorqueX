@@ -1,382 +1,375 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import ReactMarkdown from 'react-markdown';
 import {
-    RefreshCw, Clock, AlertCircle, Sparkles, ExternalLink,
-    ChevronLeft, ChevronRight, Search, Rss, X, ArrowLeft
+    RefreshCw, Clock, Search, Globe, Zap, ChevronLeft, ChevronRight,
+    X, ExternalLink, BookOpen, Sparkles, Plus, Check, Radio, Rss, ArrowLeft, AlertCircle
 } from 'lucide-react';
 import './NewsFeedPage.css';
 
-const API_BASE = 'http://localhost:3002';
+const timeAgo = (dateStr) => {
+    if (!dateStr) return '';
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    if (days < 7) return `${days}d ago`;
+    return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
+};
+
+const STORAGE_KEY = 'torquex_subscribed_channels';
+const getSubscribed = () => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+};
+const saveSubscribed = (ids) => localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
 
 const NewsFeedPage = () => {
-    // Channel discovery state
+    const [view, setView] = useState('feed');
     const [channels, setChannels] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [subscribedChannels, setSubscribedChannels] = useState(() => {
-        const saved = localStorage.getItem('torquex-channels');
-        return saved ? JSON.parse(saved) : ['autocar-india', 'google-india', 'google-ev'];
-    });
-    const [channelCategory, setChannelCategory] = useState('all');
-
-    // Feed state
+    const [subscribed, setSubscribed] = useState(getSubscribed());
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [activeCategory, setActiveCategory] = useState('all');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [total, setTotal] = useState(0);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [refreshing, setRefreshing] = useState(false);
-
-    // View state: 'channels' or 'feed'
-    const [view, setView] = useState('channels');
-
-    // Reader state
-    const [readerArticle, setReaderArticle] = useState(null);
-
-    // AI summary state
+    const [totalArticles, setTotalArticles] = useState(0);
+    const [readerUrl, setReaderUrl] = useState('');
+    const [readerSource, setReaderSource] = useState('');
+    const [readerTitle, setReaderTitle] = useState('');
+    const [iframeError, setIframeError] = useState(false);
+    const [summaryLoading, setSummaryLoading] = useState(null);
     const [summaries, setSummaries] = useState({});
-    const [summarizing, setSummarizing] = useState({});
+    const [lastRefresh, setLastRefresh] = useState(null);
+    const [channelFilter, setChannelFilter] = useState('all');
+    const refreshTimerRef = useRef(null);
 
-    // Fetch channel list
+    // Load channels from backend
     useEffect(() => {
-        fetch(`${API_BASE}/api/channels`)
+        fetch('http://localhost:3002/api/channels')
             .then(r => r.json())
             .then(data => {
                 setChannels(data.channels || []);
                 setCategories(data.categories || []);
             })
-            .catch(err => console.error('Failed to load channels:', err));
+            .catch(() => setError('Cannot connect to backend on port 3001'));
     }, []);
 
-    // Save subscriptions to localStorage
+    // Switch to channels view if nothing subscribed
     useEffect(() => {
-        localStorage.setItem('torquex-channels', JSON.stringify(subscribedChannels));
-    }, [subscribedChannels]);
+        if (channels.length > 0 && subscribed.length === 0) {
+            setView('channels');
+        }
+    }, [channels, subscribed]);
 
-    // Fetch feed
-    const fetchFeed = useCallback(async (pg = 1, query = '') => {
-        if (subscribedChannels.length === 0) return;
+    // Fetch live feed
+    const fetchFeed = useCallback(async () => {
+        if (subscribed.length === 0) return;
         setLoading(true);
         setError('');
         try {
             const params = new URLSearchParams({
-                channels: subscribedChannels.join(','),
-                page: pg,
-                limit: 20,
+                channels: subscribed.join(','),
+                page: page.toString(),
+                limit: '20',
+                ...(activeCategory !== 'all' && { category: activeCategory }),
+                ...(searchQuery && { q: searchQuery }),
             });
-            if (query) params.set('q', query);
-
-            const res = await fetch(`${API_BASE}/api/feed?${params}`);
-            if (!res.ok) throw new Error(`Server error: ${res.status}`);
+            const res = await fetch(`http://localhost:3002/api/feed?${params}`);
             const data = await res.json();
-
-            setArticles(data.articles || []);
-            setTotal(data.total || 0);
-            setPage(data.page || 1);
-            setTotalPages(data.totalPages || 1);
-        } catch (err) {
-            console.error('Feed error:', err);
-            setError('Unable to connect to the backend. Make sure the server is running.');
+            if (res.ok) {
+                setArticles(data.articles || []);
+                setTotalPages(data.totalPages || 1);
+                setTotalArticles(data.total || 0);
+                setLastRefresh(new Date());
+            } else {
+                setError(data.error || 'Failed to fetch feed');
+            }
+        } catch {
+            setError('Cannot connect to backend');
         } finally {
             setLoading(false);
-            setRefreshing(false);
         }
-    }, [subscribedChannels]);
+    }, [subscribed, page, activeCategory, searchQuery]);
 
-    // Fetch feed when entering feed view or subscriptions change
     useEffect(() => {
-        if (view === 'feed' && subscribedChannels.length > 0) {
-            fetchFeed(1, searchQuery);
-        }
-    }, [view, subscribedChannels, fetchFeed]);
+        if (subscribed.length > 0 && view === 'feed') fetchFeed();
+    }, [fetchFeed, view]);
 
-    // Toggle channel subscription
-    const toggleChannel = (channelId) => {
-        setSubscribedChannels(prev =>
-            prev.includes(channelId)
+    // Auto-refresh every 5 minutes
+    useEffect(() => {
+        if (view === 'feed' && subscribed.length > 0) {
+            refreshTimerRef.current = setInterval(fetchFeed, 5 * 60 * 1000);
+            return () => clearInterval(refreshTimerRef.current);
+        }
+    }, [view, subscribed, fetchFeed]);
+
+    const toggleSubscribe = (channelId) => {
+        setSubscribed(prev => {
+            const next = prev.includes(channelId)
                 ? prev.filter(id => id !== channelId)
-                : [...prev, channelId]
-        );
+                : [...prev, channelId];
+            saveSubscribed(next);
+            return next;
+        });
     };
 
-    // AI Summary
+    const subscribeAll = (categoryFilter) => {
+        const ids = channels
+            .filter(c => categoryFilter === 'all' || c.category === categoryFilter)
+            .map(c => c.id);
+        const merged = [...new Set([...subscribed, ...ids])];
+        setSubscribed(merged);
+        saveSubscribed(merged);
+    };
+
+    // On-demand AI summary
     const requestSummary = async (article) => {
-        if (summaries[article.id] || summarizing[article.id]) return;
-        setSummarizing(prev => ({ ...prev, [article.id]: true }));
+        if (summaries[article.id]) return;
+        setSummaryLoading(article.id);
         try {
-            const res = await fetch(`${API_BASE}/api/summarize`, {
+            const res = await fetch('http://localhost:3002/api/summarize', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: article.title, description: article.description, url: article.url }),
             });
             const data = await res.json();
-            if (data.summary) {
-                setSummaries(prev => ({ ...prev, [article.id]: data.summary }));
-            }
-        } catch (err) {
-            console.error('Summary error:', err);
+            setSummaries(prev => ({ ...prev, [article.id]: data.summary || `⚠️ ${data.error || 'Failed'}` }));
+        } catch {
+            setSummaries(prev => ({ ...prev, [article.id]: '⚠️ Could not generate summary' }));
         } finally {
-            setSummarizing(prev => ({ ...prev, [article.id]: false }));
+            setSummaryLoading(null);
         }
     };
 
-    // Time ago helper
-    const timeAgo = (dateStr) => {
-        const diff = Date.now() - new Date(dateStr).getTime();
-        const mins = Math.floor(diff / 60000);
-        if (mins < 60) return `${mins}m ago`;
-        const hrs = Math.floor(mins / 60);
-        if (hrs < 24) return `${hrs}h ago`;
-        return `${Math.floor(hrs / 24)}d ago`;
+    const openReader = (article) => {
+        setReaderUrl(article.url);
+        setReaderSource(article.source);
+        setReaderTitle(article.title);
+        setIframeError(false);
+        setView('reader');
     };
 
-    // Filter channels by category
-    const filteredChannels = channelCategory === 'all'
-        ? channels
-        : channels.filter(ch => ch.category === channelCategory);
+    const closeReader = () => { setReaderUrl(''); setView('feed'); };
 
-    // ── READER VIEW ──
-    if (readerArticle) {
-        return (
-            <div className="reader-overlay">
-                <div className="reader-topbar">
-                    <button className="reader-back-btn" onClick={() => setReaderArticle(null)}>
-                        <ArrowLeft size={16} /> Back to feed
-                    </button>
-                    <span className="reader-source">{readerArticle.source}</span>
-                    <a href={readerArticle.url} target="_blank" rel="noopener noreferrer" className="article-action-btn">
-                        <ExternalLink size={13} /> Open original
-                    </a>
-                </div>
-                <iframe
-                    src={readerArticle.url}
-                    className="reader-iframe"
-                    title={readerArticle.title}
-                    sandbox="allow-same-origin allow-scripts"
-                    onError={() => { }}
-                />
-            </div>
-        );
-    }
+    // ── Channel Discovery Grid ──────────────────────────────────
+    const renderChannelGrid = () => {
+        const filteredChannels = channelFilter === 'all'
+            ? channels
+            : channels.filter(c => c.category === channelFilter);
 
-    // ── FEED VIEW ──
-    if (view === 'feed') {
         return (
-            <main className="news-page container-wide">
-                <header className="feed-header animate-fade-in-up">
+            <div className="channels-view">
+                <header className="channels-header animate-fade-in-up">
                     <div>
-                        <div className="feed-live-badge">
-                            <span className="live-dot" /> LIVE FEED
-                        </div>
-                        <h1>Your <span className="gradient-text">Newswire</span></h1>
+                        <h1>News <span className="gradient-text">Channels</span></h1>
+                        <p>Subscribe to your favorite automotive news sources. Your feed, your rules.</p>
                     </div>
-                    <div className="feed-header-actions">
-                        <form className="news-search-form" onSubmit={(e) => { e.preventDefault(); fetchFeed(1, searchQuery); }}>
-                            <Search size={14} />
-                            <input
-                                type="text"
-                                placeholder="Search articles..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                            />
-                            {searchQuery && (
-                                <button type="button" style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer', padding: 0 }}
-                                    onClick={() => { setSearchQuery(''); fetchFeed(1, ''); }}>
-                                    <X size={13} />
-                                </button>
-                            )}
-                        </form>
-                        <button className="btn btn-outline btn-sm" onClick={() => { setRefreshing(true); fetchFeed(page, searchQuery); }}>
-                            <RefreshCw size={14} className={refreshing ? 'spin' : ''} /> Refresh
+                    {subscribed.length > 0 && (
+                        <button className="btn btn-primary go-to-feed-btn" onClick={() => setView('feed')}>
+                            <Rss size={16} /> My Feed ({subscribed.length})
                         </button>
-                        <button className="btn btn-outline btn-sm" onClick={() => setView('channels')}>
-                            <Rss size={14} /> Channels
-                        </button>
-                    </div>
+                    )}
                 </header>
 
-                {/* Stats */}
-                {!loading && articles.length > 0 && (
-                    <div className="feed-stats">
-                        <span className="news-stat">{total} articles</span>
-                        <span className="news-stat-sep" />
-                        <span className="news-stat">{subscribedChannels.length} channels</span>
-                        <span className="news-stat-sep" />
-                        <span className="news-stat">Page {page} of {totalPages}</span>
+                <div className="channel-category-bar animate-fade-in-up delay-1">
+                    {categories.map(cat => (
+                        <button key={cat.id} className={`category-chip ${channelFilter === cat.id ? 'active' : ''}`} onClick={() => setChannelFilter(cat.id)}>
+                            <span>{cat.icon}</span> <span>{cat.label}</span>
+                        </button>
+                    ))}
+                </div>
+
+                <div className="channel-actions animate-fade-in-up delay-1">
+                    <button className="btn btn-outline btn-sm" onClick={() => subscribeAll(channelFilter)}>
+                        <Plus size={14} /> Subscribe to {channelFilter === 'all' ? 'all' : channelFilter}
+                    </button>
+                    {subscribed.length > 0 && (
+                        <span className="subscribed-count">{subscribed.length} channel{subscribed.length !== 1 ? 's' : ''} subscribed</span>
+                    )}
+                </div>
+
+                <div className="channel-grid">
+                    {filteredChannels.map((ch, idx) => {
+                        const isSub = subscribed.includes(ch.id);
+                        return (
+                            <div key={ch.id} className={`channel-card animate-fade-in-up delay-${Math.min(idx % 6 + 1, 5)} ${isSub ? 'subscribed' : ''}`} style={{ '--ch-color': ch.color }}>
+                                <div className="channel-card-header">
+                                    <img src={ch.icon} alt={ch.name} className="channel-favicon" />
+                                    <span className="channel-category-tag">{ch.category}</span>
+                                </div>
+                                <h3 className="channel-name">{ch.name}</h3>
+                                <p className="channel-desc">{ch.description}</p>
+                                <div className="channel-card-footer">
+                                    <a href={ch.website} target="_blank" rel="noopener noreferrer" className="channel-website">
+                                        <Globe size={12} /> Visit site
+                                    </a>
+                                    <button className={`subscribe-btn ${isSub ? 'subscribed' : ''}`} onClick={() => toggleSubscribe(ch.id)}>
+                                        {isSub ? <><Check size={14} /> Subscribed</> : <><Plus size={14} /> Subscribe</>}
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+
+                {subscribed.length > 0 && (
+                    <div className="channel-cta animate-fade-in-up">
+                        <button className="btn btn-primary btn-lg" onClick={() => setView('feed')}>
+                            <Rss size={18} /> Open My Feed — {subscribed.length} channels
+                        </button>
                     </div>
                 )}
+            </div>
+        );
+    };
 
-                {/* Loading */}
-                {loading && (
-                    <div className="news-loading">
-                        <div className="loading-spinner" />
-                        <p className="loading-text">Fetching live articles...</p>
-                    </div>
-                )}
+    // ── Live Feed ───────────────────────────────────────────────
+    const renderFeed = () => (
+        <div className="feed-view">
+            <header className="feed-header animate-fade-in-up">
+                <div className="feed-header-left">
+                    <div className="feed-live-badge"><span className="live-dot" /><span>Live Feed</span></div>
+                    <h1>My <span className="gradient-text">Newswire</span></h1>
+                </div>
+                <div className="feed-header-actions">
+                    <form className="news-search-form" onSubmit={(e) => { e.preventDefault(); setPage(1); fetchFeed(); }}>
+                        <Search size={16} />
+                        <input type="text" placeholder="Search articles..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                    </form>
+                    <button className="btn btn-outline btn-sm" onClick={() => setView('channels')}>
+                        <Rss size={14} /> Channels ({subscribed.length})
+                    </button>
+                    <button className="btn btn-outline btn-sm" onClick={() => { setPage(1); fetchFeed(); }} disabled={loading}>
+                        <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh
+                    </button>
+                </div>
+            </header>
 
-                {/* Error */}
-                {error && (
-                    <div className="news-error">
-                        <AlertCircle size={24} />
-                        <p>{error}</p>
-                        <button className="btn btn-primary" onClick={() => fetchFeed(page, searchQuery)}>Retry</button>
-                    </div>
-                )}
+            {!loading && articles.length > 0 && (
+                <div className="feed-stats animate-fade-in-up delay-1">
+                    <span className="news-stat"><Radio size={13} /> {totalArticles} articles</span>
+                    <span className="news-stat-sep" />
+                    <span className="news-stat"><Globe size={13} /> {[...new Set(articles.map(a => a.source))].length} sources</span>
+                    <span className="news-stat-sep" />
+                    <span className="news-stat"><Zap size={13} /> Live from {subscribed.length} channels</span>
+                    {lastRefresh && (<><span className="news-stat-sep" /><span className="news-stat"><Clock size={13} /> {timeAgo(lastRefresh.toISOString())}</span></>)}
+                </div>
+            )}
 
-                {/* Empty */}
-                {!loading && !error && articles.length === 0 && (
-                    <div className="news-empty">
-                        <Rss size={32} />
-                        <h3>No articles found</h3>
-                        <p>{subscribedChannels.length === 0 ? 'Subscribe to some channels first.' : 'Try a different search or refresh.'}</p>
-                        {subscribedChannels.length === 0 && (
-                            <button className="btn btn-primary" onClick={() => setView('channels')}>Browse Channels</button>
-                        )}
-                    </div>
-                )}
+            <div className="category-bar animate-fade-in-up delay-1">
+                <button className={`category-chip ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => { setActiveCategory('all'); setPage(1); }}>
+                    📰 All
+                </button>
+                {[...new Set(subscribed.map(id => channels.find(c => c.id === id)?.category).filter(Boolean))].map(cat => (
+                    <button key={cat} className={`category-chip ${activeCategory === cat ? 'active' : ''}`} onClick={() => { setActiveCategory(cat); setPage(1); }}>
+                        {categories.find(c => c.id === cat)?.icon} {categories.find(c => c.id === cat)?.label || cat}
+                    </button>
+                ))}
+            </div>
 
-                {/* Article list */}
-                {!loading && articles.length > 0 && (
+            {loading && (
+                <div className="news-loading">
+                    <div className="loading-spinner" /><p className="loading-text">Fetching live news...</p>
+                </div>
+            )}
+
+            {error && !loading && (
+                <div className="news-error"><AlertCircle size={24} /><p>{error}</p>
+                    <button className="btn btn-primary btn-sm" onClick={fetchFeed}>Retry</button>
+                </div>
+            )}
+
+            {!loading && articles.length > 0 && (
+                <>
                     <div className="articles-list">
-                        {articles.map((article) => (
-                            <article key={article.id} className="article-card card">
-                                <div className="article-row" onClick={() => setReaderArticle(article)}>
+                        {articles.map((article, idx) => (
+                            <article key={article.id || idx} className={`article-card card animate-fade-in-up delay-${Math.min(idx % 5 + 1, 5)}`}>
+                                <div className="article-row" onClick={() => openReader(article)}>
                                     {article.imageUrl && (
-                                        <div className="article-thumb">
-                                            <img src={article.imageUrl} alt="" loading="lazy" onError={(e) => { e.target.parentElement.style.display = 'none'; }} />
-                                        </div>
+                                        <div className="article-thumb"><img src={article.imageUrl} alt="" loading="lazy" /></div>
                                     )}
                                     <div className="article-content">
                                         <div className="article-source-row">
-                                            {article.sourceIcon && <img src={article.sourceIcon} alt="" className="source-favicon" />}
-                                            <span className="source-badge" style={{ '--badge-color': article.sourceColor }}>{article.source}</span>
+                                            <span className="source-badge" style={{ '--badge-color': article.sourceColor }}>
+                                                <img src={article.sourceIcon} alt="" className="source-favicon" />
+                                                {article.source}
+                                            </span>
                                             <span className="article-time"><Clock size={11} /> {timeAgo(article.publishedAt)}</span>
                                         </div>
-                                        <h2 className="article-title">{article.title}</h2>
-                                        {article.description && <p className="article-desc">{article.description}</p>}
+                                        <h3 className="article-title">{article.title}</h3>
+                                        <p className="article-desc">{article.description}</p>
                                         {summaries[article.id] && (
-                                            <div className="ai-summary">
-                                                <Sparkles size={14} />
-                                                <span>{summaries[article.id]}</span>
-                                            </div>
+                                            <div className="ai-summary"><Sparkles size={12} /><span>{summaries[article.id]}</span></div>
                                         )}
                                     </div>
                                 </div>
                                 <div className="article-actions">
-                                    <button
-                                        className="article-action-btn"
-                                        onClick={() => requestSummary(article)}
-                                        disabled={!!summaries[article.id] || summarizing[article.id]}
-                                    >
-                                        <Sparkles size={12} />
-                                        {summarizing[article.id] ? 'Summarizing...' : summaries[article.id] ? 'Summarized' : 'AI Summary'}
+                                    <button className="article-action-btn" onClick={(e) => { e.stopPropagation(); requestSummary(article); }} disabled={summaryLoading === article.id || !!summaries[article.id]}>
+                                        <Sparkles size={13} /> {summaryLoading === article.id ? 'Summarizing...' : summaries[article.id] ? 'Summarized' : 'AI Summary'}
                                     </button>
-                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="article-action-btn">
-                                        <ExternalLink size={12} /> Read original
+                                    <button className="article-action-btn" onClick={() => openReader(article)}><BookOpen size={13} /> Read</button>
+                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="article-action-btn" onClick={(e) => e.stopPropagation()}>
+                                        <ExternalLink size={13} /> Open Original
                                     </a>
                                 </div>
                             </article>
                         ))}
                     </div>
-                )}
-
-                {/* Pagination */}
-                {totalPages > 1 && (
-                    <div className="pagination">
-                        <button className="pagination-btn" disabled={page <= 1} onClick={() => fetchFeed(page - 1, searchQuery)}>
-                            <ChevronLeft size={16} /> Previous
-                        </button>
-                        <span className="pagination-info">Page <strong>{page}</strong> of <strong>{totalPages}</strong></span>
-                        <button className="pagination-btn" disabled={page >= totalPages} onClick={() => fetchFeed(page + 1, searchQuery)}>
-                            Next <ChevronRight size={16} />
-                        </button>
-                    </div>
-                )}
-            </main>
-        );
-    }
-
-    // ── CHANNEL DISCOVERY VIEW ──
-    return (
-        <main className="news-page container-wide">
-            <header className="channels-header animate-fade-in-up">
-                <div>
-                    <h1>AI <span className="gradient-text">Newswire</span></h1>
-                    <p>Subscribe to live news channels from top automotive publications, EV blogs, Reddit communities, and more. Zero AI cost — real RSS feeds refreshed every 15 minutes.</p>
-                </div>
-                {subscribedChannels.length > 0 && (
-                    <button className="btn btn-primary go-to-feed-btn btn-lg" onClick={() => setView('feed')}>
-                        <Rss size={16} /> Open Feed ({subscribedChannels.length})
-                    </button>
-                )}
-            </header>
-
-            {/* Category filter */}
-            <div className="channel-category-bar">
-                {categories.map(cat => (
-                    <button
-                        key={cat.id}
-                        className={`category-chip ${channelCategory === cat.id ? 'active' : ''}`}
-                        onClick={() => setChannelCategory(cat.id)}
-                    >
-                        <span>{cat.icon}</span> {cat.label}
-                    </button>
-                ))}
-            </div>
-
-            {/* Channel actions bar */}
-            <div className="channel-actions">
-                <span className="subscribed-count">{subscribedChannels.length} subscribed</span>
-                {subscribedChannels.length > 0 && (
-                    <button className="btn btn-outline btn-sm" onClick={() => setSubscribedChannels([])}>
-                        Clear all
-                    </button>
-                )}
-                <button className="btn btn-outline btn-sm" onClick={() => setSubscribedChannels(channels.map(c => c.id))}>
-                    Subscribe all
-                </button>
-            </div>
-
-            {/* Channel grid */}
-            <div className="channel-grid">
-                {filteredChannels.map(ch => {
-                    const isSubscribed = subscribedChannels.includes(ch.id);
-                    return (
-                        <div
-                            key={ch.id}
-                            className={`channel-card ${isSubscribed ? 'subscribed' : ''}`}
-                            style={{ '--ch-color': ch.color }}
-                        >
-                            <div className="channel-card-header">
-                                <img src={ch.icon} alt="" className="channel-favicon" />
-                                <span className="channel-category-tag">{ch.category}</span>
-                            </div>
-                            <div className="channel-name">{ch.name}</div>
-                            <div className="channel-desc">{ch.description}</div>
-                            <div className="channel-card-footer">
-                                <a href={ch.website} target="_blank" rel="noopener noreferrer" className="channel-website">
-                                    <ExternalLink size={11} /> Visit site
-                                </a>
-                                <button
-                                    className={`subscribe-btn ${isSubscribed ? 'subscribed' : ''}`}
-                                    onClick={() => toggleChannel(ch.id)}
-                                >
-                                    {isSubscribed ? '✓ Subscribed' : '+ Subscribe'}
-                                </button>
-                            </div>
+                    {totalPages > 1 && (
+                        <div className="pagination">
+                            <button className="pagination-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}><ChevronLeft size={18} /> Previous</button>
+                            <span className="pagination-info">Page <strong>{page}</strong> of <strong>{totalPages}</strong></span>
+                            <button className="pagination-btn" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next <ChevronRight size={18} /></button>
                         </div>
-                    );
-                })}
-            </div>
+                    )}
+                </>
+            )}
 
-            {/* CTA */}
-            {subscribedChannels.length > 0 && (
-                <div className="channel-cta">
-                    <button className="btn btn-primary btn-lg" onClick={() => setView('feed')}>
-                        <Rss size={18} /> Launch Feed — {subscribedChannels.length} channels
-                    </button>
+            {!loading && !error && articles.length === 0 && subscribed.length > 0 && (
+                <div className="news-empty"><Radio size={32} /><h3>No articles found</h3>
+                    <p>{searchQuery ? `No results for "${searchQuery}"` : 'Your channels haven\'t published anything matching this filter yet.'}</p>
                 </div>
             )}
+        </div>
+    );
+
+    // ── Embedded Reader ─────────────────────────────────────────
+    const renderReader = () => (
+        <div className="reader-overlay">
+            <div className="reader-topbar">
+                <button className="reader-back-btn" onClick={closeReader}><ArrowLeft size={18} /> Back to Feed</button>
+                <span className="reader-source">{readerSource}</span>
+                <div className="reader-topbar-actions">
+                    <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm"><ExternalLink size={14} /> Open in new tab</a>
+                </div>
+            </div>
+            {iframeError ? (
+                <div className="reader-fallback">
+                    <Globe size={48} /><h3>This site doesn't allow embedding</h3><p>{readerTitle}</p>
+                    <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary"><ExternalLink size={16} /> Read on {readerSource}</a>
+                </div>
+            ) : (
+                <iframe
+                    src={readerUrl} className="reader-iframe" title={readerTitle}
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                    onError={() => setIframeError(true)}
+                    onLoad={(e) => { try { const doc = e.target.contentDocument; if (!doc || !doc.body || doc.body.innerHTML.length < 50) setIframeError(true); } catch { } }}
+                />
+            )}
+        </div>
+    );
+
+    return (
+        <main className="news-page container-wide">
+            {view === 'channels' && renderChannelGrid()}
+            {view === 'feed' && renderFeed()}
+            {view === 'reader' && renderReader()}
         </main>
     );
 };

@@ -1,62 +1,63 @@
 /**
- * Car data service — fetches from the TorqueX database API.
- * Provides a cache so the data is fetched only once per session.
+ * Car data service — fetches from the SQLite database running on the backend.
  */
 
-const API_BASE = 'http://localhost:3002';
-let _cache = null;
-
 export async function fetchAllCars() {
-    if (_cache) return _cache;
-    const res = await fetch(`${API_BASE}/api/cars`);
-    if (!res.ok) throw new Error(`Failed to fetch cars: ${res.status}`);
-    _cache = await res.json();
-    return _cache;
+    try {
+        const res = await fetch('http://localhost:3002/api/db/cars');
+        const data = await res.json();
+        return data.cars || [];
+    } catch (e) {
+        console.error("Error fetching all cars:", e);
+        return [];
+    }
 }
 
 export async function getCarById(id) {
-    const cars = await fetchAllCars();
-
-    // DB IDs are integers; route params may be strings like "3" or legacy slugs
-    const numericId = parseInt(id);
-
-    // Try direct ID match first
-    const exactMatch = cars.find(c => c.id === numericId);
-    if (exactMatch) {
-        return { ...exactMatch, baseModel: exactMatch.modelName };
+    try {
+        const res = await fetch(`http://localhost:3002/api/db/cars/${id}`);
+        if (!res.ok) return null;
+        const car = await res.json();
+        return car;
+    } catch (e) {
+        console.error(`Error fetching car ${id}:`, e);
+        return null;
     }
+}
 
-    // Try matching by variant ID (e.g. "3-v12")
-    for (const car of cars) {
-        const variant = car.variants?.find(v => v.id === id);
-        if (variant) {
-            return {
-                ...car,
-                ...variant,
-                baseModel: car.modelName,
-                variants: car.variants,
-            };
-        }
+export async function searchCars(query) {
+    try {
+        const res = await fetch(`http://localhost:3002/api/db/search?q=${encodeURIComponent(query)}`);
+        const data = await res.json();
+        return data.cars || [];
+    } catch (e) {
+        console.error(`Error searching cars for "${query}":`, e);
+        return [];
     }
-
-    return null;
 }
 
 export async function getUniqueBrands() {
-    const cars = await fetchAllCars();
-    return [...new Set(cars.map((car) => car.brand))].sort();
+    try {
+        const res = await fetch('http://localhost:3002/api/db/brands');
+        const data = await res.json();
+        return data.brands.map(b => b.name) || [];
+    } catch (e) {
+        console.error("Error fetching brands:", e);
+        return [];
+    }
 }
 
 export async function getUniqueFuelTypes() {
-    const cars = await fetchAllCars();
-    const fuelTypes = new Set();
-    cars.forEach((car) => {
-        (car.fuelType || '').split('/').forEach((ft) => fuelTypes.add(ft.trim()));
-    });
-    return [...fuelTypes].filter(Boolean).sort();
+    return ['Petrol', 'Diesel', 'CNG', 'EV'];
 }
 
 export async function getUniqueBodyTypes() {
-    const cars = await fetchAllCars();
-    return [...new Set(cars.map((car) => car.bodyType).filter(Boolean))].sort();
+    try {
+        const res = await fetch('http://localhost:3002/api/db/stats');
+        const data = await res.json();
+        return data.bodyTypes || [];
+    } catch (e) {
+        console.error("Error fetching body types:", e);
+        return [];
+    }
 }
