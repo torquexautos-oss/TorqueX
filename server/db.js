@@ -116,6 +116,7 @@ export const getAllBrands = () => {
         FROM brands b
         LEFT JOIN models m ON m.brand_id = b.id
         GROUP BY b.id
+        HAVING car_count > 0
         ORDER BY b.name
     `).all();
 };

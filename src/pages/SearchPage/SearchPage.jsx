@@ -1,218 +1,158 @@
-import { useState, useEffect, useMemo } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import {
-    Search, ChevronRight, Zap, BarChart3, Shield, Newspaper,
-    Car, Gauge, Fuel, Settings
-} from 'lucide-react';
-import VibeCheck from '../../components/VibeCheck/VibeCheck';
+import { useState } from 'react';
+import { Search, BookOpen, AlertCircle, ChevronRight, Zap, Info } from 'lucide-react';
 import './SearchPage.css';
 
-const CATEGORIES = [
-    { label: 'SUV', icon: <Car size={24} />, query: 'SUV' },
-    { label: 'Sedan', icon: <Gauge size={24} />, query: 'Sedan' },
-    { label: 'Hatchback', icon: <Settings size={24} />, query: 'Hatchback' },
-    { label: 'MPV', icon: <Fuel size={24} />, query: 'MPV' },
-];
+const WIKI_API_URL = 'https://en.wikipedia.org/api/rest_v1/page/summary/';
 
-const BRANDS = [
-    'Maruti Suzuki', 'Hyundai', 'Tata', 'Honda', 'Kia',
-    'Toyota', 'Mahindra', 'Ford', 'Renault', 'BMW',
-    'Mercedes-Benz', 'Volkswagen', 'Skoda', 'MG', 'Jeep',
+const POPULAR_TOPICS = [
+    'V8 Engine', 'Turbocharger', 'Dual-clutch transmission', 'Electric vehicle',
+    'Advanced driver-assistance system', 'Anti-lock braking system',
+    'Aerodynamics', 'Hybrid vehicle', 'Four-wheel drive'
 ];
 
 export default function SearchPage() {
     const [query, setQuery] = useState('');
-    const [cars, setCars] = useState([]);
-    const [stats, setStats] = useState({ totalCars: 0, totalBrands: 0, electricVariants: 0 });
-    const navigate = useNavigate();
+    const [article, setArticle] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    useEffect(() => {
-        // Fetch stats from DB
-        fetch('http://localhost:3002/api/db/stats')
-            .then(r => r.json())
-            .then(data => setStats(data))
-            .catch(() => { });
-        // Fetch all cars for featured section
-        fetch('http://localhost:3002/api/db/cars')
-            .then(r => r.json())
-            .then(data => setCars(data.cars || []))
-            .catch(() => setCars([]));
-    }, []);
+    const fetchWikipediaArticle = async (searchQuery) => {
+        if (!searchQuery.trim()) return;
+        setLoading(true);
+        setError('');
+        setArticle(null);
 
-    const featured = useMemo(() => {
-        if (!cars.length) return [];
-        const shuffled = [...cars].sort(() => Math.random() - 0.5);
-        return shuffled.slice(0, 8);
-    }, [cars]);
+        try {
+            // Use the Wikipedia REST API for clean summaries and extracts
+            const response = await fetch(`${WIKI_API_URL}${encodeURIComponent(searchQuery)}`);
+
+            if (!response.ok) {
+                if (response.status === 404) {
+                    throw new Error("We couldn't find an exact Wikipedia article for that term. Try using broader automotive terms.");
+                }
+                throw new Error("Failed to connect to Wikipedia. Please try again later.");
+            }
+
+            const data = await response.json();
+
+            // Handle disambiguation pages
+            if (data.type === 'disambiguation') {
+                throw new Error("That term is too broad. Please try being more specific (e.g., 'V8 Engine' instead of just 'V8').");
+            }
+
+            setArticle({
+                title: data.title,
+                description: data.description || 'Automotive Topic',
+                extractHtml: data.extract_html,
+                thumbnail: data.thumbnail?.source,
+                originalUrl: data.content_urls?.desktop?.page
+            });
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        navigate(`/cars${query ? `?q=${encodeURIComponent(query)}` : ''}`);
+        fetchWikipediaArticle(query);
+    };
+
+    const handleTopicClick = (topic) => {
+        setQuery(topic);
+        fetchWikipediaArticle(topic);
     };
 
     return (
-        <main className="hero-page">
-            {/* ── Hero Section ─────────────────────────────────── */}
-            <section className="hero-section">
-                <div className="hero-bg-gradient" />
-                <div className="hero-content container">
-                    <div className="hero-text animate-fade-in-up">
-                        <span className="badge badge-glow">
-                            <Zap size={12} /> India's most detailed car database
-                        </span>
-                        <h1>Find your <span className="hero-highlight">perfect car</span></h1>
-                        <p className="hero-description">
-                            {stats.total} BS6-compliant cars with real specs, honest pros &amp; cons,
-                            known problems, and AI-powered insights.
-                        </p>
-                    </div>
+        <main className="wiki-page">
+            <div className="wiki-header-bg" />
 
-                    <form className="hero-search animate-fade-in-up delay-1" onSubmit={handleSearch}>
-                        <div className="hero-search-inner">
-                            <Search size={20} className="search-icon" />
-                            <input
-                                type="text"
-                                placeholder="Search by car name, brand, or type..."
-                                value={query}
-                                onChange={(e) => setQuery(e.target.value)}
-                                autoFocus
-                            />
-                            <button type="submit" className="btn btn-primary">Search</button>
-                        </div>
+            <div className="container wiki-container">
+                <section className="wiki-hero animate-fade-in-up">
+                    <span className="badge badge-glow">
+                        <BookOpen size={12} /> The TorqueX Automotive Encyclopedia
+                    </span>
+                    <h1>Search the <span className="hero-highlight">Knowledge Base</span></h1>
+                    <p className="hero-description">
+                        Learn how cars work. Powered directly by the live Wikipedia REST API.
+                    </p>
+
+                    <form className="wiki-search-box" onSubmit={handleSearch}>
+                        <Search size={20} className="search-icon" />
+                        <input
+                            type="text"
+                            placeholder="Search for car parts, history, or engineering concepts..."
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            autoFocus
+                        />
+                        <button type="submit" className="btn btn-primary" disabled={loading}>
+                            {loading ? 'Searching...' : 'Search'}
+                        </button>
                     </form>
-                    {/* Inject Epic Vibe Check AI Feature */}
-                    <div className="sp-vibecheck-wrapper" style={{ marginTop: '2rem' }}>
-                        <VibeCheck />
-                    </div>
+                </section>
 
-                    <div className="hero-stats animate-fade-in-up delay-2">
-                        <div className="stat-card">
-                            <span className="stat-number">{stats.totalCars || 0}</span>
-                            <span className="stat-label">Cars</span>
-                        </div>
-                        <div className="stat-card">
-                            <span className="stat-number">{stats.totalBrands || 0}</span>
-                            <span className="stat-label">Brands</span>
-                        </div>
-                        <div className="stat-card">
-                            <span className="stat-number">{stats.electricVariants || 0}</span>
-                            <span className="stat-label">EVs</span>
-                        </div>
-                        <div className="stat-card">
-                            <span className="stat-number">15+</span>
-                            <span className="stat-label">News Channels</span>
-                        </div>
+                {/* State: Error */}
+                {error && (
+                    <div className="wiki-error animate-fade-in-up">
+                        <AlertCircle size={24} />
+                        <p>{error}</p>
                     </div>
-                </div>
-            </section>
+                )}
 
-            <div className="container">
-                {/* ── Browse by Type ──────────────────────────────── */}
-                <section className="section animate-fade-in-up delay-3">
-                    <div className="section-header">
-                        <h2>Browse by Type</h2>
-                        <Link to="/cars" className="section-link">
-                            View all <ChevronRight size={16} />
-                        </Link>
-                    </div>
-                    <div className="category-grid">
-                        {CATEGORIES.map(cat => (
-                            <div
-                                key={cat.label}
-                                className="category-card card"
-                                onClick={() => navigate(`/cars?type=${encodeURIComponent(cat.query)}`)}
-                            >
-                                <span className="category-icon">{cat.icon}</span>
-                                <span className="category-label">{cat.label}</span>
-                                <span className="category-count">
-                                    {cars.filter(c => (c.body_type || '').toLowerCase().includes(cat.query.toLowerCase())).length} cars
-                                </span>
+                {/* State: Article Found */}
+                {article && !loading && (
+                    <article className="wiki-article-card card animate-fade-in-up delay-1">
+                        <div className="wiki-article-header">
+                            <div className="wiki-article-titles">
+                                <h2>{article.title}</h2>
+                                <span className="wiki-article-subtitle">{article.description}</span>
                             </div>
-                        ))}
-                    </div>
-                </section>
-
-                {/* ── Popular Brands ──────────────────────────────── */}
-                <section className="section animate-fade-in-up delay-4">
-                    <div className="section-header">
-                        <h2>Popular Brands</h2>
-                    </div>
-                    <div className="brands-grid">
-                        {BRANDS.map(brand => (
-                            <button
-                                key={brand}
-                                className="brand-chip"
-                                onClick={() => navigate(`/cars?q=${encodeURIComponent(brand)}`)}
-                            >
-                                {brand}
-                            </button>
-                        ))}
-                    </div>
-                </section>
-
-                {/* ── Featured Cars ───────────────────────────────── */}
-                {featured.length > 0 && (
-                    <section className="section animate-fade-in-up delay-5">
-                        <div className="section-header">
-                            <h2>Featured Cars</h2>
-                            <Link to="/cars" className="section-link">
-                                Browse all <ChevronRight size={16} />
-                            </Link>
+                            <a href={article.originalUrl} target="_blank" rel="noreferrer" className="wiki-source-link">
+                                Read full on Wikipedia <ChevronRight size={16} />
+                            </a>
                         </div>
-                        <div className="featured-grid">
-                            {featured.map(car => (
-                                <Link
-                                    key={car.id}
-                                    to={`/car/${car.id}`}
-                                    className="featured-card card"
+
+                        <div className="wiki-article-body">
+                            {article.thumbnail && (
+                                <img src={article.thumbnail} alt={article.title} className="wiki-thumbnail" />
+                            )}
+                            <div
+                                className="wiki-extract content-fade"
+                                dangerouslySetInnerHTML={{ __html: article.extractHtml }}
+                            />
+                        </div>
+                    </article>
+                )}
+
+                {/* State: Default / Recommendations */}
+                {!article && !loading && !error && (
+                    <section className="wiki-explore animate-fade-in-up delay-2">
+                        <div className="section-header">
+                            <h2><Zap size={20} /> Popular Automotive Topics</h2>
+                        </div>
+                        <div className="wiki-topics-grid">
+                            {POPULAR_TOPICS.map(topic => (
+                                <button
+                                    key={topic}
+                                    className="wiki-topic-chip"
+                                    onClick={() => handleTopicClick(topic)}
                                 >
-                                    <div className="featured-info">
-                                        <span className="featured-brand">{car.brand}</span>
-                                        <span className="featured-name">{car.model_name}</span>
-                                        {car.price_min && <span className="featured-price">₹{car.price_min.toFixed(2)}L onwards</span>}
-                                        <div className="featured-specs">
-                                            {car.fuelType && <span><Fuel size={12} /> {car.fuelType}</span>}
-                                            {car.transmission_type && <span><Settings size={12} /> {car.transmission_type}</span>}
-                                        </div>
-                                    </div>
-                                </Link>
+                                    {topic}
+                                </button>
                             ))}
+                        </div>
+
+                        <div className="wiki-info-box card mt-12">
+                            <Info size={24} className="text-secondary" />
+                            <div>
+                                <h3>How this works</h3>
+                                <p>This page securely integrates with the official Wikimedia Foundation REST API. When you search, TorqueX fetches the live, CC-BY-SA licensed summary directly from English Wikipedia.</p>
+                            </div>
                         </div>
                     </section>
                 )}
-
-                {/* ── Why TorqueX ─────────────────────────────────── */}
-                <section className="section animate-fade-in-up">
-                    <div className="section-header">
-                        <h2>Why TorqueX?</h2>
-                    </div>
-                    <div className="highlights-grid">
-                        <div className="highlight-card card">
-                            <div className="highlight-icon-wrap"><BarChart3 size={22} /></div>
-                            <h3>Real Data, No Fluff</h3>
-                            <p>Every spec verified from official sources. No paid reviews, no sponsored rankings.</p>
-                            <Link to="/cars" className="highlight-link">
-                                Explore cars <ChevronRight size={14} />
-                            </Link>
-                        </div>
-                        <div className="highlight-card card">
-                            <div className="highlight-icon-wrap"><Shield size={22} /></div>
-                            <h3>Known Problems Listed</h3>
-                            <p>We list the actual issues owners report — not just the good stuff.</p>
-                            <Link to="/compare" className="highlight-link">
-                                Compare cars <ChevronRight size={14} />
-                            </Link>
-                        </div>
-                        <div className="highlight-card card">
-                            <div className="highlight-icon-wrap"><Newspaper size={22} /></div>
-                            <h3>Live Auto News</h3>
-                            <p>15 channels of live RSS news from top automotive sources, updated every 15 minutes.</p>
-                            <Link to="/news" className="highlight-link">
-                                Read news <ChevronRight size={14} />
-                            </Link>
-                        </div>
-                    </div>
-                </section>
             </div>
         </main>
     );

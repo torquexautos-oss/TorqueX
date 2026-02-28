@@ -8,6 +8,7 @@ import CarDetailsPage from './pages/CarDetailsPage/CarDetailsPage';
 import ComparePage from './pages/ComparePage/ComparePage';
 import NewsFeedPage from './pages/NewsFeedPage/NewsFeedPage';
 import RecommendPage from './pages/RecommendPage/RecommendPage';
+import CatalogPage from './pages/CatalogPage/CatalogPage';
 
 export default function App() {
   return (
@@ -15,9 +16,13 @@ export default function App() {
       <CompareProvider>
         <Navbar />
         <Routes>
-          <Route path="/" element={<SearchPage />} />
+          {/* Default Hero & Catalog is now HomePage */}
+          <Route path="/" element={<HomePage />} />
+          <Route path="/cars" element={<CatalogPage />} />
+
+          {/* The new Automotive Encyclopedia */}
           <Route path="/search" element={<SearchPage />} />
-          <Route path="/cars" element={<HomePage />} />
+
           <Route path="/car/:id" element={<CarDetailsPage />} />
           <Route path="/compare" element={<ComparePage />} />
           <Route path="/news" element={<NewsFeedPage />} />

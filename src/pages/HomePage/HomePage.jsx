@@ -1,196 +1,149 @@
-import { useEffect, useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { groupCarsByModel } from '../../utils/carGrouper';
-import CarCard from '../../components/CarCard/CarCard';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import VibeCheck from '../../components/VibeCheck/VibeCheck';
+import { Search, Zap, Newspaper, LayoutGrid, BookOpen, ChevronRight, TrendingUp } from 'lucide-react';
 import './HomePage.css';
-import { Search, Filter, SlidersHorizontal } from 'lucide-react';
 
-const PAGE_SIZE = 24; // 4 columns * 6 rows
+// We'll parse the RSS feed here to surface "Latest Auto News" right on the Hero
+const CARANDBIKE_RSS = "https://www.carandbike.com/rss/news";
+const RSS_TO_JSON_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(CARANDBIKE_RSS)}`;
 
 export default function HomePage() {
-    const [searchParams] = useSearchParams();
-    const initialQuery = searchParams.get('q') || '';
-    const initialType = searchParams.get('type') || '';
-
-    const [allCars, setAllCars] = useState([]);
-    const [models, setModels] = useState([]);
-    const [visible, setVisible] = useState(PAGE_SIZE);
-    const [loading, setLoading] = useState(true);
-    const [search, setSearch] = useState(initialQuery);
-    const [brandFilter, setBrandFilter] = useState('');
-    const [fuelFilter, setFuelFilter] = useState('');
-    const [bodyFilter, setBodyFilter] = useState(initialType);
-    const [budgetFilter, setBudgetFilter] = useState('');
-    const [sortBy, setSortBy] = useState('newest');
-
-    // Filter options from API
-    const [brands, setBrands] = useState([]);
-    const [fuels, setFuels] = useState(['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid']);
-    const [bodies, setBodies] = useState([]);
+    const navigate = useNavigate();
+    const [search, setSearch] = useState('');
+    const [news, setNews] = useState([]);
+    const [loadingNews, setLoadingNews] = useState(true);
 
     useEffect(() => {
-        // Fetch all cars from DB
-        fetch('http://localhost:3002/api/db/cars')
+        // Fetch latest 3 news items for the editorial feel
+        fetch(RSS_TO_JSON_API)
             .then(res => res.json())
             .then(data => {
-                setAllCars(data.cars || []);
-                setModels(data.cars || []);
-                setLoading(false);
+                if (data.status === 'ok') {
+                    setNews(data.items.slice(0, 3));
+                }
+                setLoadingNews(false);
             })
-            .catch(() => setLoading(false));
-
-        // Fetch brands and body types from DB
-        fetch('http://localhost:3002/api/db/brands')
-            .then(res => res.json())
-            .then(data => setBrands(data.brands.map(b => b.name) || []));
-
-        fetch('http://localhost:3002/api/db/stats')
-            .then(res => res.json())
-            .then(data => setBodies(data.bodyTypes || []));
-
-        // Infinite scroll listener
-        const handleScroll = () => {
-            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 800) {
-                setVisible(v => v + PAGE_SIZE);
-            }
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
+            .catch(() => setLoadingNews(false));
     }, []);
 
-    // Client-side filtering on the DB results
-    const filteredModels = useMemo(() => {
-        let result = models;
-        if (search) {
-            const q = search.toLowerCase();
-            result = result.filter(
-                (m) =>
-                    m.model_name.toLowerCase().includes(q) ||
-                    m.brand.toLowerCase().includes(q)
-            );
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        if (search.trim()) {
+            navigate(`/cars?q=${encodeURIComponent(search.trim())}`);
         }
-        if (brandFilter) result = result.filter((m) => m.brand === brandFilter);
-        if (bodyFilter) result = result.filter((m) => m.body_type === bodyFilter);
-        if (fuelFilter) result = result.filter((m) => m.fuelType === fuelFilter || m.fuelType?.includes(fuelFilter));
-
-        // Budget
-        if (budgetFilter) {
-            const [min, max] = budgetFilter.split('-').map(Number);
-            result = result.filter(m => {
-                if (!m.price_min) return false;
-                if (max) return m.price_min >= min && m.price_min <= max;
-                return m.price_min >= min; // "50+" case
-            });
-        }
-
-        // Sort
-        if (sortBy === 'price-low') result = [...result].sort((a, b) => a.price_min - b.price_min);
-        else if (sortBy === 'price-high') result = [...result].sort((a, b) => b.price_max - a.price_max);
-        else result = [...result].sort((a, b) => a.price_min - b.price_min);
-
-        return result;
-    }, [models, search, brandFilter, bodyFilter, sortBy]);
-
-    const visibleModels = filteredModels.slice(0, visible);
-    const hasMore = visible < filteredModels.length;
-
-    const handleReset = () => {
-        setSearch('');
-        setBrandFilter('');
-        setFuelFilter('');
-        setBodyFilter('');
-        setBudgetFilter('');
-        setSortBy('newest');
-        setVisible(PAGE_SIZE);
     };
 
-    if (loading) {
-        return (
-            <main className="home-page container">
-                <p className="loading-text">Loading cars...</p>
-            </main>
-        );
-    }
-
     return (
-        <main className="home-page container">
-            <div className="home-header">
-                <h1>Cars in India</h1>
-                <p className="home-subtitle">
-                    {filteredModels.length} models &middot; {allCars.length} variants
-                </p>
-            </div>
-            {/* Search */}
-            <div className="home-search">
-                <Search size={20} className="search-icon" />
-                <input
-                    type="text"
-                    placeholder="Search by car name or brand..."
-                    value={search}
-                    onChange={(e) => { setSearch(e.target.value); setVisible(PAGE_SIZE); }}
-                />
-            </div>
+        <main className="home-page editorial-layout">
+            {/* ── MASSIVE MEDIAHOUSE HERO ── */}
+            <section className="hero-section media-hero">
+                <div className="hero-bg-gradient" />
+                <div className="container hero-content">
+                    <div className="animate-fade-in-up">
+                        <span className="badge badge-glow editorial-badge">
+                            <Zap size={14} /> The Ultimate Indian Auto Authority
+                        </span>
+                        <h1 className="editorial-headline">
+                            Drive into the <span className="hero-highlight">Future.</span>
+                        </h1>
+                        <p className="hero-description">
+                            Expert reviews, real-world data, and the most comprehensive car catalog in India—all powered by TorqueX intelligence.
+                        </p>
+                    </div>
 
-            {/* Filters */}
-            <div className="home-filters">
-                <SlidersHorizontal size={18} className="filter-icon" />
-                <select value={brandFilter} onChange={(e) => { setBrandFilter(e.target.value); setVisible(PAGE_SIZE); }}>
-                    <option value="">All Brands</option>
-                    {brands.map((b) => <option key={b} value={b}>{b}</option>)}
-                </select>
-
-                <select value={fuelFilter} onChange={(e) => { setFuelFilter(e.target.value); setVisible(PAGE_SIZE); }}>
-                    <option value="">All Fuels</option>
-                    {fuels.map((f) => <option key={f} value={f}>{f}</option>)}
-                </select>
-
-                <select value={bodyFilter} onChange={(e) => { setBodyFilter(e.target.value); setVisible(PAGE_SIZE); }}>
-                    <option value="">All Body Types</option>
-                    {bodies.map((b) => <option key={b} value={b}>{b}</option>)}
-                </select>
-
-                <select value={sortBy} onChange={(e) => { setSortBy(e.target.value); setVisible(PAGE_SIZE); }}>
-                    <option value="newest">Price: Low → High</option>
-                    <option value="price-low">Price: Low → High</option>
-                    <option value="price-high">Price: High → Low</option>
-                </select>
-
-                <select value={budgetFilter} onChange={(e) => { setBudgetFilter(e.target.value); setVisible(PAGE_SIZE); }}>
-                    <option value="">Any Budget</option>
-                    <option value="0-10">Under ₹10 Lakh</option>
-                    <option value="10-20">₹10L - ₹20 Lakh</option>
-                    <option value="20-30">₹20L - ₹30 Lakh</option>
-                    <option value="30-50">₹30L - ₹50 Lakh</option>
-                    <option value="50-1000">Above ₹50 Lakh</option>
-                </select>
-
-                {(search || brandFilter || fuelFilter || bodyFilter || budgetFilter) && (
-                    <button className="reset-btn" onClick={handleReset}>Reset</button>
-                )}
-            </div>
-
-            {/* Car Grid */}
-            {visibleModels.length > 0 ? (
-                <div className="car-grid">
-                    {visibleModels.map((model) => (
-                        <CarCard key={model.slug} car={model} />
-                    ))}
+                    {/* Global Master Search Bar -> Routes to Catalog */}
+                    <form className="home-search editorial-search animate-fade-in-up delay-1" onSubmit={handleSearchSubmit}>
+                        <Search size={22} className="search-icon" />
+                        <input
+                            type="text"
+                            placeholder="What car are you looking for?"
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                        <button type="submit" className="search-submit">Explore</button>
+                    </form>
                 </div>
-            ) : (
-                <div className="no-results">
-                    <p>No cars match your filters.</p>
-                    <button onClick={handleReset}>Reset Filters</button>
-                </div>
-            )}
+            </section>
 
-            {/* Load More (Fallback for very fast scrolling) */}
-            {hasMore && (
-                <div className="load-more">
-                    <button onClick={() => setVisible((v) => v + PAGE_SIZE)}>
-                        Loading more cars... ({filteredModels.length - visible} remaining)
-                    </button>
-                </div>
-            )}
+            <div className="container">
+                {/* ── QUICK LINKS / TOOLS ── */}
+                <section className="editorial-tools animate-fade-in-up delay-2">
+                    <div className="tool-cards-grid">
+                        <Link to="/cars" className="tool-card catalog-tool">
+                            <div className="tool-icon-wrapper">
+                                <LayoutGrid size={28} />
+                            </div>
+                            <h3>The Master Catalog</h3>
+                            <p>Browse every single BS6-compliant car, filter by true monthly cost, and find exact specs.</p>
+                            <span className="tool-link">Browse Catalog <ChevronRight size={16} /></span>
+                        </Link>
+
+                        <Link to="/search" className="tool-card wiki-tool">
+                            <div className="tool-icon-wrapper">
+                                <BookOpen size={28} />
+                            </div>
+                            <h3>Auto Encyclopedia</h3>
+                            <p>Don't know what a dual-clutch is? Search our live Wikipedia-powered dictionary.</p>
+                            <span className="tool-link">Learn Basics <ChevronRight size={16} /></span>
+                        </Link>
+
+                        <Link to="/news" className="tool-card news-tool">
+                            <div className="tool-icon-wrapper">
+                                <Newspaper size={28} />
+                            </div>
+                            <h3>Top Auto News</h3>
+                            <p>Stay updated with the latest launches, spy shots, and industry shifts.</p>
+                            <span className="tool-link">Read News <ChevronRight size={16} /></span>
+                        </Link>
+                    </div>
+                </section>
+
+                {/* ── VIBE CHECK AI ── */}
+                <section className="home-vibe-section animate-fade-in-up delay-3">
+                    <div className="section-header-editorial">
+                        <h2>Personalized Matchmaker</h2>
+                        <p>Let our AI find the perfect car for your exact lifestyle.</p>
+                    </div>
+                    <VibeCheck />
+                </section>
+
+                {/* ── TOP STORIES (RSS Integration on Homepage) ── */}
+                <section className="home-news-section animate-fade-in-up delay-4">
+                    <div className="section-header-editorial title-with-icon">
+                        <TrendingUp size={28} className="text-primary" />
+                        <h2>Trending Editorial</h2>
+                    </div>
+
+                    {loadingNews ? (
+                        <div className="editorial-loading">Fetching latest stories...</div>
+                    ) : (
+                        <div className="editorial-news-grid">
+                            {news.map((item, idx) => (
+                                <a key={idx} href={item.link} target="_blank" rel="noreferrer" className="editorial-news-card">
+                                    <div className="news-image-wrapper">
+                                        {item.thumbnail ? (
+                                            <img src={item.thumbnail} alt={item.title} />
+                                        ) : (
+                                            <div className="placeholder-image"><Newspaper size={32} /></div>
+                                        )}
+                                    </div>
+                                    <div className="news-content">
+                                        <span className="news-date">{new Date(item.pubDate).toLocaleDateString()}</span>
+                                        <h3>{item.title}</h3>
+                                        <div className="read-more">Read Full Story <ChevronRight size={14} /></div>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    )}
+                    <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+                        <Link to="/news" className="btn btn-primary" style={{ display: 'inline-flex', padding: '0.75rem 2rem', borderRadius: '100px' }}>
+                            View All Auto News  <ChevronRight size={18} style={{ marginLeft: '0.5rem' }} />
+                        </Link>
+                    </div>
+                </section>
+            </div>
         </main>
     );
 }
