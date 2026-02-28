@@ -23,6 +23,9 @@ export default function CarDetailsPage() {
     // Feature: Variant Matrix
     const [showVariantMatrix, setShowVariantMatrix] = useState(false);
 
+    // Selected variant index (for showing specific variant specs)
+    const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
+
     useEffect(() => {
         setLoading(true);
         fetch(`http://localhost:3002/api/db/cars/${id}`)
@@ -33,6 +36,7 @@ export default function CarDetailsPage() {
             .then((data) => {
                 setCar(data);
                 setLoading(false);
+                setSelectedVariantIdx(0);
 
                 if (data) {
                     // Fetch dynamic real-time price
@@ -72,13 +76,29 @@ export default function CarDetailsPage() {
         );
     }
 
+    // ── Active variant (the one whose specs we display) ──
+    const v = car.variants?.[selectedVariantIdx] || car.variants?.[0] || {};
+
     // Extract basic specs for AI prompt
     const pitchSpecs = {
-        price: formatPrice((car.variants?.[0]?.price_lakh || car.price_min) * 100000),
-        body: car.body_type,
-        seating: car.seating_capacity,
-        boot: car.boot_space_litres,
-        mileage: car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'Average'
+        price: formatPrice((v.price_lakh || car.priceMin) * 100000),
+        body: car.bodyType,
+        seating: v.seating_capacity || car.seatingCapacity,
+        boot: v.boot_space_l || car.bootSpace,
+        mileage: v.mileage_kmpl ? `${v.mileage_kmpl} kmpl` : 'Average'
+    };
+
+    // Parse available colors from the selected variant
+    const colorsList = v.available_colors
+        ? v.available_colors.split(',').map(c => c.trim()).filter(Boolean)
+        : [];
+
+    // Helper to render a spec value or a styled N/A
+    const spec = (val, suffix = '') => {
+        if (val === null || val === undefined || val === '' || val === 'N/A') {
+            return <span className="spec-na">—</span>;
+        }
+        return `${val}${suffix}`;
     };
 
     return (
@@ -90,7 +110,7 @@ export default function CarDetailsPage() {
                         <CarImage
                             brand={car.brand}
                             modelId={car.id}
-                            name={car.model_name}
+                            name={car.modelName}
                             showSource={true}
                         />
                     </div>
@@ -102,13 +122,13 @@ export default function CarDetailsPage() {
                             <span>/</span>
                             <span>{car.brand}</span>
                             <span>/</span>
-                            <span className="current">{car.model_name}</span>
+                            <span className="current">{car.modelName}</span>
                         </nav>
 
                         <div className="hero-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
                             <div>
                                 <span className="hero-brand">{car.brand}</span>
-                                <h1 className="hero-name">{car.model_name}</h1>
+                                <h1 className="hero-name">{car.modelName}</h1>
                             </div>
 
                             <div className="epic-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
@@ -164,12 +184,12 @@ export default function CarDetailsPage() {
                             </div>
                         ) : (
                             <p className="hero-price">
-                                {formatPrice((car.variants?.[0]?.price_lakh || car.price_min) * 100000)}
+                                {formatPrice((v.price_lakh || car.priceMin) * 100000)}
                             </p>
                         )}
 
-                        {!dynamicData && car.price_min && car.price_max && car.status === 'Active' && (
-                            <p className="hero-price-range">₹{car.price_min} - {car.price_max} Lakh</p>
+                        {!dynamicData && car.priceMin && car.priceMax && car.status === 'Active' && (
+                            <p className="hero-price-range">₹{Number(car.priceMin).toFixed(2)} - {Number(car.priceMax).toFixed(2)} Lakh</p>
                         )}
 
                         {/* ── Variant Selector ──────────────────── */}
@@ -186,16 +206,15 @@ export default function CarDetailsPage() {
                                     </button>
                                 </div>
                                 <div className="variant-list">
-                                    {car.variants.map((v) => (
-                                        <Link
-                                            key={v.id}
-                                            to={`/car/${car.id}?variant=${v.id}`}
-                                            className={`variant-btn`}
-                                            preventScrollReset={true}
+                                    {car.variants.map((variant, idx) => (
+                                        <button
+                                            key={variant.id}
+                                            className={`variant-btn ${idx === selectedVariantIdx ? 'variant-btn--active' : ''}`}
+                                            onClick={() => setSelectedVariantIdx(idx)}
                                         >
-                                            <span className="variant-name">{v.variant_name}</span>
-                                            <span className="variant-price">{formatPrice(v.price_lakh * 100000)}</span>
-                                        </Link>
+                                            <span className="variant-name">{variant.variant_name}</span>
+                                            <span className="variant-price">{variant.price_lakh ? formatPrice(variant.price_lakh * 100000) : 'Price TBA'}</span>
+                                        </button>
                                     ))}
                                 </div>
 
@@ -209,18 +228,20 @@ export default function CarDetailsPage() {
                                                     <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Engine</th>
                                                     <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Trans.</th>
                                                     <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Mileage</th>
-                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Sunroof</th>
+                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Airbags</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {car.variants.map((v, i) => (
-                                                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                                                        <td style={{ padding: '10px 12px', fontWeight: 'bold' }}>{v.variant_name}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--accent-green)' }}>{formatPrice(v.price_lakh * 100000)}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{v.engine_displacement_cc ? v.engine_displacement_cc + ' cc' : 'N/A'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{v.transmission_type || 'N/A'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{v.mileage_kmpl ? v.mileage_kmpl + ' kmpl' : 'N/A'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: v.has_sunroof ? 'var(--accent-green)' : 'var(--text-muted)' }}>{v.has_sunroof ? 'Yes' : 'No'}</td>
+                                                {car.variants.map((variant, i) => (
+                                                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', cursor: 'pointer', background: i === selectedVariantIdx ? 'rgba(102, 192, 244, 0.08)' : 'transparent' }}
+                                                        onClick={() => setSelectedVariantIdx(i)}
+                                                    >
+                                                        <td style={{ padding: '10px 12px', fontWeight: 'bold' }}>{variant.variant_name}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--accent-green)' }}>{variant.price_lakh ? formatPrice(variant.price_lakh * 100000) : '—'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.engine_displacement_cc ? variant.engine_displacement_cc + ' cc' : '—'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.transmission_type || '—'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.mileage_kmpl ? variant.mileage_kmpl + ' kmpl' : '—'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.airbags_count ?? '—'}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -232,19 +253,19 @@ export default function CarDetailsPage() {
 
                         <div className="quick-specs">
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.mileage || (car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'Efficiency Optimized')}</span>
+                                <span className="qs-value">{dynamicData?.specs?.mileage || (v.mileage_kmpl ? `${v.mileage_kmpl} kmpl` : '—')}</span>
                                 <span className="qs-label">Mileage</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.fuelType || car.variants?.[0]?.fuel_type || 'Multi-Fuel Ready'}</span>
+                                <span className="qs-value">{dynamicData?.specs?.fuelType || v.fuel_type || '—'}</span>
                                 <span className="qs-label">Fuel</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.engine || (car.variants?.[0]?.engine_displacement_cc ? `${car.variants[0].engine_displacement_cc} cc` : 'Performance Tuned')}</span>
+                                <span className="qs-value">{dynamicData?.specs?.engine || (v.engine_displacement_cc ? `${v.engine_displacement_cc} cc` : '—')}</span>
                                 <span className="qs-label">Engine</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.transmission || car.variants?.[0]?.transmission_type || 'Sync Gearbox'}</span>
+                                <span className="qs-value">{dynamicData?.specs?.transmission || v.transmission_type || '—'}</span>
                                 <span className="qs-label">Transmission</span>
                             </div>
                         </div>
@@ -259,10 +280,10 @@ export default function CarDetailsPage() {
                 <nav className="section-nav">
                     <a href="#overview">Overview</a>
                     <a href="#specifications">Specs</a>
-                    <a href="#pros-cons">Pros & Cons</a>
-                    <a href="#problems">Problems</a>
-                    <a href="#maintenance">Maintenance</a>
-                    <a href="#verdict">Verdict</a>
+                    <a href="#dimensions">Dimensions</a>
+                    <a href="#safety">Safety</a>
+                    {colorsList.length > 0 && <a href="#colors">Colors</a>}
+                    {(v.battery_capacity_kwh || v.range_km) && <a href="#ev-specs">EV Specs</a>}
                     <a href="#reviews">Reviews</a>
                 </nav>
 
@@ -273,41 +294,41 @@ export default function CarDetailsPage() {
                     <div className="overview-grid">
                         <div className="overview-item">
                             <span className="ov-label">Body Type</span>
-                            <span className="ov-value">{car.body_type}</span>
+                            <span className="ov-value">{spec(car.bodyType)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Fuel Type</span>
-                            <span className="ov-value">{car.variants?.[0]?.fuel_type || 'N/A'}</span>
+                            <span className="ov-value">{spec(v.fuel_type)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Transmission</span>
-                            <span className="ov-value">{car.variants?.[0]?.transmission || 'N/A'}</span>
+                            <span className="ov-value">{spec(v.transmission_type)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Seating</span>
-                            <span className="ov-value">{car.seating_capacity} persons</span>
+                            <span className="ov-value">{spec(v.seating_capacity || car.seatingCapacity, ' persons')}</span>
                         </div>
                         <div className="overview-item">
-                            <span className="ov-label">Emission</span>
-                            <span className="ov-value">BS6 Phase 2</span>
+                            <span className="ov-label">Launch Year</span>
+                            <span className="ov-value">{spec(car.launch_year)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Price Range</span>
-                            <span className="ov-value">₹{car.price_min} - {car.price_max} Lakh</span>
+                            <span className="ov-value">{car.priceMin && car.priceMax ? `₹${car.priceMin.toFixed(2)} - ${car.priceMax.toFixed(2)} Lakh` : <span className="spec-na">—</span>}</span>
                         </div>
                     </div>
                 </section>
 
-                {/* ── EPIC FEATURE 4: Cost Calculator ──────────────── */}
+                {/* ── Cost Calculator ──────────────────────────────── */}
                 <CostCalculator
-                    carPriceLakh={car.variants?.[0]?.price_lakh || car.price_min}
-                    mileageKmpl={car.variants?.[0]?.mileage_kmpl}
-                    fuelType={car.variants?.[0]?.fuel_type}
+                    carPriceLakh={v.price_lakh || car.priceMin}
+                    mileageKmpl={v.mileage_kmpl}
+                    fuelType={v.fuel_type}
                 />
 
-                {/* ── EPIC FEATURE 5: Depreciation Slider ──────────── */}
+                {/* ── Depreciation Slider ──────────────────────────── */}
                 <DepreciationSlider
-                    basePriceLakh={car.variants?.[0]?.price_lakh || car.price_min}
+                    basePriceLakh={v.price_lakh || car.priceMin}
                     brandName={car.brand}
                     carImageSrc={`http://localhost:3002/api/car/image?modelId=${car.id}`}
                 />
@@ -315,105 +336,120 @@ export default function CarDetailsPage() {
                 {/* ── Specifications ───────────────────────────────── */}
                 <section className="section" id="specifications">
                     <h2 className="section-heading">Specifications</h2>
+                    <p className="variant-indicator">Showing specs for: <strong>{v.variant_name || car.modelName}</strong></p>
                     <div className="spec-columns">
                         <table className="spec-table">
                             <caption>Engine & Performance</caption>
                             <tbody>
-                                <tr><td className="st-key">Drivetrain</td><td>{car.variants?.[0]?.transmission_type || 'N/A'}</td></tr>
-                                <tr><td className="st-key">Displacement</td><td>{car.variants?.[0]?.engine_displacement_cc ? `${car.variants[0].engine_displacement_cc} cc` : 'N/A'}</td></tr>
-                                <tr><td className="st-key">Power</td><td>{car.variants?.[0]?.power_output || 'N/A'}</td></tr>
-                                <tr><td className="st-key">Torque</td><td>{car.variants?.[0]?.torque || 'N/A'}</td></tr>
-                                <tr><td className="st-key">Mileage (ARAI)</td><td>{car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'N/A'}</td></tr>
+                                <tr><td className="st-key">Displacement</td><td className="st-val">{spec(v.engine_displacement_cc, ' cc')}</td></tr>
+                                <tr><td className="st-key">Power</td><td className="st-val">{spec(v.power_output)}</td></tr>
+                                <tr><td className="st-key">Torque</td><td className="st-val">{spec(v.torque)}</td></tr>
+                                <tr><td className="st-key">Drivetrain</td><td className="st-val">{spec(v.drivetrain || v.transmission_type)}</td></tr>
+                                <tr><td className="st-key">Mileage (ARAI)</td><td className="st-val">{spec(v.mileage_kmpl, ' kmpl')}</td></tr>
                             </tbody>
                         </table>
                         <table className="spec-table">
-                            <caption>Dimensions & Capacity</caption>
+                            <caption>Capacity</caption>
                             <tbody>
-                                <tr><td className="st-key">Fuel Tank</td><td>{car.fuel_tank_capacity} Litres</td></tr>
-                                <tr><td className="st-key">Boot Space</td><td>{car.boot_space_litres} Litres</td></tr>
-                                <tr><td className="st-key">Ground Clearance</td><td>{car.ground_clearance_mm} mm</td></tr>
-                                <tr><td className="st-key">Seating</td><td>{car.seating_capacity} persons</td></tr>
-                                <tr><td className="st-key">Body Type</td><td>{car.body_type}</td></tr>
+                                <tr><td className="st-key">Boot Space</td><td className="st-val">{spec(v.boot_space_l || car.bootSpace, ' L')}</td></tr>
+                                <tr><td className="st-key">Ground Clearance</td><td className="st-val">{spec(v.ground_clearance_mm || car.groundClearance, ' mm')}</td></tr>
+                                <tr><td className="st-key">Seating</td><td className="st-val">{spec(v.seating_capacity || car.seatingCapacity, ' persons')}</td></tr>
+                                <tr><td className="st-key">Body Type</td><td className="st-val">{spec(car.bodyType)}</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </section>
 
-                {/* ── Pros & Cons ──────────────────────────────────── */}
-                <section className="section" id="pros-cons">
-                    <h2 className="section-heading">Pros &amp; Cons</h2>
-                    <div className="pros-cons">
-                        <div className="pc-column pc-pros">
-                            <h3 className="pc-heading">
-                                <span className="pc-icon pc-icon-pro">+</span>
-                                What&apos;s Good
-                            </h3>
-                            <ul>
-                                {(car.pros || []).map((item, i) => (
-                                    <li key={i}>{item}</li>
-                                ))}
-                            </ul>
-                        </div>
-                        <div className="pc-column pc-cons">
-                            <h3 className="pc-heading">
-                                <span className="pc-icon pc-icon-con">−</span>
-                                What&apos;s Not
-                            </h3>
-                            <ul>
-                                {(car.cons || []).map((item, i) => (
-                                    <li key={i}>{item}</li>
-                                ))}
-                            </ul>
-                        </div>
-                    </div>
-                </section>
-
-                {/* ── Common Problems ──────────────────────────────── */}
-                <section className="section" id="problems">
-                    <h2 className="section-heading">Common Problems</h2>
-                    <p className="section-note">
-                        Based on owner reports, service records, and forum discussions.
-                        These are known issues — not guaranteed defects.
-                    </p>
-                    <div className="problems-grid">
-                        {(car.commonProblems || []).map((problem, i) => (
-                            <div className="problem-card" key={i}>
-                                <span className="problem-num">{i + 1}</span>
-                                <p>{problem}</p>
+                {/* ── Dimensions ───────────────────────────────────── */}
+                {(v.length_mm || v.width_mm || v.height_mm || v.wheelbase_mm) && (
+                    <section className="section" id="dimensions">
+                        <h2 className="section-heading">Dimensions</h2>
+                        <div className="dimensions-visual">
+                            <div className="dim-grid">
+                                <div className="dim-card">
+                                    <span className="dim-icon">↔</span>
+                                    <span className="dim-value">{spec(v.length_mm, ' mm')}</span>
+                                    <span className="dim-label">Length</span>
+                                </div>
+                                <div className="dim-card">
+                                    <span className="dim-icon">⇔</span>
+                                    <span className="dim-value">{spec(v.width_mm, ' mm')}</span>
+                                    <span className="dim-label">Width</span>
+                                </div>
+                                <div className="dim-card">
+                                    <span className="dim-icon">↕</span>
+                                    <span className="dim-value">{spec(v.height_mm, ' mm')}</span>
+                                    <span className="dim-label">Height</span>
+                                </div>
+                                <div className="dim-card">
+                                    <span className="dim-icon">⟷</span>
+                                    <span className="dim-value">{spec(v.wheelbase_mm, ' mm')}</span>
+                                    <span className="dim-label">Wheelbase</span>
+                                </div>
                             </div>
-                        ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* ── Safety ───────────────────────────────────────── */}
+                <section className="section" id="safety">
+                    <h2 className="section-heading">Safety & Features</h2>
+                    <div className="safety-grid">
+                        <div className={`safety-card ${v.airbags_count ? 'safety-card--has' : ''}`}>
+                            <span className="safety-icon">🛡️</span>
+                            <span className="safety-value">{v.airbags_count ? `${v.airbags_count} Airbags` : '—'}</span>
+                        </div>
+                        <div className={`safety-card ${v.has_abs ? 'safety-card--has' : ''}`}>
+                            <span className="safety-icon">🔒</span>
+                            <span className="safety-value">{v.has_abs ? 'ABS ✓' : 'ABS —'}</span>
+                        </div>
+                        <div className={`safety-card ${v.has_adas ? 'safety-card--has' : ''}`}>
+                            <span className="safety-icon">🤖</span>
+                            <span className="safety-value">{v.has_adas ? 'ADAS ✓' : 'ADAS —'}</span>
+                        </div>
+                        <div className={`safety-card ${v.has_sunroof ? 'safety-card--has' : ''}`}>
+                            <span className="safety-icon">☀️</span>
+                            <span className="safety-value">{v.has_sunroof ? 'Sunroof ✓' : 'Sunroof —'}</span>
+                        </div>
                     </div>
                 </section>
 
-                {/* ── Maintenance ──────────────────────────────────── */}
-                <section className="section" id="maintenance">
-                    <h2 className="section-heading">Maintenance</h2>
-                    <div className="maint-grid">
-                        <div className="maint-card">
-                            <span className="maint-label">Estimated Service Cost</span>
-                            <span className="maint-value">{car.maintenanceCostEstimate}</span>
+                {/* ── EV Specs (conditional) ───────────────────────── */}
+                {(v.battery_capacity_kwh || v.range_km) && (
+                    <section className="section" id="ev-specs">
+                        <h2 className="section-heading">⚡ Electric Vehicle Specs</h2>
+                        <div className="ev-grid">
+                            {v.battery_capacity_kwh && (
+                                <div className="ev-card">
+                                    <span className="ev-icon">🔋</span>
+                                    <span className="ev-value">{v.battery_capacity_kwh} kWh</span>
+                                    <span className="ev-label">Battery Capacity</span>
+                                </div>
+                            )}
+                            {v.range_km && (
+                                <div className="ev-card">
+                                    <span className="ev-icon">🛣️</span>
+                                    <span className="ev-value">{v.range_km} km</span>
+                                    <span className="ev-label">Range</span>
+                                </div>
+                            )}
                         </div>
-                        <div className="maint-card">
-                            <span className="maint-label">Service Interval</span>
-                            <span className="maint-value">{car.serviceInterval || 'Every 10,000 km or 12 months'}</span>
-                        </div>
-                        <div className="maint-card">
-                            <span className="maint-label">Warranty</span>
-                            <span className="maint-value">2 years / unlimited km (standard)</span>
-                        </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
-                {/* ── Final Verdict ────────────────────────────────── */}
-                <section className="section section-verdict" id="verdict">
-                    <h2 className="section-heading">Final Verdict</h2>
-                    <div className="verdict-content">
-                        <p>{car.verdict || `The ${car.name} is a solid choice in the ${(car.bodyType || '').split(',')[0].trim().toLowerCase()} segment.`}</p>
-                        <p className="verdict-note">
-                            ★ Research thoroughly. Test drive before buying. Check service network in your city.
-                        </p>
-                    </div>
-                </section>
+                {/* ── Available Colors ─────────────────────────────── */}
+                {colorsList.length > 0 && (
+                    <section className="section" id="colors">
+                        <h2 className="section-heading">Available Colors</h2>
+                        <div className="colors-grid">
+                            {colorsList.map((color, i) => (
+                                <div className="color-chip" key={i}>
+                                    <span className="color-name">{color}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
 
                 {/* ── Customer Reviews ────────────────────────────── */}
                 <ReviewsSection carId={car.id} />
@@ -426,7 +462,7 @@ export default function CarDetailsPage() {
 
             {showPitchDeck && (
                 <PitchDeckModal
-                    carName={car.model_name}
+                    carName={car.modelName}
                     specs={pitchSpecs}
                     onClose={() => setShowPitchDeck(false)}
                 />
@@ -434,9 +470,9 @@ export default function CarDetailsPage() {
 
             {showDriveSim && (
                 <DriveSimulator
-                    carName={car.model_name}
-                    powerBhp={parseInt(car.variants?.[0]?.power_output) || 100}
-                    fuelType={car.variants?.[0]?.fuel_type}
+                    carName={car.modelName}
+                    powerBhp={parseInt(v.power_output) || 100}
+                    fuelType={v.fuel_type}
                     onClose={() => setShowDriveSim(false)}
                 />
             )}

@@ -86,9 +86,18 @@ export default function CatalogPage() {
             });
         }
 
-        if (sortBy === 'price-low') result = [...result].sort((a, b) => a.price_min - b.price_min);
-        else if (sortBy === 'price-high') result = [...result].sort((a, b) => b.price_max - a.price_max);
-        else result = [...result].sort((a, b) => a.price_min - b.price_min);
+        // Primary sort by chosen option
+        if (sortBy === 'price-low') result = [...result].sort((a, b) => (a.price_min || 999) - (b.price_min || 999));
+        else if (sortBy === 'price-high') result = [...result].sort((a, b) => (b.price_max || 0) - (a.price_max || 0));
+        else if (sortBy === 'newest') result = [...result].sort((a, b) => (b.launch_year || 0) - (a.launch_year || 0));
+        else result = [...result].sort((a, b) => (a.price_min || 999) - (b.price_min || 999));
+
+        // Always push Discontinued cars to the end
+        result.sort((a, b) => {
+            const aDisc = a.status === 'Discontinued' ? 1 : 0;
+            const bDisc = b.status === 'Discontinued' ? 1 : 0;
+            return aDisc - bDisc;
+        });
 
         return result;
     }, [allCars, search, brandFilter, bodyFilter, fuelFilter, budgetFilter, sortBy]);
@@ -155,7 +164,7 @@ export default function CatalogPage() {
                     </select>
 
                     <select value={sortBy} onChange={(e) => { setSortBy(e.target.value); setVisible(PAGE_SIZE); }}>
-                        <option value="newest">Price: Low → High</option>
+                        <option value="newest">Newest First</option>
                         <option value="price-low">Price: Low → High</option>
                         <option value="price-high">Price: High → Low</option>
                     </select>

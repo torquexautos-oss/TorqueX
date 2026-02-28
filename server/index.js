@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import Groq from 'groq-sdk';
 import NodeCache from 'node-cache';
 import http from 'http';
+import parser from '@postlight/parser'; // NEW: Mercury Parser for full text
 import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
 import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
@@ -27,6 +28,44 @@ const groq = groqKey ? new Groq({ apiKey: groqKey }) : null;
 
 // ── Feed Cache (15-minute TTL per channel — keeps it live) ─────
 const feedCache = new NodeCache({ stdTTL: 900 }); // 15 minutes
+
+// ── Full Article Cache (1 hour TTL) ────────────────────────────
+const articleCache = new NodeCache({ stdTTL: 3600 });
+
+// ── Full Article Extraction Endpoint ───────────────────────────
+// GET /api/article-content?url=...
+app.get('/api/article-content', async (req, res) => {
+    const targetUrl = req.query.url;
+    if (!targetUrl) return res.status(400).json({ error: 'URL is required' });
+
+    // Check cache first to avoid hammering publishers
+    const cached = articleCache.get(targetUrl);
+    if (cached) return res.json(cached);
+
+    try {
+        console.log(`[Parser] Extracting full text for: ${targetUrl}`);
+        const result = await parser.parse(targetUrl);
+
+        if (!result || !result.content) {
+            throw new Error("Parser returned empty content.");
+        }
+
+        const payload = {
+            title: result.title,
+            content: result.content, // This is clean HTML
+            author: result.author,
+            date_published: result.date_published,
+            lead_image_url: result.lead_image_url,
+            word_count: result.word_count
+        };
+
+        articleCache.set(targetUrl, payload);
+        res.json(payload);
+    } catch (err) {
+        console.error(`[Parser Error] Failed to extract ${targetUrl}:`, err.message);
+        res.status(500).json({ error: 'Failed to extract full article text.' });
+    }
+});
 
 // ── Live Feed Endpoint ─────────────────────────────────────────
 // GET /api/feed?channels=electrek,autocar-india&page=1&limit=20
@@ -152,13 +191,27 @@ app.get('/api/car/scrape', async (req, res) => {
 });
 
 app.get('/api/images', (req, res) => {
-    res.json(getImageMap());
+    // Merge scraper cache with DB image_url values
+    const scraperMap = getImageMap();
+    const dbImages = getAllCars().reduce((map, car) => {
+        if (car.image_url && !scraperMap[car.id]) {
+            map[car.id] = { imageUrl: car.image_url, source: 'CarWale', sourceUrl: null };
+        }
+        return map;
+    }, {});
+    res.json({ ...dbImages, ...scraperMap });
 });
 
 app.get('/api/car/image', (req, res) => {
     const { modelId } = req.query;
     const img = getCarImage(modelId);
-    res.json(img || { imageUrl: null, source: null });
+    if (img) return res.json(img);
+    // Fallback: check DB image_url
+    const car = getCarById(modelId);
+    if (car && car.image_url) {
+        return res.json({ imageUrl: car.image_url, source: 'CarWale' });
+    }
+    res.json({ imageUrl: null, source: null });
 });
 
 import { parseVibeQuery, generateVibePitch, generatePitchDeck } from './ai.js';
@@ -189,40 +242,84 @@ app.post('/api/vibe-check', async (req, res) => {
         if (!query) return res.status(400).json({ error: 'Query is required' });
 
         const searchParams = await parseVibeQuery(query);
-        let cars = getAllCars();
+        let cars = getAllCars().filter(c => c.price_min && c.status !== 'Discontinued');
 
         // 1. Filter by Body Type (if specified)
         if (searchParams.body_type && searchParams.body_type !== 'Any') {
             const filtered = cars.filter(c => c.body_type && c.body_type.toLowerCase().includes(searchParams.body_type.toLowerCase()));
-            if (filtered.length > 0) cars = filtered; // fallback to all if strict filter fails
+            if (filtered.length > 0) cars = filtered;
         }
 
-        // 2. Budget Scoring & Priority Scoring
+        // 2. Comprehensive Scoring
+        const budget = searchParams.budget || 99999999;
         const scoredCars = cars.map(car => {
             let score = 0;
             const carPrice = car.price_min * 100000;
 
-            if (carPrice <= searchParams.budget) score += 50;
-            else if (carPrice <= searchParams.budget * 1.2) score -= 10;
-            else score -= 100;
+            // Budget scoring (0-40 points) — closer to budget = better
+            if (budget < 99999999) {
+                const ratio = carPrice / budget;
+                if (ratio <= 1.0) score += 40 - Math.round(Math.abs(1 - ratio) * 30);
+                else if (ratio <= 1.15) score += 20;
+                else if (ratio <= 1.3) score += 5;
+                else score -= 30;
+            }
 
-            if (searchParams.priority === 'Performance' && carPrice > 1500000) score += 20;
-            if (searchParams.priority === 'Family' && ['SUV', 'MUV', 'Minivan'].includes(car.body_type)) score += 20;
+            // Priority scoring (0-30 points)
+            const p = searchParams.priority;
+            if (p === 'Performance') {
+                if (car.power_output) {
+                    const bhp = parseFloat(car.power_output);
+                    if (bhp > 150) score += 30;
+                    else if (bhp > 100) score += 15;
+                }
+                if (['Coupe', 'Sedan'].includes(car.body_type)) score += 10;
+            }
+            if (p === 'Mileage') {
+                if (car.mileage_kmpl) {
+                    if (car.mileage_kmpl > 20) score += 30;
+                    else if (car.mileage_kmpl > 15) score += 20;
+                    else score += 5;
+                }
+            }
+            if (p === 'Family') {
+                if (['SUV', 'MUV', 'MPV', 'Minivan'].includes(car.body_type)) score += 25;
+                if (car.airbags_count && car.airbags_count >= 6) score += 10;
+                if (car.boot_space_l && car.boot_space_l > 400) score += 5;
+            }
+            if (p === 'Status') {
+                if (carPrice > 3000000) score += 25;
+                if (['Coupe', 'Convertible'].includes(car.body_type)) score += 10;
+            }
 
-            return { ...car, score };
+            // Bonus for having more data (car appears more complete/premium)
+            let dataBonus = 0;
+            if (car.power_output) dataBonus += 2;
+            if (car.mileage_kmpl) dataBonus += 2;
+            if (car.airbags_count) dataBonus += 2;
+            if (car.image_url) dataBonus += 3;
+            score += dataBonus;
+
+            // Normalize to percentage (0-100)
+            const matchPct = Math.min(100, Math.max(5, Math.round((score / 80) * 100)));
+
+            return { ...car, score, matchPct };
         });
 
-        // 3. Find Best Match
+        // 3. Find Top 3 Matches
         scoredCars.sort((a, b) => b.score - a.score);
-        const bestMatch = scoredCars[0];
+        const topMatches = scoredCars.slice(0, 3);
 
-        // 4. Generate Pitch
-        const pitch = await generateVibePitch(bestMatch, query);
+        // 4. Generate Pitch for #1 match
+        const pitch = await generateVibePitch(topMatches[0], query);
 
         res.json({
-            car: bestMatch,
-            pitch: pitch,
-            understoodParams: searchParams
+            matches: topMatches.map((car, i) => ({
+                ...car,
+                rank: i + 1,
+            })),
+            pitch,
+            understoodParams: searchParams,
         });
 
     } catch (e) {

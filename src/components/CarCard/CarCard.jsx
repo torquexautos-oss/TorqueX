@@ -40,6 +40,16 @@ export default function CarCard({ car }) {
                     <span className="car-card-brand">{car.brand}</span>
                     <h3 className="car-card-name">{car.model_name}</h3>
 
+                    {/* Generation Year Badge — only shown when we have a confirmed year range */}
+                    {car.end_year && car.launch_year && (
+                        <span className="car-card-gen-badge">
+                            {car.end_year !== car.launch_year
+                                ? `${car.launch_year} – ${car.end_year}`
+                                : `${car.launch_year}`
+                            }
+                        </span>
+                    )}
+
                     {/* Status Badge & Price range display */}
                     <div className="car-card-price-range">
                         {car.status === 'Upcoming' ? (
