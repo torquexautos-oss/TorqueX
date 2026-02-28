@@ -1,16 +1,36 @@
-# React + Vite
+# TorqueX
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+TorqueX is an Intelligent Car Advisor built with React and a custom Node.js Express backend. It features a highly specialized recommendation engine that evaluates hundreds of cars across multiple dimensions (Performance, Safety, Resale, Service, Mileage, and Reliability).
 
-Currently, two official plugins are available:
+## Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Intelligent Scoring Engine V2**: Uses segment-aware percentile ranking and custom brand priors to precisely match user priorities. It implements strict price-descending subsets logic to maximize budget value.
+- **Neon-Tech HUD UI**: A sleek, dark-mode dashboard inspired by supercar instrumentation (Boost meters, glowing stats, dynamic score bars).
+- **Extensive Database**: Features a comprehensive database of 500+ Indian market cars with detailed specifications stored in SQLite.
+- **Real-Time Filtering**: Dynamic budget range sliders, body type matching, and fuel type filtering ensure hyper-relevant results.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React (Vite), native CSS3 (no external libraries)
+- **Backend**: Node.js, Express
+- **Database**: SQLite3 (`better-sqlite3`)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+Ensure you have Node.js (v18+) installed on your machine.
+
+### Installation
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Run the development server (starts both React frontend and Express backend concurrently):
+   ```bash
+   npm run dev
+   ```
+
+3. Access the application at `http://localhost:5173`.
