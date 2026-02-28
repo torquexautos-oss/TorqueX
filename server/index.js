@@ -326,16 +326,6 @@ server.listen(port, () => {
     console.log(`TorqueX Backend running on port ${port}`);
     console.log(`  News: Live channel system (${Object.keys(CHANNELS).length} channels, 0 AI cost)`);
     console.log(`  On-demand summaries: ${groq ? 'enabled' : 'disabled (no API key)'}`);
-
-    // Start building image cache in background
-    try {
-        const carsData = JSON.parse(fs.readFileSync('public/cars_full.json', 'utf8'));
-        setTimeout(() => {
-            buildImageCache(carsData).catch(e => console.error('[ImageCache] Error:', e.message));
-        }, 3000);
-    } catch (e) {
-        console.warn('[ImageCache] Could not load cars_full.json:', e.message);
-    }
 });
 
 process.on('SIGTERM', () => { server.close(); });

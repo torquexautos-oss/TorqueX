@@ -3,8 +3,9 @@ import { useSearchParams } from 'react-router-dom';
 import { groupCarsByModel } from '../../utils/carGrouper';
 import CarCard from '../../components/CarCard/CarCard';
 import './HomePage.css';
+import { Search, Filter, SlidersHorizontal } from 'lucide-react';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 24; // 4 columns * 6 rows
 
 export default function HomePage() {
     const [searchParams] = useSearchParams();
@@ -19,6 +20,7 @@ export default function HomePage() {
     const [brandFilter, setBrandFilter] = useState('');
     const [fuelFilter, setFuelFilter] = useState('');
     const [bodyFilter, setBodyFilter] = useState(initialType);
+    const [budgetFilter, setBudgetFilter] = useState('');
     const [sortBy, setSortBy] = useState('newest');
 
     // Filter options from API
@@ -45,6 +47,15 @@ export default function HomePage() {
         fetch('http://localhost:3002/api/db/stats')
             .then(res => res.json())
             .then(data => setBodies(data.bodyTypes || []));
+
+        // Infinite scroll listener
+        const handleScroll = () => {
+            if (window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 800) {
+                setVisible(v => v + PAGE_SIZE);
+            }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     // Client-side filtering on the DB results
@@ -60,6 +71,17 @@ export default function HomePage() {
         }
         if (brandFilter) result = result.filter((m) => m.brand === brandFilter);
         if (bodyFilter) result = result.filter((m) => m.body_type === bodyFilter);
+        if (fuelFilter) result = result.filter((m) => m.fuelType === fuelFilter || m.fuelType?.includes(fuelFilter));
+
+        // Budget
+        if (budgetFilter) {
+            const [min, max] = budgetFilter.split('-').map(Number);
+            result = result.filter(m => {
+                if (!m.price_min) return false;
+                if (max) return m.price_min >= min && m.price_min <= max;
+                return m.price_min >= min; // "50+" case
+            });
+        }
 
         // Sort
         if (sortBy === 'price-low') result = [...result].sort((a, b) => a.price_min - b.price_min);
@@ -77,6 +99,7 @@ export default function HomePage() {
         setBrandFilter('');
         setFuelFilter('');
         setBodyFilter('');
+        setBudgetFilter('');
         setSortBy('newest');
         setVisible(PAGE_SIZE);
     };
@@ -97,9 +120,9 @@ export default function HomePage() {
                     {filteredModels.length} models &middot; {allCars.length} variants
                 </p>
             </div>
-
             {/* Search */}
             <div className="home-search">
+                <Search size={20} className="search-icon" />
                 <input
                     type="text"
                     placeholder="Search by car name or brand..."
@@ -110,6 +133,7 @@ export default function HomePage() {
 
             {/* Filters */}
             <div className="home-filters">
+                <SlidersHorizontal size={18} className="filter-icon" />
                 <select value={brandFilter} onChange={(e) => { setBrandFilter(e.target.value); setVisible(PAGE_SIZE); }}>
                     <option value="">All Brands</option>
                     {brands.map((b) => <option key={b} value={b}>{b}</option>)}
@@ -129,10 +153,18 @@ export default function HomePage() {
                     <option value="newest">Price: Low → High</option>
                     <option value="price-low">Price: Low → High</option>
                     <option value="price-high">Price: High → Low</option>
-                    <option value="variants">Most Variants</option>
                 </select>
 
-                {(search || brandFilter || fuelFilter || bodyFilter) && (
+                <select value={budgetFilter} onChange={(e) => { setBudgetFilter(e.target.value); setVisible(PAGE_SIZE); }}>
+                    <option value="">Any Budget</option>
+                    <option value="0-10">Under ₹10 Lakh</option>
+                    <option value="10-20">₹10L - ₹20 Lakh</option>
+                    <option value="20-30">₹20L - ₹30 Lakh</option>
+                    <option value="30-50">₹30L - ₹50 Lakh</option>
+                    <option value="50-1000">Above ₹50 Lakh</option>
+                </select>
+
+                {(search || brandFilter || fuelFilter || bodyFilter || budgetFilter) && (
                     <button className="reset-btn" onClick={handleReset}>Reset</button>
                 )}
             </div>
@@ -151,11 +183,11 @@ export default function HomePage() {
                 </div>
             )}
 
-            {/* Load More */}
+            {/* Load More (Fallback for very fast scrolling) */}
             {hasMore && (
                 <div className="load-more">
                     <button onClick={() => setVisible((v) => v + PAGE_SIZE)}>
-                        Load More ({filteredModels.length - visible} remaining)
+                        Loading more cars... ({filteredModels.length - visible} remaining)
                     </button>
                 </div>
             )}
