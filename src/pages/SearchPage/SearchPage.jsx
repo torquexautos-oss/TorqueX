@@ -100,15 +100,114 @@ export default function SearchPage() {
             let isRelevant = false;
             const pages = catData?.query?.pages;
 
+            // ── Comprehensive Automotive Vocabulary ──────────────────
+            const CATEGORY_WHITELIST = [
+                // Vehicle types & industry
+                "automob", "vehicle", "car ", "cars ", "truck", "bus ", "van ",
+                "motorcycle", "motorbike", "scooter",
+                // Engineering & mechanics
+                "engine", "motor", "mechanics", "mechanical", "powertrain",
+                "drivetrain", "transmission", "gearbox", "driveshaft",
+                // Parts & components
+                "chassis", "wheel", "tire", "tyre", "brake", "suspension",
+                "steering", "exhaust", "muffler", "catalytic", "radiator",
+                "alternator", "starter", "battery", "ignition", "spark plug",
+                "camshaft", "crankshaft", "piston", "cylinder", "turbo",
+                "supercharg", "intercooler", "carburetor", "fuel inject",
+                "differential", "axle", "bearing", "gasket", "valve",
+                "clutch", "flywheel", "torque converter",
+                // Body & exterior
+                "bumper", "fender", "hood", "bonnet", "windshield", "windscreen",
+                "headlight", "taillight", "grille", "spoiler", "roof rack",
+                "sunroof", "moonroof", "convertible top",
+                // Interior & comfort
+                "dashboard", "instrument panel", "airbag", "seatbelt",
+                "infotainment", "head-up display", "upholstery",
+                // Safety & assistance
+                "safety", "driver", "driving", "adas", "cruise control",
+                "anti-lock", "abs", "electronic stability", "traction control",
+                "lane departure", "blind spot", "parking sensor", "collision",
+                "autonomous", "self-driving",
+                // Fuel & energy
+                "fuel", "gasoline", "petrol", "diesel", "biodiesel",
+                "electric vehicle", "hybrid", "hydrogen", "ev ", "phev",
+                "charging station", "range anxiety",
+                // Performance & dynamics
+                "aerodynamic", "horsepower", "torque", "rpm",
+                "acceleration", "top speed", "drag coefficient",
+                "downforce", "oversteer", "understeer", "handling",
+                // Racing & motorsport
+                "racing", "motorsport", "formula one", "f1", "nascar",
+                "rally", "le mans", "grand prix", "indianapolis",
+                "drag race", "circuit", "pit stop",
+                // Transport & roads
+                "transport", "highway", "freeway", "traffic",
+                "road", "intersection", "roundabout",
+                // Manufacturers & industry
+                "automaker", "car manufacturer", "dealership",
+                "auto show", "motor show", "automotive industry",
+                // Standards & regulations
+                "emission", "euro ", "ncap", "crash test", "recall",
+                "odometer", "speedometer", "tachometer",
+            ];
+
+            const TITLE_WHITELIST = [
+                // Core terms
+                "car", "auto", "vehicle", "motor", "engine", "truck", "bus",
+                // Parts
+                "wheel", "tire", "tyre", "brake", "clutch", "gear", "axle",
+                "piston", "cylinder", "turbo", "supercharg", "exhaust",
+                "suspension", "steering", "transmission", "drivetrain",
+                "chassis", "bumper", "fender", "hood", "bonnet", "grille",
+                "headlight", "taillight", "windshield", "windscreen",
+                "radiator", "alternator", "starter", "camshaft", "crankshaft",
+                "catalytic", "muffler", "differential", "flywheel",
+                "spark plug", "fuel inject", "carburetor", "gasket", "valve",
+                "driveshaft", "bearing", "rotor", "caliper", "strut",
+                "shock absorber", "sway bar", "control arm", "tie rod",
+                "ball joint", "cv joint", "u-joint", "torque converter",
+                // Body
+                "sedan", "hatchback", "suv", "coupe", "convertible",
+                "wagon", "minivan", "pickup", "crossover", "roadster",
+                "limousine", "cabriolet",
+                // Safety & tech
+                "airbag", "seatbelt", "abs", "adas", "cruise control",
+                "driver", "driving", "autonomous", "self-driving",
+                "lane departure", "blind spot", "parking sensor",
+                "anti-lock", "traction control", "stability control",
+                "collision", "crash test", "ncap", "safety",
+                // Interior
+                "dashboard", "infotainment", "sunroof", "moonroof",
+                "head-up display", "instrument panel",
+                // Fuel & energy
+                "fuel", "gasoline", "petrol", "diesel", "hybrid",
+                "electric", "hydrogen", "ev ", "phev", "battery",
+                "charging", "range",
+                // Performance
+                "horsepower", "torque", "rpm", "acceleration",
+                "aerodynamic", "downforce", "turbocharger",
+                "supercharger", "intercooler", "nitrous",
+                // Road & driving
+                "highway", "traffic", "road", "speed limit",
+                "odometer", "speedometer", "tachometer", "mileage",
+                // Racing
+                "racing", "motorsport", "formula", "nascar", "rally",
+                "le mans", "grand prix", "drag race", "circuit",
+                // Industry
+                "automotive", "automaker", "dealership", "recall",
+                "emission", "car manufacturer",
+                // Motorcycle
+                "motorcycle", "motorbike", "scooter", "moped",
+            ];
+
             if (pages) {
                 const pageInfo = Object.values(pages)[0];
 
-                // 1. Check PageProps for "wikibase_item" to see if it's explicitly marked as a "human" (Q5) or similar, but the easiest proxy is just reading the categories.
                 if (pageInfo && pageInfo.categories) {
                     const categories = pageInfo.categories.map(c => c.title.toLowerCase());
                     const combinedCategories = categories.join(" ");
 
-                    // STRICT BLACKLIST: If it's a person, singer, album, movie, or fictional character -> Instant Ban
+                    // STRICT BLACKLIST: People, entertainment, fiction -> Instant Ban
                     if (
                         combinedCategories.includes("births") ||
                         combinedCategories.includes("deaths") ||
@@ -118,39 +217,31 @@ export default function SearchPage() {
                         combinedCategories.includes("politicians") ||
                         combinedCategories.includes("albums") ||
                         combinedCategories.includes("films") ||
-                        combinedCategories.includes("television")
+                        combinedCategories.includes("television") ||
+                        combinedCategories.includes("footballer") ||
+                        combinedCategories.includes("cricketer") ||
+                        combinedCategories.includes("novelist") ||
+                        combinedCategories.includes("poet")
                     ) {
                         isRelevant = false;
                     }
-                    // STRICT WHITELIST: Must contain at least one of these core automotive/engineering concepts
-                    else if (
-                        combinedCategories.includes("automob") ||
-                        combinedCategories.includes("vehicle") ||
-                        combinedCategories.includes("car") ||
-                        combinedCategories.includes("transport") ||
-                        combinedCategories.includes("engine") ||
-                        combinedCategories.includes("motors") ||
-                        combinedCategories.includes("auto parts") ||
-                        combinedCategories.includes("motorcycle") ||
-                        combinedCategories.includes("racing") ||
-                        combinedCategories.includes("mechanics")
-                    ) {
+                    // WHITELIST: Check categories against our comprehensive list
+                    else if (CATEGORY_WHITELIST.some(kw => combinedCategories.includes(kw))) {
                         isRelevant = true;
                     }
 
-                    // IF IT FAILED THE CATCH-ALL CATEGORIES, check if the exact noun itself is an inherently automotive component
+                    // TITLE FALLBACK: Check if the article title itself is automotive
                     if (!isRelevant) {
                         const titleLower = bestTitle.toLowerCase();
-                        if (
-                            titleLower.includes("car") ||
-                            titleLower.includes("engine") ||
-                            titleLower.includes("motor") ||
-                            titleLower.includes("transmission") ||
-                            titleLower.includes("brake") ||
-                            titleLower.includes("clutch") ||
-                            titleLower.includes("tire") ||
-                            titleLower.includes("suspension")
-                        ) {
+                        if (TITLE_WHITELIST.some(kw => titleLower.includes(kw))) {
+                            isRelevant = true;
+                        }
+                    }
+
+                    // SEARCH QUERY FALLBACK: If the user's original query contains automotive terms, trust it
+                    if (!isRelevant) {
+                        const queryLower = searchQuery.toLowerCase();
+                        if (TITLE_WHITELIST.some(kw => queryLower.includes(kw))) {
                             isRelevant = true;
                         }
                     }
@@ -236,7 +327,8 @@ export default function SearchPage() {
                             {showSuggestions && suggestions.length > 0 && (
                                 <ul className="search-suggestions">
                                     {suggestions.map((sug, idx) => (
-                                        <li key={idx} onClick={() => {
+                                        <li key={idx} onMouseDown={(e) => {
+                                            e.preventDefault(); // Prevents input blur from firing first
                                             setQuery(sug);
                                             fetchWikipediaArticle(sug);
                                         }}>

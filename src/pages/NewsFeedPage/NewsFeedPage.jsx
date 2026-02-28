@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import {
     RefreshCw, Clock, Search, Globe, Zap, ChevronLeft, ChevronRight,
-    X, ExternalLink, BookOpen, Sparkles, Plus, Check, Radio, Rss, ArrowLeft, AlertCircle
+    X, ExternalLink, BookOpen, Sparkles, AlertCircle, ArrowLeft, TrendingUp, Compass, Star
 } from 'lucide-react';
 import './NewsFeedPage.css';
 
@@ -19,69 +19,68 @@ const timeAgo = (dateStr) => {
     return new Date(dateStr).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 };
 
-const STORAGE_KEY = 'torquex_subscribed_channels';
-const getSubscribed = () => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-    catch { return []; }
-};
-const saveSubscribed = (ids) => localStorage.setItem(STORAGE_KEY, JSON.stringify(ids));
-
 const NewsFeedPage = () => {
-    const [view, setView] = useState('feed');
-    const [channels, setChannels] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [subscribed, setSubscribed] = useState(getSubscribed());
+    const [allChannelIds, setAllChannelIds] = useState([]);
     const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    // Filtering & Pagination
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('all');
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalArticles, setTotalArticles] = useState(0);
+    const [lastRefresh, setLastRefresh] = useState(null);
+    const refreshTimerRef = useRef(null);
+
+    // AI Summary
+    const [summaryLoading, setSummaryLoading] = useState(null);
+    const [summaries, setSummaries] = useState({});
+
+    // Reader Mode
+    const [view, setView] = useState('feed'); // 'feed' | 'reader'
     const [readerUrl, setReaderUrl] = useState('');
     const [readerSource, setReaderSource] = useState('');
     const [readerTitle, setReaderTitle] = useState('');
-    const [iframeError, setIframeError] = useState(false);
-    const [summaryLoading, setSummaryLoading] = useState(null);
-    const [summaries, setSummaries] = useState({});
-    const [lastRefresh, setLastRefresh] = useState(null);
-    const [channelFilter, setChannelFilter] = useState('all');
-    const refreshTimerRef = useRef(null);
+    const [readerContent, setReaderContent] = useState('');
 
-    // Load channels from backend
+    // Initial Data Load (Channels)
     useEffect(() => {
-        fetch('http://localhost:3002/api/channels')
-            .then(r => r.json())
-            .then(data => {
-                setChannels(data.channels || []);
+        const init = async () => {
+            try {
+                const res = await fetch('http://localhost:3002/api/channels');
+                if (!res.ok) throw new Error('Failed to load channels');
+                const data = await res.json();
+                const ids = (data.channels || []).map(c => c.id);
                 setCategories(data.categories || []);
-            })
-            .catch(() => setError('Cannot connect to backend on port 3001'));
+                setAllChannelIds(ids);
+            } catch (err) {
+                setError('Could not connect to news server.');
+                setLoading(false);
+            }
+        };
+        init();
     }, []);
 
-    // Switch to channels view if nothing subscribed
-    useEffect(() => {
-        if (channels.length > 0 && subscribed.length === 0) {
-            setView('channels');
-        }
-    }, [channels, subscribed]);
-
-    // Fetch live feed
-    const fetchFeed = useCallback(async () => {
-        if (subscribed.length === 0) return;
-        setLoading(true);
+    // Fetch Master Feed
+    const fetchFeed = useCallback(async (isRefresh = false) => {
+        if (allChannelIds.length === 0) return;
+        if (!isRefresh) setLoading(true);
         setError('');
+
         try {
             const params = new URLSearchParams({
-                channels: subscribed.join(','),
+                channels: allChannelIds.join(','),
                 page: page.toString(),
-                limit: '20',
+                limit: '24', // Enough to fill out the magazine grid
                 ...(activeCategory !== 'all' && { category: activeCategory }),
                 ...(searchQuery && { q: searchQuery }),
             });
             const res = await fetch(`http://localhost:3002/api/feed?${params}`);
             const data = await res.json();
+
             if (res.ok) {
                 setArticles(data.articles || []);
                 setTotalPages(data.totalPages || 1);
@@ -91,44 +90,25 @@ const NewsFeedPage = () => {
                 setError(data.error || 'Failed to fetch feed');
             }
         } catch {
-            setError('Cannot connect to backend');
+            setError('Lost connection to the TorqueX feed.');
         } finally {
             setLoading(false);
         }
-    }, [subscribed, page, activeCategory, searchQuery]);
+    }, [allChannelIds, page, activeCategory, searchQuery]);
 
     useEffect(() => {
-        if (subscribed.length > 0 && view === 'feed') fetchFeed();
-    }, [fetchFeed, view]);
+        fetchFeed();
+    }, [fetchFeed]);
 
-    // Auto-refresh every 5 minutes
+    // Auto-refresh every 5 minutes on page 1 only
     useEffect(() => {
-        if (view === 'feed' && subscribed.length > 0) {
-            refreshTimerRef.current = setInterval(fetchFeed, 5 * 60 * 1000);
+        if (view === 'feed' && allChannelIds.length > 0 && page === 1 && !searchQuery) {
+            refreshTimerRef.current = setInterval(() => fetchFeed(true), 5 * 60 * 1000);
             return () => clearInterval(refreshTimerRef.current);
         }
-    }, [view, subscribed, fetchFeed]);
+    }, [view, allChannelIds, fetchFeed, page, searchQuery]);
 
-    const toggleSubscribe = (channelId) => {
-        setSubscribed(prev => {
-            const next = prev.includes(channelId)
-                ? prev.filter(id => id !== channelId)
-                : [...prev, channelId];
-            saveSubscribed(next);
-            return next;
-        });
-    };
-
-    const subscribeAll = (categoryFilter) => {
-        const ids = channels
-            .filter(c => categoryFilter === 'all' || c.category === categoryFilter)
-            .map(c => c.id);
-        const merged = [...new Set([...subscribed, ...ids])];
-        setSubscribed(merged);
-        saveSubscribed(merged);
-    };
-
-    // On-demand AI summary
+    // AI On-Demand Summarization
     const requestSummary = async (article) => {
         if (summaries[article.id]) return;
         setSummaryLoading(article.id);
@@ -147,229 +127,314 @@ const NewsFeedPage = () => {
         }
     };
 
-    const openReader = (article) => {
+    const [readerLoading, setReaderLoading] = useState(false);
+
+    // Reader Mode Handlers
+    const openReader = async (article) => {
         setReaderUrl(article.url);
         setReaderSource(article.source);
         setReaderTitle(article.title);
-        setIframeError(false);
+        setReaderContent('');
+        setReaderLoading(true);
         setView('reader');
+        window.scrollTo(0, 0); // Reset scroll position when opening reader
+
+        try {
+            // Fetch the full extracted HTML from our new backend parser endpoint
+            const res = await fetch(`http://localhost:3002/api/article-content?url=${encodeURIComponent(article.url)}`);
+            const data = await res.json();
+
+            if (res.ok && data.content && data.content.length > 50) {
+                setReaderContent(data.content);
+            } else {
+                throw new Error("Parser returned insufficient content");
+            }
+        } catch (err) {
+            console.error("Failed to load full article natively:", err);
+            // Fallback to description if fullContent extraction fails
+            const fallbackHtml = (article.fullContent && article.fullContent.length > 100)
+                ? article.fullContent
+                : `<p class="reader-fallback-desc">${article.description}</p>
+                   <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1rem;">
+                     <small><em>Note: TorqueX could not extract the full text for this specific article format. Please read the original.</em></small>
+                   </p>`;
+            setReaderContent(fallbackHtml);
+        } finally {
+            setReaderLoading(false);
+        }
     };
 
-    const closeReader = () => { setReaderUrl(''); setView('feed'); };
+    const closeReader = () => {
+        setReaderUrl('');
+        setReaderContent('');
+        setReaderTitle('');
+        setReaderSource('');
+        setReaderLoading(false);
+        setView('feed');
+    };
 
-    // ── Channel Discovery Grid ──────────────────────────────────
-    const renderChannelGrid = () => {
-        const filteredChannels = channelFilter === 'all'
-            ? channels
-            : channels.filter(c => c.category === channelFilter);
+    // Sub-components for rendering cards
+    const renderArticleCard = (article, idx, type = 'standard') => {
+        const isSummarized = !!summaries[article.id];
+        const isSummarizing = summaryLoading === article.id;
 
         return (
-            <div className="channels-view">
-                <header className="channels-header animate-fade-in-up">
-                    <div>
-                        <h1>News <span className="gradient-text">Channels</span></h1>
-                        <p>Subscribe to your favorite automotive news sources. Your feed, your rules.</p>
+            <article key={article.id || idx} className={`editorial-card ${type}-card`} onClick={() => openReader(article)}>
+                {/* Image Section */}
+                {article.imageUrl ? (
+                    <div className="ec-image-wrapper">
+                        <img src={article.imageUrl} alt="" loading="lazy" className="ec-image" />
+                        <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
+                            <img src={article.sourceIcon} alt="" className="source-favicon" />
+                            <span>{article.source}</span>
+                        </div>
                     </div>
-                    {subscribed.length > 0 && (
-                        <button className="btn btn-primary go-to-feed-btn" onClick={() => setView('feed')}>
-                            <Rss size={16} /> My Feed ({subscribed.length})
-                        </button>
-                    )}
-                </header>
-
-                <div className="channel-category-bar animate-fade-in-up delay-1">
-                    {categories.map(cat => (
-                        <button key={cat.id} className={`category-chip ${channelFilter === cat.id ? 'active' : ''}`} onClick={() => setChannelFilter(cat.id)}>
-                            <span>{cat.icon}</span> <span>{cat.label}</span>
-                        </button>
-                    ))}
-                </div>
-
-                <div className="channel-actions animate-fade-in-up delay-1">
-                    <button className="btn btn-outline btn-sm" onClick={() => subscribeAll(channelFilter)}>
-                        <Plus size={14} /> Subscribe to {channelFilter === 'all' ? 'all' : channelFilter}
-                    </button>
-                    {subscribed.length > 0 && (
-                        <span className="subscribed-count">{subscribed.length} channel{subscribed.length !== 1 ? 's' : ''} subscribed</span>
-                    )}
-                </div>
-
-                <div className="channel-grid">
-                    {filteredChannels.map((ch, idx) => {
-                        const isSub = subscribed.includes(ch.id);
-                        return (
-                            <div key={ch.id} className={`channel-card animate-fade-in-up delay-${Math.min(idx % 6 + 1, 5)} ${isSub ? 'subscribed' : ''}`} style={{ '--ch-color': ch.color }}>
-                                <div className="channel-card-header">
-                                    <img src={ch.icon} alt={ch.name} className="channel-favicon" />
-                                    <span className="channel-category-tag">{ch.category}</span>
-                                </div>
-                                <h3 className="channel-name">{ch.name}</h3>
-                                <p className="channel-desc">{ch.description}</p>
-                                <div className="channel-card-footer">
-                                    <a href={ch.website} target="_blank" rel="noopener noreferrer" className="channel-website">
-                                        <Globe size={12} /> Visit site
-                                    </a>
-                                    <button className={`subscribe-btn ${isSub ? 'subscribed' : ''}`} onClick={() => toggleSubscribe(ch.id)}>
-                                        {isSub ? <><Check size={14} /> Subscribed</> : <><Plus size={14} /> Subscribe</>}
-                                    </button>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-
-                {subscribed.length > 0 && (
-                    <div className="channel-cta animate-fade-in-up">
-                        <button className="btn btn-primary btn-lg" onClick={() => setView('feed')}>
-                            <Rss size={18} /> Open My Feed — {subscribed.length} channels
-                        </button>
+                ) : (
+                    <div className="ec-image-wrapper fall-back-bg">
+                        <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
+                            <img src={article.sourceIcon} alt="" className="source-favicon" />
+                            <span>{article.source}</span>
+                        </div>
+                        <Globe size={32} opacity={0.2} />
                     </div>
                 )}
-            </div>
+
+                {/* Content Section */}
+                <div className="ec-content">
+                    <div className="ec-meta">
+                        <span className="ec-time"><Clock size={12} /> {timeAgo(article.publishedAt)}</span>
+                        {article.category && <span className="ec-cat">{article.category}</span>}
+                    </div>
+
+                    <h3 className="ec-title">{article.title}</h3>
+
+                    {/* Only show desc for larger cards or if requested */}
+                    {type !== 'trending' && (
+                        <p className="ec-desc">{article.description}</p>
+                    )}
+
+                    {/* AI Summary Block */}
+                    {isSummarized && (
+                        <div className="ec-ai-summary" onClick={e => e.stopPropagation()}>
+                            <Sparkles size={14} className="magic-icon" />
+                            <p>{summaries[article.id]}</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Actions Footer */}
+                <div className="ec-actions">
+                    <button
+                        className={`ec-ai-btn ${isSummarized ? 'done' : ''}`}
+                        onClick={(e) => { e.stopPropagation(); requestSummary(article); }}
+                        disabled={isSummarizing || isSummarized}
+                    >
+                        {isSummarizing ? <RefreshCw size={14} className="spin" /> : <Sparkles size={14} />}
+                        <span>{isSummarizing ? 'Analyzing...' : isSummarized ? 'Summarized' : 'TorqueX Take'}</span>
+                    </button>
+                    <div className="ec-action-group">
+                        <button className="ec-icon-btn" onClick={(e) => { e.stopPropagation(); openReader(article); }} title="Read Mode">
+                            <BookOpen size={16} />
+                        </button>
+                        <a href={article.url} target="_blank" rel="noopener noreferrer" className="ec-icon-btn" onClick={e => e.stopPropagation()} title="Open Original">
+                            <ExternalLink size={16} />
+                        </a>
+                    </div>
+                </div>
+            </article>
         );
     };
 
-    // ── Live Feed ───────────────────────────────────────────────
-    const renderFeed = () => (
-        <div className="feed-view">
-            <header className="feed-header animate-fade-in-up">
-                <div className="feed-header-left">
-                    <div className="feed-live-badge"><span className="live-dot" /><span>Live Feed</span></div>
-                    <h1>My <span className="gradient-text">Newswire</span></h1>
-                </div>
-                <div className="feed-header-actions">
-                    <form className="news-search-form" onSubmit={(e) => { e.preventDefault(); setPage(1); fetchFeed(); }}>
-                        <Search size={16} />
-                        <input type="text" placeholder="Search articles..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-                    </form>
-                    <button className="btn btn-outline btn-sm" onClick={() => setView('channels')}>
-                        <Rss size={14} /> Channels ({subscribed.length})
+    // ── Readers View ─────────────────────────────────────────
+    if (view === 'reader') {
+        return (
+            <div className="reader-overlay slide-up">
+                <div className="reader-topbar">
+                    <button className="reader-back-btn" onClick={closeReader}>
+                        <ArrowLeft size={18} /> Exit Reader
                     </button>
-                    <button className="btn btn-outline btn-sm" onClick={() => { setPage(1); fetchFeed(); }} disabled={loading}>
-                        <RefreshCw size={14} className={loading ? 'spin' : ''} /> Refresh
+                    <div className="reader-center-info">
+                        <span className="reader-source-pill">{readerSource}</span>
+                        <h2 className="reader-title-preview">{readerTitle}</h2>
+                    </div>
+                    <div className="reader-topbar-actions">
+                        <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm">
+                            <ExternalLink size={14} /> Open Original
+                        </a>
+                    </div>
+                </div>
+
+                <div className="reader-content-container">
+                    <div className="reader-article-body">
+                        <h1>{readerTitle}</h1>
+
+                        {readerLoading ? (
+                            <div className="reader-loading-state">
+                                <RefreshCw size={32} className="spin text-primary" />
+                                <p>Extracting full article text...</p>
+                            </div>
+                        ) : (
+                            <>
+                                <div
+                                    className="reader-html-content fade-in"
+                                    dangerouslySetInnerHTML={{ __html: readerContent }}
+                                />
+
+                                <div className="reader-footer-cta fade-in">
+                                    <p>To read the full ongoing discussion or view interactive elements, visit the original publisher.</p>
+                                    <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg mt-4">
+                                        <ExternalLink size={16} /> Continue Reading on {readerSource}
+                                    </a>
+                                </div>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Split articles into Magazine Layout (Hero, Trending, List)
+    const isFirstPageComplete = page === 1 && !searchQuery && activeCategory === 'all' && articles.length >= 5;
+    const heroArticle = isFirstPageComplete ? articles[0] : null;
+    const trendingArticles = isFirstPageComplete ? articles.slice(1, 5) : [];
+    const listArticles = isFirstPageComplete ? articles.slice(5) : articles;
+
+    return (
+        <main className="editorial-page container-wide">
+
+            {/* Master Header */}
+            <header className="editorial-header">
+                <div className="ed-header-left">
+                    <div className="ed-badge">
+                        <span className="live-dot" /> LIVE EDITORIAL
+                    </div>
+                    <h1>TorqueX <span className="gradient-text">Media</span></h1>
+                    <p className="ed-subtitle">Curated live feeds from premium automotive publishers, supercharged with AI.</p>
+                </div>
+
+                <div className="ed-header-right">
+                    <form className="ed-search-box" onSubmit={(e) => { e.preventDefault(); setPage(1); fetchFeed(); }}>
+                        <Search size={16} />
+                        <input
+                            type="text"
+                            placeholder="Search automotive news..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        {searchQuery && (
+                            <button type="button" className="clear-search" onClick={() => { setSearchQuery(''); setPage(1); fetchFeed(); }}>
+                                <X size={14} />
+                            </button>
+                        )}
+                    </form>
+                    <button className="btn btn-outline btn-icon" onClick={() => { setPage(1); fetchFeed(true); }} disabled={loading} title="Refresh Feed">
+                        <RefreshCw size={18} className={loading ? 'spin' : ''} />
                     </button>
                 </div>
             </header>
 
-            {!loading && articles.length > 0 && (
-                <div className="feed-stats animate-fade-in-up delay-1">
-                    <span className="news-stat"><Radio size={13} /> {totalArticles} articles</span>
-                    <span className="news-stat-sep" />
-                    <span className="news-stat"><Globe size={13} /> {[...new Set(articles.map(a => a.source))].length} sources</span>
-                    <span className="news-stat-sep" />
-                    <span className="news-stat"><Zap size={13} /> Live from {subscribed.length} channels</span>
-                    {lastRefresh && (<><span className="news-stat-sep" /><span className="news-stat"><Clock size={13} /> {timeAgo(lastRefresh.toISOString())}</span></>)}
-                </div>
-            )}
-
-            <div className="category-bar animate-fade-in-up delay-1">
-                <button className={`category-chip ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => { setActiveCategory('all'); setPage(1); }}>
-                    📰 All
+            {/* Category Navigation */}
+            <nav className="ed-category-nav">
+                <button className={`ed-cat-btn ${activeCategory === 'all' ? 'active' : ''}`} onClick={() => { setActiveCategory('all'); setPage(1); }}>
+                    <Compass size={16} /> All Coverage
                 </button>
-                {[...new Set(subscribed.map(id => channels.find(c => c.id === id)?.category).filter(Boolean))].map(cat => (
-                    <button key={cat} className={`category-chip ${activeCategory === cat ? 'active' : ''}`} onClick={() => { setActiveCategory(cat); setPage(1); }}>
-                        {categories.find(c => c.id === cat)?.icon} {categories.find(c => c.id === cat)?.label || cat}
+                {categories.map(cat => (
+                    <button
+                        key={cat.id}
+                        className={`ed-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
+                        onClick={() => { setActiveCategory(cat.id); setPage(1); }}
+                    >
+                        {cat.icon} {cat.label}
                     </button>
                 ))}
-            </div>
+            </nav>
 
-            {loading && (
-                <div className="news-loading">
-                    <div className="loading-spinner" /><p className="loading-text">Fetching live news...</p>
-                </div>
-            )}
-
+            {/* Error State */}
             {error && !loading && (
-                <div className="news-error"><AlertCircle size={24} /><p>{error}</p>
-                    <button className="btn btn-primary btn-sm" onClick={fetchFeed}>Retry</button>
+                <div className="ed-empty-state error-state slide-up">
+                    <AlertCircle size={48} className="text-red" />
+                    <h2>Connection Error</h2>
+                    <p>{error}</p>
+                    <button className="btn btn-primary mt-4" onClick={() => fetchFeed()}>Try Again</button>
                 </div>
             )}
 
+            {/* Empty State */}
+            {!loading && !error && articles.length === 0 && (
+                <div className="ed-empty-state slide-up">
+                    <Search size={48} className="text-muted" />
+                    <h2>No coverage found</h2>
+                    <p>{searchQuery ? `We couldn't find any articles matching "${searchQuery}".` : 'No articles available in this category currently.'}</p>
+                    {searchQuery && <button className="btn btn-primary mt-4" onClick={() => { setSearchQuery(''); fetchFeed(); }}>Clear Search</button>}
+                </div>
+            )}
+
+            {/* Loading Skeleton Indicator (Only on initial load/page change, not background refresh) */}
+            {loading && articles.length === 0 && (
+                <div className="ed-loading-view">
+                    <div className="magical-spinner" />
+                    <p>Fetching the latest auto news...</p>
+                </div>
+            )}
+
+            {/* Magazine Layout */}
             {!loading && articles.length > 0 && (
-                <>
-                    <div className="articles-list">
-                        {articles.map((article, idx) => (
-                            <article key={article.id || idx} className={`article-card card animate-fade-in-up delay-${Math.min(idx % 5 + 1, 5)}`}>
-                                <div className="article-row" onClick={() => openReader(article)}>
-                                    {article.imageUrl && (
-                                        <div className="article-thumb"><img src={article.imageUrl} alt="" loading="lazy" /></div>
-                                    )}
-                                    <div className="article-content">
-                                        <div className="article-source-row">
-                                            <span className="source-badge" style={{ '--badge-color': article.sourceColor }}>
-                                                <img src={article.sourceIcon} alt="" className="source-favicon" />
-                                                {article.source}
-                                            </span>
-                                            <span className="article-time"><Clock size={11} /> {timeAgo(article.publishedAt)}</span>
-                                        </div>
-                                        <h3 className="article-title">{article.title}</h3>
-                                        <p className="article-desc">{article.description}</p>
-                                        {summaries[article.id] && (
-                                            <div className="ai-summary"><Sparkles size={12} /><span>{summaries[article.id]}</span></div>
-                                        )}
-                                    </div>
+                <div className="ed-content fade-in">
+
+                    {/* Top Section: Hero + Trending Grid */}
+                    {isFirstPageComplete && (
+                        <div className="ed-top-section section-fade-in delay-1">
+                            {/* Hero Article */}
+                            <div className="ed-hero-column">
+                                <div className="section-title"><Star size={18} /> Top Story</div>
+                                {renderArticleCard(heroArticle, 0, 'hero')}
+                            </div>
+
+                            {/* Trending Right Grid */}
+                            <div className="ed-trending-column">
+                                <div className="section-title"><TrendingUp size={18} /> Trending Now</div>
+                                <div className="ed-trending-grid">
+                                    {trendingArticles.map((article, idx) => renderArticleCard(article, idx + 1, 'trending'))}
                                 </div>
-                                <div className="article-actions">
-                                    <button className="article-action-btn" onClick={(e) => { e.stopPropagation(); requestSummary(article); }} disabled={summaryLoading === article.id || !!summaries[article.id]}>
-                                        <Sparkles size={13} /> {summaryLoading === article.id ? 'Summarizing...' : summaries[article.id] ? 'Summarized' : 'AI Summary'}
-                                    </button>
-                                    <button className="article-action-btn" onClick={() => openReader(article)}><BookOpen size={13} /> Read</button>
-                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="article-action-btn" onClick={(e) => e.stopPropagation()}>
-                                        <ExternalLink size={13} /> Open Original
-                                    </a>
-                                </div>
-                            </article>
-                        ))}
-                    </div>
-                    {totalPages > 1 && (
-                        <div className="pagination">
-                            <button className="pagination-btn" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page <= 1}><ChevronLeft size={18} /> Previous</button>
-                            <span className="pagination-info">Page <strong>{page}</strong> of <strong>{totalPages}</strong></span>
-                            <button className="pagination-btn" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page >= totalPages}>Next <ChevronRight size={18} /></button>
+                            </div>
                         </div>
                     )}
-                </>
-            )}
 
-            {!loading && !error && articles.length === 0 && subscribed.length > 0 && (
-                <div className="news-empty"><Radio size={32} /><h3>No articles found</h3>
-                    <p>{searchQuery ? `No results for "${searchQuery}"` : 'Your channels haven\'t published anything matching this filter yet.'}</p>
+                    {/* Lower Section: Latest Feed List */}
+                    <div className="ed-latest-section section-fade-in delay-2">
+                        <div className="section-title-row">
+                            <div className="section-title"><Clock size={18} /> {isFirstPageComplete ? 'More Latest News' : 'Search Results'}</div>
+                            <div className="ed-feed-stats">
+                                <span>{totalArticles} articles available</span>
+                                {lastRefresh && <span>Updated {timeAgo(lastRefresh.toISOString())}</span>}
+                            </div>
+                        </div>
+
+                        <div className="ed-list-grid">
+                            {listArticles.map((article, idx) => renderArticleCard(article, isFirstPageComplete ? idx + 5 : idx, 'list'))}
+                        </div>
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div className="ed-pagination section-fade-in delay-3">
+                            <button className="ed-page-btn" onClick={() => { setPage(1); window.scrollTo(0, 0); }} disabled={page <= 1}>
+                                First
+                            </button>
+                            <button className="ed-page-btn" onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo(0, 0); }} disabled={page <= 1}>
+                                <ChevronLeft size={18} /> Prev
+                            </button>
+                            <span className="ed-page-info">
+                                Page <span className="highlight-page">{page}</span> of {totalPages}
+                            </span>
+                            <button className="ed-page-btn" onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo(0, 0); }} disabled={page >= totalPages}>
+                                Next <ChevronRight size={18} />
+                            </button>
+                        </div>
+                    )}
                 </div>
             )}
-        </div>
-    );
-
-    // ── Embedded Reader ─────────────────────────────────────────
-    const renderReader = () => (
-        <div className="reader-overlay">
-            <div className="reader-topbar">
-                <button className="reader-back-btn" onClick={closeReader}><ArrowLeft size={18} /> Back to Feed</button>
-                <span className="reader-source">{readerSource}</span>
-                <div className="reader-topbar-actions">
-                    <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm"><ExternalLink size={14} /> Open in new tab</a>
-                </div>
-            </div>
-            {iframeError ? (
-                <div className="reader-fallback">
-                    <Globe size={48} /><h3>This site doesn't allow embedding</h3><p>{readerTitle}</p>
-                    <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary"><ExternalLink size={16} /> Read on {readerSource}</a>
-                </div>
-            ) : (
-                <iframe
-                    src={readerUrl} className="reader-iframe" title={readerTitle}
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-                    onError={() => setIframeError(true)}
-                    onLoad={(e) => { try { const doc = e.target.contentDocument; if (!doc || !doc.body || doc.body.innerHTML.length < 50) setIframeError(true); } catch { } }}
-                />
-            )}
-        </div>
-    );
-
-    return (
-        <main className="news-page container-wide">
-            {view === 'channels' && renderChannelGrid()}
-            {view === 'feed' && renderFeed()}
-            {view === 'reader' && renderReader()}
         </main>
     );
 };

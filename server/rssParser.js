@@ -250,8 +250,14 @@ const normalizeRssItem = (item, channel) => {
     try {
         let title = (typeof item.title === 'string' ? item.title : item.title?._ || '').trim();
         const url = (item.link || item.guid?._ || item.guid || '').trim();
+
+        // Extract raw HTML for full reading
+        const rawContent = item['content:encoded'] || item.content || item.description || '';
+
+        // Strip for description
         const rawDesc = item.description || item['content:encoded'] || '';
         const description = stripHtml(rawDesc).substring(0, 400);
+
         const pubDate = item.pubDate || item['dc:date'] || '';
         const author = item['dc:creator'] || item.author || '';
         let imageUrl = extractImageFromHtml(rawDesc);
@@ -278,6 +284,7 @@ const normalizeRssItem = (item, channel) => {
             sourceIcon: sourceFavicon,
             sourceColor: channel.color,
             description,
+            fullContent: rawContent, // Now passing full HTML content to frontend
             publishedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
             author: typeof author === 'string' ? author : '',
             imageUrl,
@@ -296,10 +303,11 @@ const normalizeAtomEntry = (entry, channel) => {
         else if (Array.isArray(link)) url = link.find(l => l?.$?.rel === 'alternate')?.$?.href || link[0]?.$?.href || '';
         else if (link?.$?.href) url = link.$.href;
 
-        const rawContent = entry.summary?._ || entry.summary || entry.content?._ || entry.content || '';
+        const rawContent = entry.content?._ || entry.content || entry.summary?._ || entry.summary || '';
         const description = stripHtml(rawContent).substring(0, 400);
         const pubDate = entry.published || entry.updated || '';
         const author = entry.author?.name || '';
+        let imageUrl = extractImageFromHtml(rawContent);
 
         return {
             id: `${channel.id}_${Buffer.from(url).toString('base64url').substring(0, 16)}`,
@@ -310,9 +318,10 @@ const normalizeAtomEntry = (entry, channel) => {
             sourceIcon: channel.icon,
             sourceColor: channel.color,
             description,
+            fullContent: rawContent, // Now passing full HTML content to frontend
             publishedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
             author: typeof author === 'string' ? author : '',
-            imageUrl: null,
+            imageUrl,
             category: channel.category,
         };
     } catch { return null; }
@@ -354,8 +363,18 @@ export const fetchMultipleChannels = async (channelIds) => {
         return true;
     });
 
-    // Sort newest first
-    allArticles.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+    // Sort newest first, but give a 12-hour artificial boost to Indian channels
+    // so they appear higher up in the "Latest" and "Trending" feeds.
+    allArticles.sort((a, b) => {
+        const dateA = new Date(a.publishedAt).getTime();
+        const dateB = new Date(b.publishedAt).getTime();
+
+        // Artificial boost for Indian content (e.g., add 12 hours)
+        const boostA = a.category === 'indian' ? (12 * 60 * 60 * 1000) : 0;
+        const boostB = b.category === 'indian' ? (12 * 60 * 60 * 1000) : 0;
+
+        return (dateB + boostB) - (dateA + boostA);
+    });
 
     console.log(`[RSS] Merged: ${allArticles.length} unique articles`);
     return allArticles;
