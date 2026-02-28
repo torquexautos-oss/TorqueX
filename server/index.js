@@ -152,13 +152,27 @@ app.get('/api/car/scrape', async (req, res) => {
 });
 
 app.get('/api/images', (req, res) => {
-    res.json(getImageMap());
+    // Merge scraper cache with DB image_url values
+    const scraperMap = getImageMap();
+    const dbImages = getAllCars().reduce((map, car) => {
+        if (car.image_url && !scraperMap[car.id]) {
+            map[car.id] = { imageUrl: car.image_url, source: 'CarWale', sourceUrl: null };
+        }
+        return map;
+    }, {});
+    res.json({ ...dbImages, ...scraperMap });
 });
 
 app.get('/api/car/image', (req, res) => {
     const { modelId } = req.query;
     const img = getCarImage(modelId);
-    res.json(img || { imageUrl: null, source: null });
+    if (img) return res.json(img);
+    // Fallback: check DB image_url
+    const car = getCarById(modelId);
+    if (car && car.image_url) {
+        return res.json({ imageUrl: car.image_url, source: 'CarWale' });
+    }
+    res.json({ imageUrl: null, source: null });
 });
 
 import { parseVibeQuery, generateVibePitch, generatePitchDeck } from './ai.js';
