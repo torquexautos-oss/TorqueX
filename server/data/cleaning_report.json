@@ -1,0 +1,35 @@
+{
+  "total_input_rows": 40325,
+  "canonical_rows": 3359,
+  "ev_fuel_fixed": 2505,
+  "power_cleaned": 7496,
+  "torque_cleaned": 0,
+  "seating_capacity_fixed": 8480,
+  "nulls_filled_per_column": {
+    "battery_capacity_kwh": 28,
+    "range_km": 28,
+    "torque": 36,
+    "has_adas": 106,
+    "airbags_count": 106,
+    "length_mm": 36,
+    "width_mm": 36,
+    "height_mm": 36,
+    "mileage_kmpl": 36,
+    "fuel_type": 8,
+    "engine_displacement_cc": 8,
+    "power_output": 8
+  },
+  "validation_failures": {
+    "power_output": 27,
+    "torque": 41,
+    "engine_displacement_cc": 85,
+    "mileage_kmpl": 0,
+    "seating_capacity": 0,
+    "airbags_count": 0,
+    "ex_showroom": 253,
+    "length_mm": 108,
+    "width_mm": 647,
+    "height_mm": 664
+  },
+  "brands_covered_in_lookup": 22
+}

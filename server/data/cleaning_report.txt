@@ -1,0 +1,38 @@
+=== TorqueX Data Cleaning Report ===
+
+Total Input Rows: 40325
+Canonical Output Rows: 3359
+
+--- Fixes Applied ---
+EV Fuel Types Corrected: 2505
+Power Output Junk Stripped: 7496 rows
+Torque String Units Stripped: 0 rows
+Seating Capacity Bounds Fixed: 8480 rows
+
+--- Nulls Filled via Enrichment ---
+- battery_capacity_kwh: 28
+- range_km: 28
+- torque: 36
+- has_adas: 106
+- airbags_count: 106
+- length_mm: 36
+- width_mm: 36
+- height_mm: 36
+- mileage_kmpl: 36
+- fuel_type: 8
+- engine_displacement_cc: 8
+- power_output: 8
+
+Brands Covered in Lookup: 22
+
+--- Range Validation Failures (Canonical Set) ---
+- power_output: 27 failures
+- torque: 41 failures
+- engine_displacement_cc: 85 failures
+- mileage_kmpl: 0 failures
+- seating_capacity: 0 failures
+- airbags_count: 0 failures
+- ex_showroom: 253 failures
+- length_mm: 108 failures
+- width_mm: 647 failures
+- height_mm: 664 failures
