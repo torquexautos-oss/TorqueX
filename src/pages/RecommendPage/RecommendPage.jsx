@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import './RecommendPage.css';
 
 const FACTORS = [
-    { key: 'performanceWeight', label: 'Performance', short: 'PERF', color: '#e24444' },
-    { key: 'safetyWeight', label: 'Safety', short: 'SAFE', color: '#3aaf5c' },
-    { key: 'resaleWeight', label: 'Resale', short: 'RSAL', color: '#d4a820' },
-    { key: 'serviceWeight', label: 'Service', short: 'SRVC', color: '#4a7fd4' },
-    { key: 'mileageWeight', label: 'Mileage', short: 'MLGE', color: '#22a892' },
-    { key: 'reliabilityWeight', label: 'Reliability', short: 'RLBL', color: '#9060c0' },
+    { key: 'performanceWeight', label: 'Performance', color: '#ff5555' },
+    { key: 'safetyWeight', label: 'Safety', color: '#44d972' },
+    { key: 'resaleWeight', label: 'Resale', color: '#f0c030' },
+    { key: 'serviceWeight', label: 'Service', color: '#5a9eff' },
+    { key: 'mileageWeight', label: 'Mileage', color: '#30d4b0' },
+    { key: 'reliabilityWeight', label: 'Reliability', color: '#b080e0' },
 ];
 
 const FUEL_OPTIONS = ['Petrol', 'Diesel', 'Hybrid', 'Electric', 'CNG'];
@@ -277,8 +277,8 @@ export default function RecommendPage() {
                                         style={{ borderColor: f.color }} />
 
                                     {/* Stamped label */}
-                                    <div className="stamp-label">{f.short}</div>
-                                    <div className="stamp-sub">{f.label}</div>
+                                    <div className="stamp-label">{f.label}</div>
+                                    <div className="stamp-accent" style={{ backgroundColor: f.color }} />
                                 </div>
                             );
                         })}
@@ -295,6 +295,7 @@ export default function RecommendPage() {
                         <div className="led-pills">
                             {FUEL_OPTIONS.map(fuel => (
                                 <button key={fuel}
+                                    data-fuel={fuel.toLowerCase()}
                                     className={`led-pill ${fuelTypes.includes(fuel) ? 'led-on' : ''}`}
                                     onClick={() => toggleFuel(fuel)}>
                                     <span className="led-dot" />
@@ -305,38 +306,75 @@ export default function RecommendPage() {
                     </div>
 
                     {/* Budget — Boost Gauge */}
-                    <div className={`filter-panel boost-panel ${adjusting ? 'boost-active' : ''}`}>
+                    <div className={`filter-panel boost-panel ${adjusting ? 'boost-active' : ''} ${selectedMax >= priceRange.max ? 'boost-redline' : ''}`}>
                         <div className="section-rule sm">
                             <span className="section-label">BUDGET RANGE</span>
                         </div>
-                        <div className="boost-hud">
-                            <span className="boost-val">{fmtHud(selectedMin)}</span>
-                            <span className="boost-sep">⟶</span>
-                            <span className="boost-val">{selectedMax >= priceRange.max ? `${fmtHud(selectedMax)}+` : fmtHud(selectedMax)}</span>
-                        </div>
-                        <div className="boost-gauge">
-                            <div className="boost-track">
-                                <div className="boost-fill" style={{
-                                    left: `${((selectedMin - priceRange.min) / (priceRange.max - priceRange.min)) * 100}%`,
-                                    right: `${100 - ((selectedMax - priceRange.min) / (priceRange.max - priceRange.min)) * 100}%`,
-                                }} />
-                                {/* Tick marks */}
-                                {[5, 10, 20, 50, 100, 200].filter(v => v <= priceRange.max).map(v => (
-                                    <div key={v} className="boost-tick"
-                                        style={{ left: `${((v - priceRange.min) / (priceRange.max - priceRange.min)) * 100}%` }}>
-                                        <div className="boost-tick-line" />
-                                        <span className="boost-tick-label">{v >= 100 ? `₹${v / 100}Cr` : `₹${v}L`}</span>
+
+                        <div className="boost-container">
+                            <div className="boost-main">
+                                {/* HUD Readout */}
+                                <div className="boost-hud">
+                                    <div className="boost-chip">{fmtHud(selectedMin)}</div>
+                                    <span className="boost-sep">⟶</span>
+                                    <div className={`boost-chip ${selectedMax >= priceRange.max ? 'chip-redline' : ''}`}>
+                                        {selectedMax >= priceRange.max ? `${fmtHud(selectedMax)}+` : fmtHud(selectedMax)}
                                     </div>
-                                ))}
+                                </div>
+
+                                {/* Track & Slider */}
+                                <div className="boost-gauge">
+                                    <div className="boost-track">
+                                        <div className="boost-fill" style={{
+                                            left: `${((selectedMin - priceRange.min) / (priceRange.max - priceRange.min)) * 100}%`,
+                                            right: `${100 - ((selectedMax - priceRange.min) / (priceRange.max - priceRange.min)) * 100}%`,
+                                        }} />
+                                    </div>
+
+                                    {/* Tick marks */}
+                                    <div className="boost-scale">
+                                        {[2, 5, 10, 15, 25, 50, 100].filter(v => v <= priceRange.max).map(v => {
+                                            const pct = ((v - priceRange.min) / (priceRange.max - priceRange.min)) * 100;
+                                            const isMajor = [5, 25, 50, 100].includes(v);
+                                            const isActive = v >= selectedMin && v <= selectedMax;
+                                            return (
+                                                <div key={v} className={`boost-tick ${isMajor ? 'tick-major' : 'tick-minor'} ${isActive ? 'tick-active' : ''}`}
+                                                    style={{ left: `${pct}%` }}>
+                                                    <div className="boost-tick-line" />
+                                                    {isMajor && <span className="boost-tick-label">{v >= 100 ? `₹${v / 100}Cr` : `₹${v}L`}</span>}
+                                                </div>
+                                            );
+                                        })}
+                                        {/* Max tick */}
+                                        <div className={`boost-tick tick-major ${selectedMax >= priceRange.max ? 'tick-active' : ''}`} style={{ left: '100%' }}>
+                                            <div className="boost-tick-line" />
+                                            <span className="boost-tick-label">₹2Cr+</span>
+                                        </div>
+                                    </div>
+
+                                    {/* Inputs */}
+                                    <input type="range" min={priceRange.min} max={priceRange.max} step="1"
+                                        value={selectedMin}
+                                        onChange={e => handlePriceChange(setSelectedMin, e.target.value, v => Math.min(v, selectedMax - 1))}
+                                        className="boost-input" />
+                                    <input type="range" min={priceRange.min} max={priceRange.max} step="1"
+                                        value={selectedMax}
+                                        onChange={e => handlePriceChange(setSelectedMax, e.target.value, v => Math.max(v, selectedMin + 1))}
+                                        className="boost-input" />
+
+                                    {selectedMax >= priceRange.max && <div className="redline-alert">REDLINE</div>}
+                                </div>
                             </div>
-                            <input type="range" min={priceRange.min} max={priceRange.max} step="1"
-                                value={selectedMin}
-                                onChange={e => handlePriceChange(setSelectedMin, e.target.value, v => Math.min(v, selectedMax - 1))}
-                                className="boost-input" />
-                            <input type="range" min={priceRange.min} max={priceRange.max} step="1"
-                                value={selectedMax}
-                                onChange={e => handlePriceChange(setSelectedMax, e.target.value, v => Math.max(v, selectedMin + 1))}
-                                className="boost-input" />
+
+                            {/* Vertical Boost Meter */}
+                            <div className="boost-meter-container">
+                                <span className="boost-meter-label">RANGE</span>
+                                <div className="boost-meter">
+                                    <div className="boost-meter-fill" style={{
+                                        height: `${((selectedMax - selectedMin) / (priceRange.max - priceRange.min)) * 100}%`
+                                    }} />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -388,11 +426,12 @@ export default function RecommendPage() {
                                         <div className="res-bars">
                                             {SCORE_KEYS.map(k => (
                                                 <div key={k} className="res-bar">
-                                                    <span className="res-bar-k">{k.slice(0, 4).toUpperCase()}</span>
+                                                    <span className="res-bar-k">{k.toUpperCase()}</span>
                                                     <div className="res-bar-track">
                                                         <div className="res-bar-fill" style={{
                                                             width: `${(car.scoreBreakdown[k] / 10) * 100}%`,
                                                             backgroundColor: SCORE_COLORS[k],
+                                                            boxShadow: `0 0 10px ${SCORE_COLORS[k]}60, inset 0 1px 1px rgba(255,255,255,0.4)`
                                                         }} />
                                                     </div>
                                                     <span className="res-bar-v">{car.scoreBreakdown[k].toFixed(1)}</span>

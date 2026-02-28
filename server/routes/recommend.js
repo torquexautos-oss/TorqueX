@@ -3,7 +3,6 @@ import { scoreAllCars, getPriceRange } from '../utils/scoringEngine.js';
 
 const router = Router();
 
-// GET /api/recommend/price-range
 router.get('/price-range', (req, res) => {
     try {
         res.json(getPriceRange());
@@ -12,42 +11,38 @@ router.get('/price-range', (req, res) => {
     }
 });
 
-// POST /api/recommend
 router.post('/', (req, res) => {
     try {
+        console.log("--- INCOMING API REQUEST ---");
+        console.log(req.body);
+        
         const {
-            performanceWeight = 50,
-            safetyWeight = 50,
-            resaleWeight = 50,
-            serviceWeight = 50,
-            mileageWeight = 50,
-            reliabilityWeight = 50,
-            minPrice,
-            maxPrice,
-            fuelTypes,
+            performanceWeight = 50, safetyWeight = 50, resaleWeight = 50,
+            serviceWeight = 50, mileageWeight = 50, reliabilityWeight = 50,
+            minPrice, maxPrice, fuelTypes,
         } = req.body;
 
-        // Validate weights
         const weightKeys = { performanceWeight, safetyWeight, resaleWeight, serviceWeight, mileageWeight, reliabilityWeight };
         const weights = {};
         for (const [key, val] of Object.entries(weightKeys)) {
             const n = Number(val);
-            if (isNaN(n) || n < 0 || n > 100) {
-                return res.status(400).json({ error: `${key} must be 0–100` });
-            }
+            if (isNaN(n) || n < 0 || n > 100) return res.status(400).json({ error: `${key} must be 0–100` });
             weights[key] = n;
         }
 
-        // Price filters
         if (minPrice != null) weights.minPrice = Number(minPrice);
         if (maxPrice != null) weights.maxPrice = Number(maxPrice);
-
-        // Fuel type filter
         if (fuelTypes && Array.isArray(fuelTypes) && fuelTypes.length > 0) {
             weights.fuelTypes = fuelTypes;
         }
 
         const result = scoreAllCars(weights);
+        
+        if (result.results && result.results.length > 0) {
+            console.log("--- SERVING TOP 3 RESULTS ---");
+            console.log(result.results.slice(0, 3).map(r => `${r.name} - ${r.price_min}L`));
+        }
+        
         if (result.error) return res.status(404).json(result);
         res.json(result);
     } catch (e) {
@@ -55,5 +50,4 @@ router.post('/', (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
-
 export default router;
