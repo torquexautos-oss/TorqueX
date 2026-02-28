@@ -7,6 +7,7 @@ import http from 'http';
 import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
 import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
+import recommendRouter from './routes/recommend.js';
 import fs from 'fs';
 
 dotenv.config();
@@ -161,6 +162,9 @@ app.get('/api/car/image', (req, res) => {
 });
 
 import { parseVibeQuery, generateVibePitch, generatePitchDeck } from './ai.js';
+
+// ── Recommendation Engine ──────────────────────────────────────
+app.use('/api/recommend', recommendRouter);
 
 // ── Database API Endpoints ─────────────────────────────────────
 
