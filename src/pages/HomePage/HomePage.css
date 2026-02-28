@@ -30,12 +30,31 @@
 /* ── Search ───────────────────────────────────────────────────── */
 .home-search {
     margin-bottom: 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.home-search .search-icon {
+    position: absolute;
+    left: 1.25rem;
+    color: var(--text-muted);
 }
 
 .home-search input {
     width: 100%;
-    padding: 0.85rem 1.25rem;
+    padding: 1rem 1.25rem 1rem 3.5rem;
     font-size: 0.95rem;
+    background: var(--bg-card);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    transition: all var(--duration-fast);
+}
+
+.home-search input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px var(--accent-primary-glow);
 }
 
 /* ── Filters ──────────────────────────────────────────────────── */
@@ -43,12 +62,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     align-items: center;
-    background: var(--bg-secondary);
+    background: var(--bg-card);
     padding: 1rem 1.25rem;
     border-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.home-filters .filter-icon {
+    color: var(--text-secondary);
+    margin-right: 0.5rem;
+    display: flex;
 }
 
 .home-filters select {

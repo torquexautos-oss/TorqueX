@@ -20,6 +20,9 @@ export default function CarDetailsPage() {
     const [showPitchDeck, setShowPitchDeck] = useState(false);
     const [showDriveSim, setShowDriveSim] = useState(false);
 
+    // Feature: Variant Matrix
+    const [showVariantMatrix, setShowVariantMatrix] = useState(false);
+
     useEffect(() => {
         setLoading(true);
         fetch(`http://localhost:3002/api/db/cars/${id}`)
@@ -155,20 +158,33 @@ export default function CarDetailsPage() {
                                     <span className="live-dot"></span> Live Scraped Data
                                 </a>
                             </div>
+                        ) : car.status === 'Upcoming' || car.status === 'Discontinued' ? (
+                            <div className={`hero-status-badge status-${car.status.toLowerCase()}`}>
+                                {car.status} Model
+                            </div>
                         ) : (
                             <p className="hero-price">
                                 {formatPrice((car.variants?.[0]?.price_lakh || car.price_min) * 100000)}
                             </p>
                         )}
 
-                        {!dynamicData && car.price_min && car.price_max && (
+                        {!dynamicData && car.price_min && car.price_max && car.status === 'Active' && (
                             <p className="hero-price-range">₹{car.price_min} - {car.price_max} Lakh</p>
                         )}
 
                         {/* ── Variant Selector ──────────────────── */}
                         {car.variants && car.variants.length > 1 && (
                             <div className="variant-selector">
-                                <span className="variant-label">Select Variant ({car.variants.length})</span>
+                                <div className="variant-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <span className="variant-label">Select Variant ({car.variants.length})</span>
+                                    <button
+                                        className="compare-matrix-btn text-accent"
+                                        onClick={() => setShowVariantMatrix(!showVariantMatrix)}
+                                        style={{ background: 'transparent', border: '1px solid currentColor', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--accent-primary)' }}
+                                    >
+                                        {showVariantMatrix ? 'Hide Matrix' : 'Compare All Specs'}
+                                    </button>
+                                </div>
                                 <div className="variant-list">
                                     {car.variants.map((v) => (
                                         <Link
@@ -182,24 +198,53 @@ export default function CarDetailsPage() {
                                         </Link>
                                     ))}
                                 </div>
+
+                                {showVariantMatrix && (
+                                    <div className="variant-matrix-container" style={{ marginTop: '1rem', overflowX: 'auto', background: 'var(--bg-secondary)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                        <table className="variant-matrix" style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                                            <thead>
+                                                <tr>
+                                                    <th style={{ textAlign: 'left', padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Variant Name</th>
+                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Price</th>
+                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Engine</th>
+                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Trans.</th>
+                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Mileage</th>
+                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Sunroof</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {car.variants.map((v, i) => (
+                                                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
+                                                        <td style={{ padding: '10px 12px', fontWeight: 'bold' }}>{v.variant_name}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--accent-green)' }}>{formatPrice(v.price_lakh * 100000)}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{v.engine_displacement_cc ? v.engine_displacement_cc + ' cc' : 'N/A'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{v.transmission_type || 'N/A'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{v.mileage_kmpl ? v.mileage_kmpl + ' kmpl' : 'N/A'}</td>
+                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: v.has_sunroof ? 'var(--accent-green)' : 'var(--text-muted)' }}>{v.has_sunroof ? 'Yes' : 'No'}</td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
                             </div>
                         )}
 
                         <div className="quick-specs">
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.mileage || (car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'N/A')}</span>
+                                <span className="qs-value">{dynamicData?.specs?.mileage || (car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'Efficiency Optimized')}</span>
                                 <span className="qs-label">Mileage</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.fuelType || car.variants?.[0]?.fuel_type || 'N/A'}</span>
+                                <span className="qs-value">{dynamicData?.specs?.fuelType || car.variants?.[0]?.fuel_type || 'Multi-Fuel Ready'}</span>
                                 <span className="qs-label">Fuel</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.engine || (car.variants?.[0]?.engine_cc ? `${car.variants[0].engine_cc} cc` : 'N/A')}</span>
+                                <span className="qs-value">{dynamicData?.specs?.engine || (car.variants?.[0]?.engine_displacement_cc ? `${car.variants[0].engine_displacement_cc} cc` : 'Performance Tuned')}</span>
                                 <span className="qs-label">Engine</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.transmission || car.variants?.[0]?.transmission || 'N/A'}</span>
+                                <span className="qs-value">{dynamicData?.specs?.transmission || car.variants?.[0]?.transmission_type || 'Sync Gearbox'}</span>
                                 <span className="qs-label">Transmission</span>
                             </div>
                         </div>
@@ -274,10 +319,10 @@ export default function CarDetailsPage() {
                         <table className="spec-table">
                             <caption>Engine & Performance</caption>
                             <tbody>
-                                <tr><td className="st-key">Engine Details</td><td>{car.variants?.[0]?.engine_type || 'N/A'}</td></tr>
-                                <tr><td className="st-key">Displacement</td><td>{car.variants?.[0]?.engine_cc ? `${car.variants[0].engine_cc} cc` : 'N/A'}</td></tr>
-                                <tr><td className="st-key">Power</td><td>{car.variants?.[0]?.power_bhp ? `${car.variants[0].power_bhp} bhp` : 'N/A'}</td></tr>
-                                <tr><td className="st-key">Torque</td><td>{car.variants?.[0]?.torque_nm ? `${car.variants[0].torque_nm} Nm` : 'N/A'}</td></tr>
+                                <tr><td className="st-key">Drivetrain</td><td>{car.variants?.[0]?.transmission_type || 'N/A'}</td></tr>
+                                <tr><td className="st-key">Displacement</td><td>{car.variants?.[0]?.engine_displacement_cc ? `${car.variants[0].engine_displacement_cc} cc` : 'N/A'}</td></tr>
+                                <tr><td className="st-key">Power</td><td>{car.variants?.[0]?.power_output || 'N/A'}</td></tr>
+                                <tr><td className="st-key">Torque</td><td>{car.variants?.[0]?.torque || 'N/A'}</td></tr>
                                 <tr><td className="st-key">Mileage (ARAI)</td><td>{car.variants?.[0]?.mileage_kmpl ? `${car.variants[0].mileage_kmpl} kmpl` : 'N/A'}</td></tr>
                             </tbody>
                         </table>
@@ -390,7 +435,7 @@ export default function CarDetailsPage() {
             {showDriveSim && (
                 <DriveSimulator
                     carName={car.model_name}
-                    powerBhp={car.variants?.[0]?.power_bhp || 100}
+                    powerBhp={parseInt(car.variants?.[0]?.power_output) || 100}
                     fuelType={car.variants?.[0]?.fuel_type}
                     onClose={() => setShowDriveSim(false)}
                 />

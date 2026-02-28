@@ -87,20 +87,20 @@ export default function SearchPage() {
 
                     <div className="hero-stats animate-fade-in-up delay-2">
                         <div className="stat-card">
-                            <span className="stat-number">{stats.total}</span>
+                            <span className="stat-number">{stats.totalCars || 0}</span>
                             <span className="stat-label">Cars</span>
                         </div>
                         <div className="stat-card">
-                            <span className="stat-number">{stats.brands}</span>
+                            <span className="stat-number">{stats.totalBrands || 0}</span>
                             <span className="stat-label">Brands</span>
                         </div>
                         <div className="stat-card">
-                            <span className="stat-number">{stats.electric}</span>
+                            <span className="stat-number">{stats.electricVariants || 0}</span>
                             <span className="stat-label">EVs</span>
                         </div>
                         <div className="stat-card">
-                            <span className="stat-number">{stats.sources}+</span>
-                            <span className="stat-label">News Sources</span>
+                            <span className="stat-number">15+</span>
+                            <span className="stat-label">News Channels</span>
                         </div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@ export default function SearchPage() {
                                 <span className="category-icon">{cat.icon}</span>
                                 <span className="category-label">{cat.label}</span>
                                 <span className="category-count">
-                                    {cars.filter(c => (c.bodyType || '').toLowerCase().includes(cat.query.toLowerCase())).length} cars
+                                    {cars.filter(c => (c.body_type || '').toLowerCase().includes(cat.query.toLowerCase())).length} cars
                                 </span>
                             </div>
                         ))}
@@ -162,17 +162,17 @@ export default function SearchPage() {
                         <div className="featured-grid">
                             {featured.map(car => (
                                 <Link
-                                    key={car.modelId || car.name}
-                                    to={`/car/${car.brand?.toLowerCase().replace(/\s+/g, '-')}/${car.modelId}`}
+                                    key={car.id}
+                                    to={`/car/${car.id}`}
                                     className="featured-card card"
                                 >
                                     <div className="featured-info">
                                         <span className="featured-brand">{car.brand}</span>
-                                        <span className="featured-name">{car.name}</span>
-                                        {car.price && <span className="featured-price">{car.price}</span>}
+                                        <span className="featured-name">{car.model_name}</span>
+                                        {car.price_min && <span className="featured-price">₹{car.price_min.toFixed(2)}L onwards</span>}
                                         <div className="featured-specs">
                                             {car.fuelType && <span><Fuel size={12} /> {car.fuelType}</span>}
-                                            {car.transmission && <span><Settings size={12} /> {car.transmission}</span>}
+                                            {car.transmission_type && <span><Settings size={12} /> {car.transmission_type}</span>}
                                         </div>
                                     </div>
                                 </Link>

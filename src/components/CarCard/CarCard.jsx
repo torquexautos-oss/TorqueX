@@ -40,25 +40,37 @@ export default function CarCard({ car }) {
                     <span className="car-card-brand">{car.brand}</span>
                     <h3 className="car-card-name">{car.model_name}</h3>
 
-                    {/* Price range display */}
+                    {/* Status Badge & Price range display */}
                     <div className="car-card-price-range">
-                        <span className="car-card-price">{formatPrice(car.price_min * 100000)}</span>
-                        {car.price_max && car.price_max > car.price_min && (
+                        {car.status === 'Upcoming' ? (
+                            <span className="car-card-badge status-upcoming">Upcoming</span>
+                        ) : car.status === 'Discontinued' ? (
+                            <span className="car-card-badge status-discontinued">Discontinued</span>
+                        ) : (
                             <>
-                                <span className="car-card-price-sep">—</span>
-                                <span className="car-card-price-high">{formatPrice(car.price_max * 100000)}</span>
+                                <span className="car-card-price">{formatPrice(car.price_min * 100000)}</span>
+                                {car.price_max && car.price_max > car.price_min && (
+                                    <>
+                                        <span className="car-card-price-sep">—</span>
+                                        <span className="car-card-price-high">{formatPrice(car.price_max * 100000)}</span>
+                                    </>
+                                )}
                             </>
                         )}
                     </div>
 
                     <div className="car-card-specs">
-                        <div className="spec-item">
-                            <Fuel size={13} />
-                            <span>{car.body_type}</span>
+                        <div className="spec-item" title="Engine Specs">
+                            <Settings2 size={13} />
+                            <span>{car.engine && car.engine !== ' cc' ? car.engine : (car.fuelType?.includes('Electric') ? 'EV Motor' : 'Specification Pending')}</span>
                         </div>
-                        <div className="spec-item">
+                        <div className="spec-item" title="Mileage">
+                            <Fuel size={13} />
+                            <span>{car.mileage ? formatMileage(car.mileage) : (car.fuelType?.includes('Electric') ? 'Zero Emission' : 'Standard Efficiency')}</span>
+                        </div>
+                        <div className="spec-item" title="Transmission">
                             <Gauge size={13} />
-                            <span>NCAP: {car.ncap_rating || car.bncap_rating || 'N/A'}★</span>
+                            <span>{car.transmission_type || 'Sync Configuration'}</span>
                         </div>
                     </div>
                 </div>

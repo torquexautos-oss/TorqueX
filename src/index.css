@@ -4,26 +4,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap');
 
 :root {
-  /* Core Palette */
-  --bg-primary: #0a0a0f;
-  --bg-secondary: #12121a;
-  --bg-card: #1a1a2e;
-  --bg-card-hover: #222240;
-  --bg-elevated: #16213e;
+  /* Core Palette (Steam / Team BHP Deep Space) */
+  --bg-primary: #0a0a0c;
+  --bg-secondary: #121216;
+  --bg-card: #181820;
+  --bg-card-hover: #1f1f2a;
+  --bg-elevated: #1a1a24;
 
-  --text-primary: #f1f1f1;
-  --text-secondary: #8892a4;
-  --text-muted: #555e6e;
+  --text-primary: #f8f9fa;
+  --text-secondary: #a1a1aa;
+  --text-muted: #52525b;
 
   /* Accent Colors */
-  --accent-primary: #4f8cff;
-  --accent-primary-hover: #3a74e0;
-  --accent-primary-glow: rgba(79, 140, 255, 0.15);
-  --accent-red: #ff4757;
-  --accent-red-hover: #e63946;
-  --accent-green: #2ed573;
-  --accent-orange: #ffa502;
-  --accent-gradient: linear-gradient(135deg, #4f8cff 0%, #6c5ce7 50%, #a855f7 100%);
+  --accent-primary: #3b82f6;
+  --accent-primary-hover: #2563eb;
+  --accent-primary-glow: rgba(59, 130, 246, 0.2);
+  --accent-red: #ef4444;
+  --accent-red-hover: #dc2626;
+  --accent-green: #10b981;
+  --accent-orange: #f59e0b;
+  --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #d946ef 100%);
 
   /* Glass */
   --glass-bg: rgba(18, 18, 26, 0.85);
@@ -89,9 +89,9 @@ h4,
 h5,
 h6 {
   font-family: 'Outfit', sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
 
 a {
@@ -133,8 +133,8 @@ textarea {
   font-family: inherit;
   font-size: 0.95rem;
   padding: 0.75rem 1rem;
-  background: var(--bg-primary);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-md);
   color: var(--text-primary);
   outline: none;
@@ -377,7 +377,7 @@ button {
 /* ── Grid Helpers ───────────────────────────────────────────────── */
 .car-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.5rem;
 }
 
