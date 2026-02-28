@@ -48,7 +48,7 @@ export async function getUniqueBrands() {
 }
 
 export async function getUniqueFuelTypes() {
-    return ['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid'];
+    return ['Petrol', 'Diesel', 'CNG', 'EV'];
 }
 
 export async function getUniqueBodyTypes() {

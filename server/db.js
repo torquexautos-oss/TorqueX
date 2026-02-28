@@ -52,6 +52,36 @@ const BaseCarSelect = `
     LEFT JOIN prices p ON p.variant_id = v.id
 `;
 
+// ── Transform row for frontend compatibility ───────────────────
+const transformCar = (row) => ({
+    id: row.id,
+    modelId: row.id,
+    name: row.model_name,
+    modelName: row.model_name,
+    bodyType: row.body_type,
+    seatingCapacity: row.seating_capacity,
+    ncapRating: row.ncap_rating,
+    groundClearance: row.ground_clearance_mm,
+    bootSpace: row.boot_space_litres,
+    description: row.description,
+    brand: row.brand,
+    brandCountry: row.brand_country,
+    priceMin: row.price_min,
+    priceMax: row.price_max,
+    price: row.price_min ? `₹ ${row.price_min.toFixed(2)} Lakh` : null,
+    priceRange: row.price_min && row.price_max ? `₹ ${row.price_min.toFixed(2)} - ${row.price_max.toFixed(2)} Lakh` : null,
+    fuelType: row.fuelType || row.fuel_type,
+    transmission: row.transmission_type,
+    engine: row.engine,
+    mileage: row.mileage ? `${row.mileage} km/l` : null,
+    image_url: row.image_url,
+    launch_year: row.launch_year,
+    status: row.status,
+    variant_count: row.variant_count,
+    ...(row.variants && { variants: row.variants }),
+    ...(row.colors && { colors: row.colors }),
+});
+
 // ── All Cars (list view) ───────────────────────────────────────
 export const getAllCars = () => {
     return db.prepare(`
@@ -94,7 +124,7 @@ export const getCarById = (id) => {
     // Scraper doesn't extract color codes yet, returning empty array to avoid UI crash
     const colors = [];
 
-    return { ...car, variants, colors };
+    return { ...transformCar(car), variants, colors };
 };
 
 // ── Car by Brand + Model Name ──────────────────────────────────
