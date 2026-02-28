@@ -1,13 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useCompare } from '../../context/CompareContext';
-import { Home, Newspaper, Search, LayoutGrid, Compass, GitCompareArrows } from 'lucide-react';
+import { Home, Newspaper, LayoutGrid, Compass, GitCompareArrows, BookOpen } from 'lucide-react';
 import './Navbar.css';
 
 const NAV_ITEMS = [
     { to: '/', label: 'Home', icon: Home },
-    { to: '/news', label: 'AI News', icon: Newspaper },
-    { to: '/search', label: 'Search', icon: Search },
     { to: '/cars', label: 'Catalog', icon: LayoutGrid },
+    { to: '/news', label: 'AI News', icon: Newspaper },
+    { to: '/search', label: 'Encyclopedia', icon: BookOpen },
     { to: '/recommend', label: 'Find My Car', icon: Compass },
 ];
 
