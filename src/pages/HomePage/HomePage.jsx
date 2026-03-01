@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import VibeCheck from '../../components/VibeCheck/VibeCheck';
-import { Search, Zap, Newspaper, LayoutGrid, BookOpen, ChevronRight, TrendingUp } from 'lucide-react';
+import { Search, Zap, Newspaper, LayoutGrid, BookOpen, ChevronRight, TrendingUp, Car } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 import './HomePage.css';
 
 // We'll parse the RSS feed here to surface "Latest Auto News" right on the Hero
@@ -11,8 +12,14 @@ const RSS_TO_JSON_API = `https://api.rss2json.com/v1/api.json?rss_url=${encodeUR
 export default function HomePage() {
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
+    const [suggestions, setSuggestions] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
     const [news, setNews] = useState([]);
     const [loadingNews, setLoadingNews] = useState(true);
+
+    const searchRef = useRef(null);
 
     useEffect(() => {
         // Fetch latest 3 news items for the editorial feel
@@ -25,7 +32,44 @@ export default function HomePage() {
                 setLoadingNews(false);
             })
             .catch(() => setLoadingNews(false));
+
+        // Click outside listener for search suggestions
+        const handleClickOutside = (event) => {
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setShowSuggestions(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
+
+    // Debounced search for live suggestions
+    useEffect(() => {
+        if (search.trim().length < 2) {
+            setSuggestions([]);
+            setShowSuggestions(false);
+            return;
+        }
+
+        const debounceTimer = setTimeout(() => {
+            setIsSearching(true);
+            fetch(`${API_BASE_URL}/api/db/search?q=${encodeURIComponent(search.trim())}`)
+                .then(res => res.json())
+                .then(data => {
+                    // Only show top 5 matches
+                    setSuggestions(data.cars?.slice(0, 5) || []);
+                    setShowSuggestions(true);
+                    setIsSearching(false);
+                })
+                .catch(err => {
+                    console.error("Search fetch error:", err);
+                    setIsSearching(false);
+                });
+        }, 300);
+
+        return () => clearTimeout(debounceTimer);
+    }, [search]);
 
     const handleSearchSubmit = (e) => {
         e.preventDefault();
@@ -53,16 +97,55 @@ export default function HomePage() {
                     </div>
 
                     {/* Global Master Search Bar -> Routes to Catalog */}
-                    <form className="home-search editorial-search animate-fade-in-up delay-1" onSubmit={handleSearchSubmit}>
-                        <Search size={22} className="search-icon" />
-                        <input
-                            type="text"
-                            placeholder="What car are you looking for?"
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                        />
-                        <button type="submit" className="search-submit">Explore</button>
-                    </form>
+                    <div className="home-search-wrapper animate-fade-in-up delay-1" ref={searchRef}>
+                        <form className="home-search editorial-search" onSubmit={handleSearchSubmit}>
+                            <Search size={22} className="search-icon" />
+                            <input
+                                type="text"
+                                placeholder="What car are you looking for?"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onFocus={() => {
+                                    if (suggestions.length > 0) setShowSuggestions(true);
+                                }}
+                            />
+                            <button type="submit" className="search-submit">Explore</button>
+                        </form>
+
+                        {/* Search Suggestions Dropdown */}
+                        {showSuggestions && (
+                            <div className="search-suggestions-dropdown">
+                                {isSearching ? (
+                                    <div className="suggestions-loading">Searching database...</div>
+                                ) : suggestions.length > 0 ? (
+                                    <ul className="suggestions-list">
+                                        {suggestions.map((car) => (
+                                            <li key={car.id}>
+                                                <button
+                                                    className="suggestion-item"
+                                                    onClick={() => navigate(`/car/${car.id}`)}
+                                                >
+                                                    <Car size={16} className="suggestion-icon" />
+                                                    <div className="suggestion-info">
+                                                        <span className="suggestion-name">{car.model_name}</span>
+                                                        <span className="suggestion-brand">{car.brand}</span>
+                                                    </div>
+                                                </button>
+                                            </li>
+                                        ))}
+                                        {/* Direct search shortcut */}
+                                        <li className="suggestion-footer">
+                                            <button onClick={handleSearchSubmit}>
+                                                See all results for "{search}" <ChevronRight size={14} />
+                                            </button>
+                                        </li>
+                                    </ul>
+                                ) : search.trim().length >= 2 ? (
+                                    <div className="suggestions-empty">No exact matches found</div>
+                                ) : null}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </section>
 
