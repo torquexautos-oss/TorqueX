@@ -84,9 +84,9 @@ export async function generatePitchDeck(carName, specs) {
     Return STRICTLY valid JSON like this:
     {
       "slides": [
-        {"title": "Safety & Space", "text": "...", "emoji": "🛡️"},
-        {"title": "Smart Economics", "text": "...", "emoji": "💰"},
-        {"title": "Unmatched Comfort", "text": "...", "emoji": "🛋️"}
+        {"title": "Safety & Space", "text": "..."},
+        {"title": "Smart Economics", "text": "..."},
+        {"title": "Unmatched Comfort", "text": "..."}
       ]
     }
     `;
@@ -106,9 +106,9 @@ export async function generatePitchDeck(carName, specs) {
         console.error("Groq pitch deck error:", error);
         return {
             slides: [
-                { title: "Safe & Practical", text: "Built with high-strength materials and ample space.", emoji: "🛡️" },
-                { title: "Economical", text: "Low running costs make this a sensible long-term choice.", emoji: "💰" },
-                { title: "Family Ready", text: "Designed for comfortable weekends with the whole family.", emoji: "👪" }
+                { title: "Safe & Practical", text: "Built with high-strength materials and ample space." },
+                { title: "Economical", text: "Low running costs make this a sensible long-term choice." },
+                { title: "Family Ready", text: "Designed for comfortable weekends with the whole family." }
             ]
         };
     }

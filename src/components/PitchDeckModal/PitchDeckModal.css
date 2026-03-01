@@ -1,11 +1,15 @@
+/* ══════════════════════════════════════════════════════════════════
+   Pitch Deck Modal — Premium Slide Presentation
+   ══════════════════════════════════════════════════════════════════ */
+
 .pitch-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(15px);
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(20px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,78 +18,183 @@
 
 .pitch-modal {
     width: 100%;
-    max-width: 450px;
+    max-width: 440px;
     height: 85vh;
-    background: linear-gradient(180deg, #1e1b4b, #0f172a);
-    border-radius: 20px;
+    max-height: 700px;
+    background: linear-gradient(170deg, #141420 0%, #0a0a12 100%);
+    border-radius: 24px;
     position: relative;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(139, 92, 246, 0.3);
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    animation: pitchIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pitchIn {
+    from {
+        opacity: 0;
+        transform: scale(0.92) translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .pitch-close {
     position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+    top: 14px;
+    right: 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary, #a1a1aa);
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     z-index: 10;
-    backdrop-filter: blur(5px);
-    transition: background 0.2s;
+    transition: all 0.2s ease;
 }
 
 .pitch-close:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
 }
 
+/* ── Loading ─────────────────────────────────────────────────── */
 .pitch-loading {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #c084fc;
-    gap: 15px;
-    font-weight: 500;
+    gap: 1rem;
+    padding: 2rem;
 }
 
+.pitch-loading-spinner {
+    width: 60px;
+    height: 60px;
+    background: rgba(139, 92, 246, 0.08);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pitch-spin {
+    color: #8b5cf6;
+    animation: pitchSpin 1s linear infinite;
+}
+
+@keyframes pitchSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.pitch-loading-title {
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    font-family: 'Outfit', sans-serif;
+}
+
+.pitch-loading-sub {
+    color: var(--text-secondary, #a1a1aa);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+/* ── Error ────────────────────────────────────────────────────── */
+.pitch-error {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-secondary, #a1a1aa);
+}
+
+.pitch-error svg {
+    color: #ef4444;
+    opacity: 0.6;
+}
+
+.pitch-error-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.pitch-error-sub {
+    font-size: 0.85rem;
+    margin: 0;
+    color: var(--text-secondary, #a1a1aa);
+}
+
+.pitch-retry-btn {
+    margin-top: 0.5rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pitch-retry-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Content ─────────────────────────────────────────────────── */
 .pitch-content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    padding: 1.5rem 1.5rem 1rem;
     position: relative;
 }
 
+/* ── Indicators ──────────────────────────────────────────────── */
 .pitch-indicators {
     display: flex;
     gap: 5px;
-    margin-bottom: 30px;
-    margin-top: 10px;
+    margin-bottom: 0.5rem;
 }
 
 .pitch-indicator {
     flex: 1;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.2);
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.pitch-indicator:hover {
+    background: rgba(255, 255, 255, 0.2);
 }
 
 .pitch-indicator.viewed {
-    background: #fff;
+    background: rgba(255, 255, 255, 0.7);
 }
 
 .pitch-indicator.active::after {
@@ -96,7 +205,7 @@
     height: 100%;
     background: #fff;
     width: 0%;
-    animation: fillProgress 10s linear forwards;
+    animation: fillProgress 8s linear forwards;
 }
 
 @keyframes fillProgress {
@@ -109,6 +218,17 @@
     }
 }
 
+/* ── Counter ─────────────────────────────────────────────────── */
+.pitch-counter {
+    text-align: right;
+    font-size: 0.7rem;
+    color: var(--text-muted, #52525b);
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Slide ────────────────────────────────────────────────────── */
 .pitch-slide {
     flex: 1;
     display: flex;
@@ -116,100 +236,126 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 0 10px;
+    padding: 0 0.5rem;
+    animation: slideIn 0.35s ease-out;
 }
 
-.fade-in {
-    animation: fadeInSlide 0.4s ease-out;
-}
-
-@keyframes fadeInSlide {
+@keyframes slideIn {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: translateX(15px);
     }
 
     to {
         opacity: 1;
-        transform: scale(1);
+        transform: translateX(0);
     }
 }
 
-.pitch-emoji {
-    font-size: 5rem;
-    margin-bottom: 2rem;
-    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
-    animation: floatEmoji 3s ease-in-out infinite alternate;
-}
-
-@keyframes floatEmoji {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-10px);
-    }
+.pitch-icon-container {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    transition: all 0.4s ease;
 }
 
 .pitch-title {
     color: #fff;
-    font-size: 2rem;
+    font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: 1.5rem;
-    line-height: 1.2;
+    margin: 0 0 1.2rem;
+    line-height: 1.15;
+    font-family: 'Outfit', sans-serif;
 }
 
 .pitch-text {
-    color: #cbd5e1;
-    font-size: 1.15rem;
-    line-height: 1.6;
+    color: var(--text-secondary, #a1a1aa);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 360px;
 }
 
+/* ── Car badge ───────────────────────────────────────────────── */
+.pitch-car-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    justify-content: center;
+    padding: 0.4rem 0.8rem;
+    margin: 0.75rem auto 0;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    font-size: 0.7rem;
+    color: var(--text-muted, #52525b);
+    font-weight: 600;
+}
+
+.pitch-car-badge svg {
+    opacity: 0.5;
+}
+
+/* ── Navigation ──────────────────────────────────────────────── */
 .pitch-nav {
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
     display: flex;
     justify-content: space-between;
-    padding: 0 10px;
-    pointer-events: none;
+    padding: 1rem 0 0.5rem;
 }
 
 .pitch-nav-btn {
-    pointer-events: auto;
-    background: rgba(0, 0, 0, 0.3);
-    border: none;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     color: white;
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    backdrop-filter: blur(5px);
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
 .pitch-nav-btn:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.15);
 }
 
 .pitch-nav-btn:disabled {
-    opacity: 0;
+    opacity: 0.15;
     cursor: default;
 }
 
-.pitch-error {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fca5a5;
-    padding: 20px;
+/* ── Hint ─────────────────────────────────────────────────────── */
+.pitch-hint {
     text-align: center;
+    font-size: 0.65rem;
+    color: var(--text-muted, #52525b);
+    margin: 0;
+    padding-bottom: 0.25rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .pitch-modal {
+        max-width: 95vw;
+        height: 90vh;
+        border-radius: 16px;
+    }
+
+    .pitch-title {
+        font-size: 1.4rem;
+    }
+
+    .pitch-text {
+        font-size: 0.95rem;
+    }
 }

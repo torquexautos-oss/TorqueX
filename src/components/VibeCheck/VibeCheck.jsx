@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-import { Sparkles, Loader2, Send, Trophy, Zap, Target, ChevronRight, Brain, TrendingUp, Fuel, Shield, Users, Star } from 'lucide-react';
+import { Sparkles, Loader2, Send, Trophy, Zap, Target, ChevronRight, Brain, TrendingUp, Fuel, Shield, Users, Star, AlertCircle, Car, IndianRupee } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CarImage from '../CarImage/CarImage';
 import './VibeCheck.css';
 
 const QUICK_PROMPTS = [
-    { label: '🏙️ City Commuter', text: 'I need a fuel-efficient car under 10 Lakhs for daily city driving in Bangalore traffic' },
-    { label: '👨‍👩‍👧‍👦 Family Road Trip', text: 'Looking for a spacious SUV under 20 Lakhs with good safety for weekend family road trips' },
-    { label: '⚡ EV Convert', text: 'I want to switch to an electric car. Budget around 15-20 Lakhs, good range for city use' },
-    { label: '🏎️ Performance Beast', text: 'I love fast cars. What\'s the most powerful car I can get under 30 Lakhs?' },
-    { label: '💼 Executive Look', text: 'Need a premium sedan under 25 Lakhs that makes a statement in client meetings' },
-    { label: '🛣️ Highway Cruiser', text: 'I do 200km highway drives weekly. Need something comfortable with great mileage under 15 Lakhs' },
+    { label: 'City Commuter', text: 'I need a fuel-efficient car under 10 Lakhs for daily city driving in Bangalore traffic' },
+    { label: 'Family Road Trip', text: 'Looking for a spacious SUV under 20 Lakhs with good safety for weekend family road trips' },
+    { label: 'EV Convert', text: 'I want to switch to an electric car. Budget around 15-20 Lakhs, good range for city use' },
+    { label: 'Performance Beast', text: 'I love fast cars. What\'s the most powerful car I can get under 30 Lakhs?' },
+    { label: 'Executive Look', text: 'Need a premium sedan under 25 Lakhs that makes a statement in client meetings' },
+    { label: 'Highway Cruiser', text: 'I do 200km highway drives weekly. Need something comfortable with great mileage under 15 Lakhs' },
 ];
 
 const LOADING_MESSAGES = [
@@ -155,7 +155,7 @@ export default function VibeCheck() {
             {/* Error */}
             {error && (
                 <div className="vibe-error slide-up">
-                    <p>❌ {error}</p>
+                    <p><AlertCircle size={14} style={{ display: 'inline', verticalAlign: 'middle' }} /> {error}</p>
                 </div>
             )}
 
@@ -168,10 +168,10 @@ export default function VibeCheck() {
                         <span className="vibe-understood-label">AI understood:</span>
                         <div className="vibe-understood-tags">
                             <span className="vibe-tag">
-                                💰 {formatBudget(result.understoodParams.budget)}
+                                <IndianRupee size={12} /> {formatBudget(result.understoodParams.budget)}
                             </span>
                             <span className="vibe-tag">
-                                🚗 {result.understoodParams.body_type || 'Any'}
+                                <Car size={12} /> {result.understoodParams.body_type || 'Any'}
                             </span>
                             <span className="vibe-tag">
                                 <PriorityIcon size={12} /> {result.understoodParams.priority || 'Any'}
@@ -218,9 +218,9 @@ export default function VibeCheck() {
                                         {car.body_type && <span className="vibe-match-type">{car.body_type}</span>}
                                     </div>
                                     <div className="vibe-match-meta">
-                                        {car.power_output && <span>⚡ {car.power_output}</span>}
-                                        {car.mileage_kmpl && <span>⛽ {car.mileage_kmpl} kmpl</span>}
-                                        {car.airbags_count && <span>🛡️ {car.airbags_count} airbags</span>}
+                                        {car.power_output && <span><Zap size={12} /> {car.power_output}</span>}
+                                        {car.mileage_kmpl && <span><Fuel size={12} /> {car.mileage_kmpl} kmpl</span>}
+                                        {car.airbags_count && <span><Shield size={12} /> {car.airbags_count} airbags</span>}
                                     </div>
                                 </div>
 

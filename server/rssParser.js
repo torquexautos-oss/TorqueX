@@ -166,16 +166,15 @@ export const CHANNELS = {
 
 // Category groupings for the channel discovery UI
 export const CHANNEL_CATEGORIES = [
-    { id: 'all', label: 'All Channels', icon: '📰' },
-    { id: 'indian', label: 'India', icon: '🇮🇳' },
-    { id: 'evs', label: 'EVs & Hybrids', icon: '⚡' },
-    { id: 'industry', label: 'Industry', icon: '🏭' },
-    { id: 'motorsport', label: 'Motorsport', icon: '🏁' },
-    { id: 'policy', label: 'Policy', icon: '📜' },
-    { id: 'tech', label: 'Tech', icon: '🔧' },
-    { id: 'reviews', label: 'Reviews', icon: '📝' },
-    { id: 'launches', label: 'Launches', icon: '🚀' },
-    { id: 'community', label: 'Community', icon: '💬' },
+    { id: 'indian', label: 'India' },
+    { id: 'evs', label: 'EVs & Hybrids' },
+    { id: 'industry', label: 'Industry' },
+    { id: 'motorsport', label: 'Motorsport' },
+    { id: 'policy', label: 'Policy' },
+    { id: 'tech', label: 'Tech' },
+    { id: 'reviews', label: 'Reviews' },
+    { id: 'launches', label: 'Launches' },
+    { id: 'community', label: 'Community' },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCompare } from '../../context/CompareContext';
-import { X, BatteryCharging, MountainSnow, Search } from 'lucide-react';
+import { X, BatteryCharging, MountainSnow, Search, Zap } from 'lucide-react';
 import CarImage from '../../components/CarImage/CarImage';
 import { formatPrice } from '../../utils/formatters';
 import './ComparePage.css';
@@ -78,9 +78,9 @@ export default function ComparePage() {
                 <header className="compare-header">
                     <h1>Virtual Garage</h1>
                     <p className="env-status">
-                        {envType === 'ev' && '⚡ High-Voltage Charging Bay Active'}
-                        {envType === 'offroad' && '⛰️ All-Terrain Analysis Mode'}
-                        {envType === 'garage' && '🏎️ Premium Showcase Bay'}
+                        {envType === 'ev' && <><Zap size={14} style={{ display: 'inline', verticalAlign: 'middle' }} /> High-Voltage Charging Bay Active</>}
+                        {envType === 'offroad' && <><MountainSnow size={14} style={{ display: 'inline', verticalAlign: 'middle' }} /> All-Terrain Analysis Mode</>}
+                        {envType === 'garage' && 'Premium Showcase Bay'}
                     </p>
                 </header>
 

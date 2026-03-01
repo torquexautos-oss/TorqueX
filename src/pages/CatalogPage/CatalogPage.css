@@ -166,3 +166,53 @@
     font-size: 1.2rem;
     margin-top: 4rem;
 }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .catalog-header h1 {
+        font-size: 1.8rem;
+    }
+
+    .catalog-filters {
+        gap: 0.6rem;
+        padding: 1rem;
+    }
+
+    .catalog-filters select {
+        font-size: 0.85rem;
+        padding: 0.5rem 2rem 0.5rem 0.75rem;
+        min-width: 0;
+        flex: 1 1 calc(50% - 0.3rem);
+    }
+
+    .catalog-search {
+        padding: 0.4rem 1rem;
+    }
+
+    .catalog-search input {
+        font-size: 0.95rem;
+    }
+
+    .car-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .catalog-header h1 {
+        font-size: 1.4rem;
+    }
+
+    .catalog-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .catalog-filters select {
+        flex: 1 1 100%;
+    }
+
+    .car-grid {
+        grid-template-columns: 1fr;
+    }
+}

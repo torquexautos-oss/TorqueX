@@ -88,15 +88,18 @@
     white-space: nowrap;
 }
 
-/* ── HUD Profile — Targeting Reticle ─────────────────────────── */
-.hud-profile {
-    text-align: center;
-    min-height: 36px;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.4rem;
+.hud-badge {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.68rem;
+    /* Increased from 0.58rem */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    color: #5a6370;
 }
 
 .hud-tag {
@@ -686,7 +689,8 @@
     border-radius: 6px;
     padding: 6px 14px;
     font-family: 'Orbitron', sans-serif;
-    font-size: 1.15rem;
+    font-size: 1.35rem;
+    /* Increased from 1.15rem */
     font-weight: 700;
     color: #f59e0b;
     box-shadow: 0 0 12px rgba(245, 158, 11, 0.1);
@@ -1261,7 +1265,8 @@
 .res-rank span {
     font-family: 'Orbitron', sans-serif;
     font-weight: 800;
-    font-size: 0.85rem;
+    font-size: 1rem;
+    /* Increased from 0.85rem */
     color: #2a2f38;
 }
 
@@ -1280,7 +1285,8 @@
 
 .res-brand {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.58rem;
+    font-size: 0.7rem;
+    /* Increased from 0.58rem */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -1289,7 +1295,8 @@
 
 .res-name {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 1.05rem;
+    font-size: 1.25rem;
+    /* Increased from 1.05rem */
     font-weight: 700;
     color: #c8cdd3;
     margin: 0;
@@ -1323,7 +1330,8 @@
 .res-score-big {
     font-family: 'Orbitron', sans-serif;
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    /* Increased from 1.4rem */
     color: #c8cdd3;
     line-height: 1;
 }
@@ -1351,7 +1359,8 @@
 
 .res-bar-k {
     font-family: 'Orbitron', sans-serif;
-    font-size: 0.5rem;
+    font-size: 0.55rem;
+    /* Increased from 0.5rem */
     font-weight: 700;
     letter-spacing: 0.1em;
     color: #6b7685;
@@ -1380,7 +1389,8 @@
 
 .res-bar-v {
     font-family: 'SF Mono', monospace;
-    font-size: 0.65rem;
+    font-size: 0.75rem;
+    /* Increased from 0.65rem */
     font-weight: 700;
     color: #c8cdd3;
     /* Bright visible text */
@@ -1394,7 +1404,95 @@
     padding-top: 1rem;
 }
 
-/* ── Responsive ──────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════
+   ENTRANCE ANIMATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+@keyframes machFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.mach-header {
+    animation: machFadeInUp 0.5s ease-out both;
+}
+
+.hud-profile {
+    animation: machFadeInUp 0.5s ease-out 0.1s both;
+}
+
+.engine-block {
+    animation: machFadeInUp 0.6s ease-out 0.15s both;
+}
+
+.filters-row {
+    animation: machFadeInUp 0.6s ease-out 0.25s both;
+}
+
+.action-row {
+    animation: machFadeInUp 0.5s ease-out 0.35s both;
+}
+
+.mach-results {
+    animation: machFadeInUp 0.6s ease-out 0.1s both;
+}
+
+.res-card {
+    animation: machFadeInUp 0.4s ease-out both;
+}
+
+/* Stagger result cards */
+.res-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.res-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.res-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.res-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.res-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.res-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.res-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.res-card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.res-card:nth-child(9) {
+    animation-delay: 0.45s;
+}
+
+.res-card:nth-child(10) {
+    animation-delay: 0.5s;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet (≤700px)
+   ═══════════════════════════════════════════════════════════════ */
+
 @media (max-width: 700px) {
     .mach-header h1 {
         font-size: 1.2rem;
@@ -1410,7 +1508,8 @@
     }
 
     .odo-digit {
-        font-size: 1.1rem;
+        font-size: 1.3rem;
+        /* Increased from 1.1rem */
     }
 
     .cyl {
@@ -1446,5 +1545,129 @@
 
     .boost-tick-label {
         font-size: 9px;
+    }
+
+    .boost-panel {
+        padding: 1.2rem;
+    }
+
+    .boost-chip {
+        font-size: 1.15rem;
+        /* Increased from 0.95rem */
+        min-width: 70px;
+        padding: 5px 10px;
+    }
+
+    .boost-meter-container {
+        display: none;
+    }
+
+    .action-row {
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .ignition-btn,
+    .ecu-reset {
+        width: 100%;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Small phones (≤480px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    .mach-page {
+        padding: 1rem 0.5rem 3rem;
+    }
+
+    .mach-header h1 {
+        font-size: 1rem;
+    }
+
+    .mach-sub {
+        font-size: 0.75rem;
+    }
+
+    .engine-block {
+        padding: 1.2rem 0.6rem 1rem;
+    }
+
+    .piston-col {
+        max-width: 60px;
+        padding: 0.3rem 0.2rem;
+    }
+
+    .odo-digit {
+        font-size: 0.9rem;
+    }
+
+    .cyl {
+        width: 30px;
+        height: 100px;
+    }
+
+    .cyl-input {
+        width: 100px;
+        height: 30px;
+        transform: rotate(-90deg);
+        transform-origin: 50px 50px;
+    }
+
+    .stamp-label {
+        font-size: 0.6rem;
+        letter-spacing: 0.5px;
+    }
+
+    .boost-hud {
+        gap: 0.3rem;
+        margin-bottom: 1rem;
+    }
+
+    .boost-chip {
+        font-size: 0.8rem;
+        min-width: auto;
+        padding: 4px 8px;
+    }
+
+    .boost-gauge {
+        height: 50px;
+    }
+
+    .boost-track {
+        height: 22px;
+        border-radius: 11px;
+    }
+
+    .res-bars {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .res-top {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .res-score {
+        border-left: none;
+        padding-left: 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.03);
+        padding-top: 0.5rem;
+    }
+
+    .res-score-big {
+        font-size: 1.35rem;
+        /* Increased for mobile visibility */
+    }
+
+    .hud-badges {
+        gap: 0.25rem;
+    }
+
+    .hud-badge {
+        font-size: 0.55rem;
+        /* Increased slightly for mobile */
+        padding: 0.15rem 0.4rem;
     }
 }

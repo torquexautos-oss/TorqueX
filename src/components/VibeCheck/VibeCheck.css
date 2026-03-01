@@ -625,3 +625,49 @@
         display: none;
     }
 }
+
+@media (max-width: 480px) {
+    .vibe-check-container {
+        padding: 1rem 0.75rem;
+    }
+
+    .vibe-check-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .vibe-check-header p {
+        font-size: 0.9rem;
+    }
+
+    .vibe-input {
+        font-size: 0.95rem;
+        padding: 0.6rem 0.75rem;
+    }
+
+    .vibe-send-btn {
+        width: 38px;
+        height: 38px;
+    }
+
+    .vibe-match-image {
+        height: 70px;
+        margin: 0.5rem 0;
+    }
+
+    .vibe-match-name {
+        font-size: 1.1rem;
+    }
+
+    .vibe-match-price {
+        font-size: 0.95rem;
+    }
+
+    .vibe-score-ring {
+        width: 50px;
+        height: 50px;
+    }
+
+    .vibe-score-num {
+        font-size: 0.85rem;
+    }
+}
