@@ -4,7 +4,9 @@ import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyCjbSMJqAxssg7W9YYQmEv1CGlh6ioMupY",
-    authDomain: "torquex-b2f0e.firebaseapp.com",
+    authDomain: (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")
+        ? "torquex-b2f0e.firebaseapp.com"
+        : window.location.hostname,
     projectId: "torquex-b2f0e",
     storageBucket: "torquex-b2f0e.firebasestorage.app",
     messagingSenderId: "402373338025",
