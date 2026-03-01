@@ -208,3 +208,28 @@
     opacity: 0.3;
     cursor: not-allowed;
 }
+
+/* ── Responsive Mobile Card Fixes ── */
+@media (max-width: 480px) {
+    .car-card-image {
+        /* slightly taller aspect ratio on mobile to show more of the car */
+        aspect-ratio: 4 / 3;
+    }
+
+    .car-card-body {
+        padding: 1rem;
+    }
+
+    .car-card-name {
+        font-size: 1.15rem;
+    }
+
+    .car-card-price {
+        font-size: 1.05rem;
+    }
+
+    .compare-btn {
+        padding: 0.8rem;
+        font-size: 0.9rem;
+    }
+}

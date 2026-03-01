@@ -795,4 +795,17 @@
     .hero-header-row {
         flex-direction: column !important;
     }
+
+    .spec-columns {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .ev-card {
+        padding: 1.5rem;
+    }
+
+    .ev-value {
+        font-size: 1.4rem;
+    }
 }

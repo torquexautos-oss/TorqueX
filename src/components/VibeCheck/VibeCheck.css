@@ -629,6 +629,8 @@
 @media (max-width: 480px) {
     .vibe-check-container {
         padding: 1rem 0.75rem;
+        overflow-y: auto;
+        max-height: 90vh;
     }
 
     .vibe-check-header h2 {

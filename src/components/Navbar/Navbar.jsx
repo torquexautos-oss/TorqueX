@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCompare } from '../../context/CompareContext';
 import { useAuth } from '../../context/AuthContext';
-import { Home, Newspaper, LayoutGrid, Compass, GitCompareArrows, BookOpen, User, LogOut } from 'lucide-react';
+import { Home, Newspaper, LayoutGrid, Compass, GitCompareArrows, BookOpen, User, LogOut, Menu, X } from 'lucide-react';
 import './Navbar.css';
 
 const NAV_ITEMS = [
@@ -19,8 +19,25 @@ export default function Navbar() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false); // For user dropdown
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // For hamburger
     const menuRef = useRef(null);
+
+    // Prevent scrolling when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [isMobileMenuOpen]);
+
+    // Close menus on route change
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setIsMenuOpen(false);
+    }, [location.pathname]);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -46,22 +63,24 @@ export default function Navbar() {
                     <span className="logo-x">X</span>
                 </Link>
 
-                <div className="navbar-links">
+                <div className={`navbar-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
                     {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
                         <Link
                             key={to}
                             to={to}
                             className={`nav-link ${location.pathname === to ? 'nav-link--active' : ''}`}
+                            onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            <Icon size={16} />
+                            <Icon size={18} />
                             <span>{label}</span>
                         </Link>
                     ))}
                     <Link
                         to="/compare"
                         className={`nav-link nav-compare ${location.pathname === '/compare' ? 'nav-link--active' : ''}`}
+                        onClick={() => setIsMobileMenuOpen(false)}
                     >
-                        <GitCompareArrows size={16} />
+                        <GitCompareArrows size={18} />
                         <span>Compare</span>
                         {compareList.length > 0 && (
                             <span className="nav-compare-badge">{compareList.length}</span>
@@ -103,13 +122,20 @@ export default function Navbar() {
                     ) : (
                         <button
                             className="nav-login-btn"
-                            onClick={() => openAuthModal()}
+                            onClick={() => { openAuthModal(); setIsMobileMenuOpen(false); }}
                         >
-                            <User size={16} />
+                            <User size={18} />
                             <span>Sign In</span>
                         </button>
                     )}
                 </div>
+
+                <button
+                    className="mobile-menu-btn"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
             </div>
         </nav>
     );
