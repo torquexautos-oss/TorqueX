@@ -419,6 +419,18 @@ app.get('/api/health', (req, res) => {
     });
 });
 
+app.get('/api/debug', (req, res) => {
+    try {
+        const cwd = process.cwd();
+        const dirName = __dirname;
+        const exists = fs.existsSync(path.join(cwd, 'server', 'data', 'car_data.sqlite'));
+        const exists2 = fs.existsSync(path.join(dirName, 'data', 'car_data.sqlite'));
+        res.json({ cwd, dirName, exists, exists2 });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 // ── Start ──────────────────────────────────────────────────────
 loadImageCache();
 
