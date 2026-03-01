@@ -3,8 +3,14 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// Pointing to the new live scraper database
-const dbPath = path.join(__dirname, 'data/car_data.sqlite');
+
+// Pointing to the new live scraper database.
+// Vercel Serverless Functions mount the project root at /var/task.
+// Our vercel.json `includeFiles` rule places the data folder at /var/task/server/data.
+const isVercel = process.env.VERCEL === '1' || process.env.VERCEL_ENV;
+const dbPath = isVercel
+    ? path.join('/var/task', 'server', 'data', 'car_data.sqlite')
+    : path.join(__dirname, 'data', 'car_data.sqlite');
 
 let db;
 try {
