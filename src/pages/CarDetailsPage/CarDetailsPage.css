@@ -699,3 +699,100 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Small phones (≤480px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 1rem 0 1.5rem;
+    }
+
+    .hero-inner {
+        gap: 1rem;
+        padding: 0 0.75rem;
+    }
+
+    .hero-name {
+        font-size: 1.6rem;
+    }
+
+    .hero-price {
+        font-size: 1.3rem;
+    }
+
+    .hero-status-badge {
+        font-size: 0.85rem;
+        padding: 0.35rem 0.7rem;
+    }
+
+    .breadcrumb {
+        font-size: 0.75rem;
+        gap: 0.3rem;
+    }
+
+    .section {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .section-heading {
+        font-size: 1.3rem;
+    }
+
+    .details-content {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+
+    .section-nav {
+        padding: 0.5rem;
+    }
+
+    .section-nav a {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .variant-list {
+        gap: 0.5rem;
+    }
+
+    .variant-btn {
+        min-width: 100%;
+    }
+
+    .quick-specs {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dim-grid,
+    .safety-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+
+    .dim-card,
+    .safety-card {
+        padding: 1rem 0.5rem;
+    }
+
+    .dim-value {
+        font-size: 1rem;
+    }
+
+    .spec-table td {
+        font-size: 0.85rem;
+        padding: 0.5rem 0;
+    }
+
+    .hero-header-row {
+        flex-direction: column !important;
+    }
+}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import ReviewCard from '../../components/ReviewCard/ReviewCard';
 import ReviewForm from '../../components/ReviewForm/ReviewForm';
+import { Pencil } from 'lucide-react';
 import reviewsData from '../../data/reviews.json';
 import './ReviewsSection.css';
 
@@ -93,7 +94,7 @@ export default function ReviewsSection({ carId }) {
 
                 <div className="rs-actions">
                     <button className="rs-write-btn" onClick={() => setShowForm(true)}>
-                        ✏️ Write a Review
+                        <Pencil size={14} /> Write a Review
                     </button>
                 </div>
             </div>
@@ -127,7 +128,7 @@ export default function ReviewsSection({ carId }) {
                 <div className="rs-empty">
                     <p>No reviews yet. Be the first to share your experience!</p>
                     <button className="rs-write-btn" onClick={() => setShowForm(true)}>
-                        ✏️ Write the First Review
+                        <Pencil size={14} /> Write the First Review
                     </button>
                 </div>
             )}

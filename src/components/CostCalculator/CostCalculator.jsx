@@ -49,7 +49,7 @@ export default function CostCalculator({ carPriceLakh, mileageKmpl, fuelType }) 
     }, [carPriceLakh, dailyCommute, downPaymentPercent, loanTenureYears, mileageKmpl, fuelType, currentFuelPrice, isEV]);
 
     return (
-        <div className="cost-calc">
+        <div className="cost-calc" id="cost">
             <div className="cost-header">
                 <h3>True Cost of Ownership</h3>
                 <p>Calculate your real monthly expenses including EMI, fuel, and upkeep.</p>

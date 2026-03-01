@@ -2,8 +2,11 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import ReactMarkdown from 'react-markdown';
 import {
     RefreshCw, Clock, Search, Globe, Zap, ChevronLeft, ChevronRight,
-    X, ExternalLink, BookOpen, Sparkles, AlertCircle, ArrowLeft, TrendingUp, Compass, Star
+    X, ExternalLink, BookOpen, Sparkles, AlertCircle, TrendingUp, Compass, Star
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../firebase';
 import './NewsFeedPage.css';
 
 const timeAgo = (dateStr) => {
@@ -39,12 +42,7 @@ const NewsFeedPage = () => {
     const [summaryLoading, setSummaryLoading] = useState(null);
     const [summaries, setSummaries] = useState({});
 
-    // Reader Mode
-    const [view, setView] = useState('feed'); // 'feed' | 'reader'
-    const [readerUrl, setReaderUrl] = useState('');
-    const [readerSource, setReaderSource] = useState('');
-    const [readerTitle, setReaderTitle] = useState('');
-    const [readerContent, setReaderContent] = useState('');
+    const navigate = useNavigate();
 
     // Initial Data Load (Channels)
     useEffect(() => {
@@ -102,11 +100,11 @@ const NewsFeedPage = () => {
 
     // Auto-refresh every 5 minutes on page 1 only
     useEffect(() => {
-        if (view === 'feed' && allChannelIds.length > 0 && page === 1 && !searchQuery) {
+        if (allChannelIds.length > 0 && page === 1 && !searchQuery) {
             refreshTimerRef.current = setInterval(() => fetchFeed(true), 5 * 60 * 1000);
             return () => clearInterval(refreshTimerRef.current);
         }
-    }, [view, allChannelIds, fetchFeed, page, searchQuery]);
+    }, [allChannelIds, fetchFeed, page, searchQuery]);
 
     // AI On-Demand Summarization
     const requestSummary = async (article) => {
@@ -119,85 +117,92 @@ const NewsFeedPage = () => {
                 body: JSON.stringify({ title: article.title, description: article.description, url: article.url }),
             });
             const data = await res.json();
-            setSummaries(prev => ({ ...prev, [article.id]: data.summary || `⚠️ ${data.error || 'Failed'}` }));
+            setSummaries(prev => ({ ...prev, [article.id]: data.summary || `Error: ${data.error || 'Failed'}` }));
         } catch {
-            setSummaries(prev => ({ ...prev, [article.id]: '⚠️ Could not generate summary' }));
+            setSummaries(prev => ({ ...prev, [article.id]: 'Error: Could not generate summary' }));
         } finally {
             setSummaryLoading(null);
         }
     };
 
-    const [readerLoading, setReaderLoading] = useState(false);
-
-    // Reader Mode Handlers
-    const openReader = async (article) => {
-        setReaderUrl(article.url);
-        setReaderSource(article.source);
-        setReaderTitle(article.title);
-        setReaderContent('');
-        setReaderLoading(true);
-        setView('reader');
-        window.scrollTo(0, 0); // Reset scroll position when opening reader
-
+    // Redirect to Dedicated Article Page
+    const openReader = (article) => {
         try {
-            // Fetch the full extracted HTML from our new backend parser endpoint
-            const res = await fetch(`http://localhost:3002/api/article-content?url=${encodeURIComponent(article.url)}`);
-            const data = await res.json();
+            const docRef = doc(db, 'feed_articles', article.id);
+            // Fire and forget the Firestore write to ensure UI navigates instantly
+            setDoc(docRef, {
+                id: article.id,
+                title: article.title,
+                url: article.url,
+                source: article.source,
+                sourceIcon: article.sourceIcon || null,
+                publishedAt: article.publishedAt,
+                description: article.description,
+                createdAt: serverTimestamp()
+            }, { merge: true }).catch(err => {
+                console.error("Failed to save article route to Firestore:", err);
+            });
 
-            if (res.ok && data.content && data.content.length > 50) {
-                setReaderContent(data.content);
-            } else {
-                throw new Error("Parser returned insufficient content");
-            }
+            navigate(`/news/article/${article.id}`);
         } catch (err) {
-            console.error("Failed to load full article natively:", err);
-            // Fallback to description if fullContent extraction fails
-            const fallbackHtml = (article.fullContent && article.fullContent.length > 100)
-                ? article.fullContent
-                : `<p class="reader-fallback-desc">${article.description}</p>
-                   <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1rem;">
-                     <small><em>Note: TorqueX could not extract the full text for this specific article format. Please read the original.</em></small>
-                   </p>`;
-            setReaderContent(fallbackHtml);
-        } finally {
-            setReaderLoading(false);
+            console.error("Critical routing error:", err);
+            navigate(`/news/article/${article.id}`);
         }
     };
 
-    const closeReader = () => {
-        setReaderUrl('');
-        setReaderContent('');
-        setReaderTitle('');
-        setReaderSource('');
-        setReaderLoading(false);
-        setView('feed');
+    // Sub-components for rendering cards
+    // Category-to-icon mapping for rich fallbacks
+    const CATEGORY_ICONS = {
+        indian: Globe,
+        evs: Zap,
+        motorsport: TrendingUp,
+        industry: Globe,
+        policy: BookOpen,
+        tech: Zap,
+        reviews: BookOpen,
+        launches: Sparkles,
+        community: Clock,
     };
 
-    // Sub-components for rendering cards
+    // Deterministic gradient from source name
+    const getGradient = (source) => {
+        let hash = 0;
+        for (let i = 0; i < (source || '').length; i++) hash = source.charCodeAt(i) + ((hash << 5) - hash);
+        const hue = Math.abs(hash) % 360;
+        return `linear-gradient(135deg, hsl(${hue}, 40%, 12%) 0%, hsl(${(hue + 40) % 360}, 35%, 8%) 100%)`;
+    };
+
     const renderArticleCard = (article, idx, type = 'standard') => {
         const isSummarized = !!summaries[article.id];
         const isSummarizing = summaryLoading === article.id;
+        const FallbackIcon = CATEGORY_ICONS[article.category] || Globe;
 
         return (
             <article key={article.id || idx} className={`editorial-card ${type}-card`} onClick={() => openReader(article)}>
                 {/* Image Section */}
-                {article.imageUrl ? (
-                    <div className="ec-image-wrapper">
-                        <img src={article.imageUrl} alt="" loading="lazy" className="ec-image" />
-                        <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
-                            <img src={article.sourceIcon} alt="" className="source-favicon" />
-                            <span>{article.source}</span>
-                        </div>
+                <div
+                    className="ec-image-wrapper"
+                    style={{ background: getGradient(article.source) }}
+                >
+                    {article.imageUrl && (
+                        <img
+                            src={article.imageUrl}
+                            alt=""
+                            loading="lazy"
+                            className="ec-image"
+                            onError={(e) => { e.target.style.display = 'none'; }}
+                        />
+                    )}
+                    {/* Fallback layer — always present behind image */}
+                    <div className="ec-fallback-content">
+                        <FallbackIcon size={type === 'hero' ? 44 : 28} strokeWidth={1.2} />
+                        <span className="ec-fallback-source">{article.source}</span>
                     </div>
-                ) : (
-                    <div className="ec-image-wrapper fall-back-bg">
-                        <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
-                            <img src={article.sourceIcon} alt="" className="source-favicon" />
-                            <span>{article.source}</span>
-                        </div>
-                        <Globe size={32} opacity={0.2} />
+                    <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
+                        <img src={article.sourceIcon} alt="" className="source-favicon" />
+                        <span>{article.source}</span>
                     </div>
-                )}
+                </div>
 
                 {/* Content Section */}
                 <div className="ec-content">
@@ -245,54 +250,7 @@ const NewsFeedPage = () => {
         );
     };
 
-    // ── Readers View ─────────────────────────────────────────
-    if (view === 'reader') {
-        return (
-            <div className="reader-overlay slide-up">
-                <div className="reader-topbar">
-                    <button className="reader-back-btn" onClick={closeReader}>
-                        <ArrowLeft size={18} /> Exit Reader
-                    </button>
-                    <div className="reader-center-info">
-                        <span className="reader-source-pill">{readerSource}</span>
-                        <h2 className="reader-title-preview">{readerTitle}</h2>
-                    </div>
-                    <div className="reader-topbar-actions">
-                        <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-outline btn-sm">
-                            <ExternalLink size={14} /> Open Original
-                        </a>
-                    </div>
-                </div>
 
-                <div className="reader-content-container">
-                    <div className="reader-article-body">
-                        <h1>{readerTitle}</h1>
-
-                        {readerLoading ? (
-                            <div className="reader-loading-state">
-                                <RefreshCw size={32} className="spin text-primary" />
-                                <p>Extracting full article text...</p>
-                            </div>
-                        ) : (
-                            <>
-                                <div
-                                    className="reader-html-content fade-in"
-                                    dangerouslySetInnerHTML={{ __html: readerContent }}
-                                />
-
-                                <div className="reader-footer-cta fade-in">
-                                    <p>To read the full ongoing discussion or view interactive elements, visit the original publisher.</p>
-                                    <a href={readerUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg mt-4">
-                                        <ExternalLink size={16} /> Continue Reading on {readerSource}
-                                    </a>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     // Split articles into Magazine Layout (Hero, Trending, List)
     const isFirstPageComplete = page === 1 && !searchQuery && activeCategory === 'all' && articles.length >= 5;
@@ -345,7 +303,7 @@ const NewsFeedPage = () => {
                         className={`ed-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
                         onClick={() => { setActiveCategory(cat.id); setPage(1); }}
                     >
-                        {cat.icon} {cat.label}
+                        {cat.label}
                     </button>
                 ))}
             </nav>

@@ -340,16 +340,47 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
+    position: relative;
+    z-index: 1;
 }
 
 .editorial-card:hover .ec-image {
     transform: scale(1.05);
 }
 
-.fall-back-bg {
+/* Fallback layer — sits behind the image, visible when no image or image fails */
+.ec-fallback-content {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.6rem;
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.ec-fallback-content::before {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ec-fallback-source {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.12);
+    max-width: 80%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Badge overlay */
@@ -899,5 +930,72 @@
 
     .reader-center-info {
         display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .editorial-page {
+        padding: 1rem 0.5rem;
+    }
+
+    .ed-header-left h1 {
+        font-size: 1.8rem;
+    }
+
+    .ed-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .ed-header-right {
+        display: none;
+    }
+
+    .ed-cat-btn {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.75rem;
+    }
+
+    .hero-card .ec-image-wrapper {
+        height: 200px;
+    }
+
+    .hero-card .ec-title {
+        font-size: 1.2rem;
+    }
+
+    .hero-card .ec-desc {
+        font-size: 0.85rem;
+    }
+
+    .trending-card .ec-image-wrapper {
+        height: 100px;
+    }
+
+    .list-card .ec-image-wrapper {
+        height: 140px;
+    }
+
+    .ec-title {
+        font-size: 1rem;
+    }
+
+    .ec-desc {
+        font-size: 0.8rem;
+    }
+
+    .ec-actions {
+        padding: 0.6rem 0.75rem;
+    }
+
+    .reader-article-body {
+        padding: 0 1rem;
+    }
+
+    .reader-article-body h1 {
+        font-size: 1.6rem;
+    }
+
+    .reader-html-content {
+        font-size: 1rem;
     }
 }

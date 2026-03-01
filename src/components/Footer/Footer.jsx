@@ -20,7 +20,7 @@ export default function Footer() {
 
                 <div className="footer-links-group">
                     <h4>Resources</h4>
-                    <Link to="/news">AI Newswire</Link>
+                    <Link to="/news">Newsfeed</Link>
                     <a href="https://github.com" target="_blank" rel="noreferrer">GitHub</a>
                 </div>
             </div>

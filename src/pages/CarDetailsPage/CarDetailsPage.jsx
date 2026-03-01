@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Gauge, Users, Shield, Lock, Cpu, Sun, BatteryCharging, Route, Zap } from 'lucide-react';
 import { formatPrice, formatMileage } from '../../utils/formatters';
 import CarImage from '../../components/CarImage/CarImage';
-import ReviewsSection from '../ReviewsSection/ReviewsSection';
 import PitchDeckModal from '../../components/PitchDeckModal/PitchDeckModal';
 import DriveSimulator from '../../components/DriveSimulator/DriveSimulator';
 import CostCalculator from '../../components/CostCalculator/CostCalculator';
 import DepreciationSlider from '../../components/DepreciationSlider/DepreciationSlider';
+import CommentsView from '../../components/CommentsView/CommentsView';
 import './CarDetailsPage.css';
 
 export default function CarDetailsPage() {
@@ -120,7 +121,7 @@ export default function CarDetailsPage() {
                             <span>/</span>
                             <Link to="/cars">Cars</Link>
                             <span>/</span>
-                            <span>{car.brand}</span>
+                            <Link to={`/cars?brand=${encodeURIComponent(car.brand)}`}>{car.brand}</Link>
                             <span>/</span>
                             <span className="current">{car.modelName}</span>
                         </nav>
@@ -144,7 +145,8 @@ export default function CarDetailsPage() {
                                         boxShadow: '0 4px 15px rgba(239, 68, 68, 0.3)'
                                     }}
                                 >
-                                    <span>Simulate Launch 🚀</span>
+                                    <Gauge size={16} />
+                                    <span>Simulate Launch</span>
                                 </button>
 
                                 {/* EPIC FEATURE 2: Family Pitch Deck Button */}
@@ -159,7 +161,8 @@ export default function CarDetailsPage() {
                                         boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
                                     }}
                                 >
-                                    <span>Convince Family 🤝</span>
+                                    <Users size={16} />
+                                    <span>Convince Family</span>
                                 </button>
                             </div>
                         </div>
@@ -282,8 +285,10 @@ export default function CarDetailsPage() {
                     <a href="#specifications">Specs</a>
                     <a href="#dimensions">Dimensions</a>
                     <a href="#safety">Safety</a>
-                    {colorsList.length > 0 && <a href="#colors">Colors</a>}
+                    <a href="#cost">Cost</a>
+                    <a href="#depreciation">Depreciation</a>
                     {(v.battery_capacity_kwh || v.range_km) && <a href="#ev-specs">EV Specs</a>}
+                    {colorsList.length > 0 && <a href="#colors">Colors</a>}
                     <a href="#reviews">Reviews</a>
                 </nav>
 
@@ -318,20 +323,6 @@ export default function CarDetailsPage() {
                         </div>
                     </div>
                 </section>
-
-                {/* ── Cost Calculator ──────────────────────────────── */}
-                <CostCalculator
-                    carPriceLakh={v.price_lakh || car.priceMin}
-                    mileageKmpl={v.mileage_kmpl}
-                    fuelType={v.fuel_type}
-                />
-
-                {/* ── Depreciation Slider ──────────────────────────── */}
-                <DepreciationSlider
-                    basePriceLakh={v.price_lakh || car.priceMin}
-                    brandName={car.brand}
-                    carImageSrc={`http://localhost:3002/api/car/image?modelId=${car.id}`}
-                />
 
                 {/* ── Specifications ───────────────────────────────── */}
                 <section className="section" id="specifications">
@@ -396,39 +387,56 @@ export default function CarDetailsPage() {
                     <h2 className="section-heading">Safety & Features</h2>
                     <div className="safety-grid">
                         <div className={`safety-card ${v.airbags_count ? 'safety-card--has' : ''}`}>
-                            <span className="safety-icon">🛡️</span>
+                            <span className="safety-icon"><Shield size={20} /></span>
                             <span className="safety-value">{v.airbags_count ? `${v.airbags_count} Airbags` : '—'}</span>
                         </div>
                         <div className={`safety-card ${v.has_abs ? 'safety-card--has' : ''}`}>
-                            <span className="safety-icon">🔒</span>
+                            <span className="safety-icon"><Lock size={20} /></span>
                             <span className="safety-value">{v.has_abs ? 'ABS ✓' : 'ABS —'}</span>
                         </div>
                         <div className={`safety-card ${v.has_adas ? 'safety-card--has' : ''}`}>
-                            <span className="safety-icon">🤖</span>
+                            <span className="safety-icon"><Cpu size={20} /></span>
                             <span className="safety-value">{v.has_adas ? 'ADAS ✓' : 'ADAS —'}</span>
                         </div>
                         <div className={`safety-card ${v.has_sunroof ? 'safety-card--has' : ''}`}>
-                            <span className="safety-icon">☀️</span>
+                            <span className="safety-icon"><Sun size={20} /></span>
                             <span className="safety-value">{v.has_sunroof ? 'Sunroof ✓' : 'Sunroof —'}</span>
                         </div>
                     </div>
                 </section>
 
+                {/* ── Cost Calculator ──────────────────────────────── */}
+                <CostCalculator
+                    carPriceLakh={v.price_lakh || car.priceMin}
+                    mileageKmpl={v.mileage_kmpl}
+                    fuelType={v.fuel_type}
+                />
+
+                {/* ── Depreciation Slider ──────────────────────────── */}
+                <DepreciationSlider
+                    basePriceLakh={v.price_lakh || car.priceMin}
+                    brandName={car.brand}
+                    modelId={car.id}
+                    bodyType={car.bodyType}
+                    fuelType={v.fuel_type}
+                    carName={car.modelName}
+                />
+
                 {/* ── EV Specs (conditional) ───────────────────────── */}
                 {(v.battery_capacity_kwh || v.range_km) && (
                     <section className="section" id="ev-specs">
-                        <h2 className="section-heading">⚡ Electric Vehicle Specs</h2>
+                        <h2 className="section-heading"><Zap size={20} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />Electric Vehicle Specs</h2>
                         <div className="ev-grid">
                             {v.battery_capacity_kwh && (
                                 <div className="ev-card">
-                                    <span className="ev-icon">🔋</span>
+                                    <span className="ev-icon"><BatteryCharging size={22} /></span>
                                     <span className="ev-value">{v.battery_capacity_kwh} kWh</span>
                                     <span className="ev-label">Battery Capacity</span>
                                 </div>
                             )}
                             {v.range_km && (
                                 <div className="ev-card">
-                                    <span className="ev-icon">🛣️</span>
+                                    <span className="ev-icon"><Route size={22} /></span>
                                     <span className="ev-value">{v.range_km} km</span>
                                     <span className="ev-label">Range</span>
                                 </div>
@@ -451,8 +459,8 @@ export default function CarDetailsPage() {
                     </section>
                 )}
 
-                {/* ── Customer Reviews ────────────────────────────── */}
-                <ReviewsSection carId={car.id} />
+                {/* ── Comments / Reviews ────────────────────────────── */}
+                <CommentsView targetId={`car_${car.id}`} type="car" />
 
                 {/* Back */}
                 <div className="details-back">

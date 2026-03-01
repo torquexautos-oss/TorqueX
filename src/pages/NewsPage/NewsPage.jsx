@@ -1,13 +1,53 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import { useSearchParams, useLocation } from 'react-router-dom';
+import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
+import { db } from '../../firebase';
+import CommentsView from '../../components/CommentsView/CommentsView';
 import './NewsPage.css';
 
 export default function NewsPage() {
+    const [searchParams] = useSearchParams();
+    const targetSlug = searchParams.get('article');
+    const location = useLocation();
+
     const [topic, setTopic] = useState('');
-    const [article, setArticle] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [sources, setSources] = useState([]);
+    const [feed, setFeed] = useState([]);
+
+    // Fetch recent articles from Firestore to act as the News Feed
+    useEffect(() => {
+        const q = query(
+            collection(db, 'news_articles'),
+            orderBy('createdAt', 'desc'),
+            limit(20)
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const fetched = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setFeed(fetched);
+        }, (err) => {
+            console.error("Error fetching news feed:", err);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
+    // Auto-Scroll to specific article if a user clicked a deep link from their Profile (but wasn't targeting a specific comment)
+    useEffect(() => {
+        if (targetSlug && feed.length > 0 && !location.hash) {
+            const articleElement = document.getElementById(`article-${targetSlug}`);
+            if (articleElement) {
+                setTimeout(() => {
+                    articleElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+    }, [targetSlug, feed.length, location.hash]);
 
     const handleGenerate = async (e) => {
         e.preventDefault();
@@ -15,8 +55,6 @@ export default function NewsPage() {
 
         setLoading(true);
         setError(null);
-        setArticle(null);
-        setSources([]);
 
         try {
             const res = await fetch('http://localhost:3002/api/generate-news', {
@@ -31,8 +69,18 @@ export default function NewsPage() {
             }
 
             const data = await res.json();
-            setArticle(data.article);
-            setSources(data.sources);
+            const slug = topic.replace(/\s+/g, '-').toLowerCase();
+
+            // Permanently save the generated article for the entire platform to see
+            await addDoc(collection(db, 'news_articles'), {
+                topic,
+                slug,
+                article: data.article,
+                sources: data.sources,
+                createdAt: serverTimestamp()
+            });
+
+            setTopic('');
         } catch (err) {
             setError(err.message);
         } finally {
@@ -69,24 +117,47 @@ export default function NewsPage() {
                 {error && <div className="error-message">{error}</div>}
             </section>
 
-            {article && !loading && (
-                <article className="generated-article">
-                    <ReactMarkdown>{article}</ReactMarkdown>
-
-                    <div className="article-sources">
-                        <h3>Source References</h3>
-                        <ul>
-                            {sources.map((src, idx) => (
-                                <li key={idx}>
-                                    <a href={src.url} target="_blank" rel="noopener noreferrer">
-                                        [{idx + 1}] {src.title || src.url}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+            <section className="news-feed">
+                {feed.length === 0 && !loading && (
+                    <div className="no-news" style={{ textAlign: 'center', color: '#888', padding: '3rem 0', fontSize: '1.1rem' }}>
+                        <p>No articles generated yet. Be the first to contribute to the TorqueX database!</p>
                     </div>
-                </article>
-            )}
+                )}
+
+                {feed.map((item) => (
+                    <article
+                        key={item.id}
+                        id={`article-${item.slug}`}
+                        className={`generated-article feed-item ${targetSlug === item.slug ? 'highlighted-article' : ''}`}
+                        style={{ marginBottom: '4rem' }}
+                    >
+                        <h2 className="article-topic-title" style={{ fontSize: '2.5rem', color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '2rem' }}>
+                            {item.topic}
+                        </h2>
+
+                        <div className="article-body">
+                            <ReactMarkdown>{item.article}</ReactMarkdown>
+                        </div>
+
+                        {item.sources && item.sources.length > 0 && (
+                            <div className="article-sources">
+                                <h3>Source References</h3>
+                                <ul>
+                                    {item.sources.map((src, idx) => (
+                                        <li key={idx}>
+                                            <a href={src.url} target="_blank" rel="noopener noreferrer">
+                                                [{idx + 1}] {src.title || src.url}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
+
+                        <CommentsView targetId={`news_${item.slug}`} type="news" />
+                    </article>
+                ))}
+            </section>
         </main>
     );
 }
