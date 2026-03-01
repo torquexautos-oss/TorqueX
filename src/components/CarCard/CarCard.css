@@ -210,9 +210,16 @@
 }
 
 /* ── Responsive Mobile Card Fixes ── */
+@media (max-width: 768px) {
+    .compare-btn {
+        min-height: 44px;
+        padding: 0.75rem;
+        touch-action: manipulation;
+    }
+}
+
 @media (max-width: 480px) {
     .car-card-image {
-        /* slightly taller aspect ratio on mobile to show more of the car */
         aspect-ratio: 4 / 3;
     }
 

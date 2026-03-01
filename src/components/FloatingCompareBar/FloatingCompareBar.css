@@ -1,0 +1,44 @@
+.floating-compare-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(26, 26, 36, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateY(100%);
+    animation: slideUp 0.3s ease forwards;
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+@keyframes slideUp {
+    to {
+        transform: translateY(0);
+    }
+}
+
+.compare-selected-count {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.compare-action-btn {
+    padding: 0.6rem 1.4rem;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+/* Hide on desktop, Navbar handles it */
+@media (min-width: 769px) {
+    .floating-compare-bar {
+        display: none;
+    }
+}
