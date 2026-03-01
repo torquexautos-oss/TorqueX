@@ -10,6 +10,11 @@ import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHAN
 import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
 import recommendRouter from './routes/recommend.js';
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
