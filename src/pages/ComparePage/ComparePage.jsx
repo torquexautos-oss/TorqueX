@@ -21,7 +21,11 @@ export default function ComparePage() {
         }
 
         setLoading(true);
-        fetch(`${API_BASE_URL}/api/db/cars/compare?ids=${compareList.map(c => c.id).join(',')}`)
+        fetch(`${API_BASE_URL}/api/db/compare`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ids: compareList.map(c => c.id) })
+        })
             .then(res => res.json())
             .then(data => {
                 setCarsData(data.cars || []);
