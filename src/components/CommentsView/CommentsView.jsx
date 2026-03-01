@@ -283,93 +283,91 @@ export default function CommentsView({ targetId, type }) {
                                     <span className="comment-date">{formatDate(comment.createdAt)}</span>
                                 </div>
                                 <p className="comment-text">{comment.text}</p>
-                            </div>
 
-                            {/* Comment Actions (Reply / Delete) */}
-                            <div className="comment-actions">
-                                <button
-                                    className="action-btn reply-btn"
-                                    onClick={() => {
-                                        setReplyingTo(replyingTo === comment.id ? null : comment.id);
-                                        setReplyText('');
-                                        setError('');
-                                    }}
-                                >
-                                    <Reply size={14} /> Reply
-                                </button>
-
-                                {(isSuperUser || comment.userId === currentUser?.uid) && (
+                                {/* Comment Actions (Reply / Delete) */}
+                                <div className="comment-actions">
                                     <button
-                                        className="action-btn delete-btn"
-                                        onClick={() => handleDelete(comment.id)}
-                                        title="Delete Comment"
+                                        className="action-btn reply-btn"
+                                        onClick={() => {
+                                            setReplyingTo(replyingTo === comment.id ? null : comment.id);
+                                            setReplyText('');
+                                            setError('');
+                                        }}
                                     >
-                                        <Trash2 size={14} /> Delete
+                                        <Reply size={14} /> Reply
                                     </button>
-                                )}
-                            </div>
 
-                            {/* Replies List */}
-                            {comment.replies && comment.replies.length > 0 && (
-                                <div className="replies-list">
-                                    {comment.replies.map(reply => (
-                                        <div key={reply.id} className="reply-card">
-                                            <CornerDownRight size={16} className="reply-connector-icon" />
-                                            <div className="comment-avatar reply-avatar">
-                                                {reply.userName.charAt(0).toUpperCase()}
-                                            </div>
-                                            <div className="comment-body">
-                                                <div className="comment-meta">
-                                                    <span className="comment-author">{reply.userName}</span>
-                                                    <span className="comment-date">
-                                                        {new Intl.DateTimeFormat('en-US', {
-                                                            month: 'short', day: 'numeric',
-                                                            hour: 'numeric', minute: '2-digit'
-                                                        }).format(new Date(reply.createdAt))}
-                                                    </span>
-                                                </div>
-                                                <p className="comment-text">{reply.text}</p>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-
-                            {/* Reply Composer */}
-                            {replyingTo === comment.id && (
-                                <div className="reply-composer-wrapper">
-                                    {currentUser ? (
-                                        <form className="reply-form" onSubmit={(e) => handleReplySubmit(e, comment.id, comment.replies)}>
-                                            <CornerDownRight size={20} className="reply-connector-icon active" />
-                                            <div className="reply-input-box">
-                                                <input
-                                                    type="text"
-                                                    value={replyText}
-                                                    onChange={(e) => {
-                                                        setReplyText(e.target.value);
-                                                        setError('');
-                                                    }}
-                                                    placeholder="Write a reply... (Max 20 per thread)"
-                                                    maxLength={300}
-                                                    autoFocus
-                                                />
-                                                <button
-                                                    type="submit"
-                                                    className="reply-submit-btn"
-                                                    disabled={isReplying || !replyText.trim() || (comment.replies && comment.replies.length >= 20)}
-                                                >
-                                                    {isReplying ? '...' : 'Reply'}
-                                                </button>
-                                            </div>
-                                        </form>
-                                    ) : (
-                                        <div className="reply-login-prompt">
-                                            <span>Please sign in to reply to this thread.</span>
-                                            <button onClick={() => openAuthModal()}>Sign In</button>
-                                        </div>
+                                    {(isSuperUser || comment.userId === currentUser?.uid) && (
+                                        <button
+                                            className="action-btn delete-btn"
+                                            onClick={() => handleDelete(comment.id)}
+                                            title="Delete Comment"
+                                        >
+                                            <Trash2 size={14} /> Delete
+                                        </button>
                                     )}
                                 </div>
-                            )}
+
+                                {/* Replies List */}
+                                {comment.replies && comment.replies.length > 0 && (
+                                    <div className="replies-list">
+                                        {comment.replies.map(reply => (
+                                            <div key={reply.id} className="reply-card">
+                                                <div className="comment-avatar reply-avatar">
+                                                    {reply.userName.charAt(0).toUpperCase()}
+                                                </div>
+                                                <div className="comment-body">
+                                                    <div className="comment-meta">
+                                                        <span className="comment-author">{reply.userName}</span>
+                                                        <span className="comment-date">
+                                                            {new Intl.DateTimeFormat('en-US', {
+                                                                month: 'short', day: 'numeric',
+                                                                hour: 'numeric', minute: '2-digit'
+                                                            }).format(new Date(reply.createdAt))}
+                                                        </span>
+                                                    </div>
+                                                    <p className="comment-text">{reply.text}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {/* Reply Composer */}
+                                {replyingTo === comment.id && (
+                                    <div className="reply-composer-wrapper">
+                                        {currentUser ? (
+                                            <form className="reply-form" onSubmit={(e) => handleReplySubmit(e, comment.id, comment.replies)}>
+                                                <div className="reply-input-box">
+                                                    <input
+                                                        type="text"
+                                                        value={replyText}
+                                                        onChange={(e) => {
+                                                            setReplyText(e.target.value);
+                                                            setError('');
+                                                        }}
+                                                        placeholder="Write a reply... (Max 20 per thread)"
+                                                        maxLength={300}
+                                                        autoFocus
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        className="reply-submit-btn"
+                                                        disabled={isReplying || !replyText.trim() || (comment.replies && comment.replies.length >= 20)}
+                                                    >
+                                                        {isReplying ? '...' : 'Reply'}
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        ) : (
+                                            <div className="reply-login-prompt">
+                                                <span>Please sign in to reply to this thread.</span>
+                                                <button onClick={() => openAuthModal()}>Sign In</button>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     ))
                 )}

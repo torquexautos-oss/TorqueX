@@ -343,9 +343,8 @@
 .comment-actions {
     display: flex;
     gap: 1rem;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px dashed rgba(255, 255, 255, 0.05);
+    margin-top: 0.5rem;
+    padding-top: 0;
 }
 
 .action-btn {
@@ -375,23 +374,24 @@
 
 /* Replies List Array - Reddit Thread Style */
 .replies-list {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     display: flex;
     flex-direction: column;
-    padding-left: 20px;
-    margin-left: 20px;
-    border-left: 2px solid rgba(255, 255, 255, 0.1);
+    padding-left: 1.25rem;
+    margin-left: 0;
+    border-left: 2px solid rgba(255, 255, 255, 0.08);
+    /* Thread connection line */
     position: relative;
+    transition: border-color 0.2s ease;
+}
+
+.replies-list:hover {
+    border-left-color: rgba(255, 255, 255, 0.25);
+    /* Highlight thread on hover */
 }
 
 .replies-list::before {
-    content: '';
-    position: absolute;
-    top: -15px;
-    left: -2px;
-    bottom: 0;
-    width: 2px;
-    background: rgba(255, 255, 255, 0.1);
+    display: none;
 }
 
 .reply-card {
@@ -416,8 +416,8 @@
 
 /* Reply Composer */
 .reply-composer-wrapper {
-    margin-top: 1.5rem;
-    padding-left: 2rem;
+    margin-top: 1rem;
+    padding-left: 0;
     position: relative;
 }
 

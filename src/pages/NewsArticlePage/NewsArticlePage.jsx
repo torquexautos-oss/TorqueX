@@ -57,8 +57,16 @@ export default function NewsArticlePage() {
 
             if (metaUrl) {
                 try {
+                    const controller = new AbortController();
+                    // Timeout after 6 seconds to prevent hanging
+                    const timeoutId = setTimeout(() => controller.abort(), 6000);
+
                     // 2. Fetch full HTML content from local Node proxy parser asynchronously
-                    const res = await fetch(`http://localhost:3002/api/article-content?url=${encodeURIComponent(metaUrl)}`);
+                    const res = await fetch(`http://localhost:3002/api/article-content?url=${encodeURIComponent(metaUrl)}`, {
+                        signal: controller.signal
+                    });
+
+                    clearTimeout(timeoutId);
                     const data = await res.json();
 
                     if (res.ok && data.content && data.content.length > 50) {
@@ -74,11 +82,22 @@ export default function NewsArticlePage() {
                     }
                 } catch (err) {
                     console.error("Error loading article content:", err);
-                    setContent(
-                        `<p class="reader-fallback-error" style="color: #ef4444; margin-top: 1rem;">
-                           <small>Failed to connect to extraction server. Please read original link.</small>
-                         </p>`
-                    );
+
+                    if (err.name === 'AbortError') {
+                        // Timeout fallback
+                        setContent(
+                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${articleMeta?.description || ''}</p>
+                             <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1.5rem; padding: 1rem; border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; background: rgba(239,68,68,0.05);">
+                               <small><strong>Timeout:</strong> The external publisher site took too long to respond. Read the full story on their site.</small>
+                             </p>`
+                        );
+                    } else {
+                        setContent(
+                            `<p class="reader-fallback-error" style="color: #ef4444; margin-top: 1rem;">
+                               <small>Failed to connect to extraction server. Please read original link.</small>
+                             </p>`
+                        );
+                    }
                 } finally {
                     setContentLoading(false);
                 }
