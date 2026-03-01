@@ -175,13 +175,25 @@ const NewsFeedPage = () => {
         return `linear-gradient(135deg, hsl(${hue}, 40%, 12%) 0%, hsl(${(hue + 40) % 360}, 35%, 8%) 100%)`;
     };
 
+    // Preload images on hover for faster ArticleReader open
+    const handleArticleHover = (imageUrl) => {
+        if (!imageUrl) return;
+        const img = new Image();
+        img.src = imageUrl;
+    };
+
     const renderArticleCard = (article, idx, type = 'standard') => {
         const isSummarized = !!summaries[article.id];
         const isSummarizing = summaryLoading === article.id;
         const FallbackIcon = CATEGORY_ICONS[article.category] || Globe;
 
         return (
-            <article key={article.id || idx} className={`editorial-card ${type}-card`} onClick={() => openReader(article)}>
+            <article
+                key={article.id || idx}
+                className={`editorial-card ${type}-card`}
+                onClick={() => openReader(article)}
+                onMouseEnter={() => handleArticleHover(article.imageUrl || article.urlToImage || article.image)}
+            >
                 {/* Image Section */}
                 <div
                     className="ec-image-wrapper"
