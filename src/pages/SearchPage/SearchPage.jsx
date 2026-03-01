@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Search, BookOpen, AlertCircle, ChevronRight, Zap, Info } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 import './SearchPage.css';
 
 const WIKI_API_URL = 'https://en.wikipedia.org/api/rest_v1/page/summary/';
@@ -30,7 +31,7 @@ export default function SearchPage() {
 
     useEffect(() => {
         // Pre-fetch all known car models from TorqueX DB to provide instant local suggestions
-        fetch('http://localhost:3002/api/db/cars')
+        fetch(`${API_BASE_URL}/api/db/cars`)
             .then(res => res.json())
             .then(data => {
                 if (data.cars) {

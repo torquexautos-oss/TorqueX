@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { X, ChevronLeft, ChevronRight, Loader2, Shield, PiggyBank, Heart, Sparkles, AlertCircle } from 'lucide-react';
+import { API_BASE_URL } from '../../config';
 import './PitchDeckModal.css';
 
 // ── Icon mapping — replaces emojis from the AI response ─────────
@@ -25,7 +26,7 @@ export default function PitchDeckModal({ carName, specs, onClose }) {
         setLoading(true);
         setError(false);
 
-        fetch('http://localhost:3002/api/pitch-deck', {
+        fetch(`${API_BASE_URL}/api/pitch-deck`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ carName, specs })

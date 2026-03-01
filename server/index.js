@@ -422,14 +422,17 @@ app.get('/api/health', (req, res) => {
 // ── Start ──────────────────────────────────────────────────────
 loadImageCache();
 
-const server = http.createServer(app);
-server.listen(port, () => {
-    console.log(`TorqueX Backend running on port ${port}`);
-    console.log(`  News: Live channel system (${Object.keys(CHANNELS).length} channels, 0 AI cost)`);
-    console.log(`  On-demand summaries: ${groq ? 'enabled' : 'disabled (no API key)'}`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    const server = http.createServer(app);
+    server.listen(port, () => {
+        console.log(`TorqueX Backend running on port ${port}`);
+        console.log(`  News: Live channel system (${Object.keys(CHANNELS).length} channels, 0 AI cost)`);
+        console.log(`  On-demand summaries: ${groq ? 'enabled' : 'disabled (no API key)'}`);
+    });
 
-process.on('SIGTERM', () => { server.close(); });
-process.on('SIGINT', () => { server.close(); });
-setInterval(() => { }, 1 << 30);
+    process.on('SIGTERM', () => { server.close(); });
+    process.on('SIGINT', () => { server.close(); });
+    setInterval(() => { }, 1 << 30);
+}
 
+export default app;

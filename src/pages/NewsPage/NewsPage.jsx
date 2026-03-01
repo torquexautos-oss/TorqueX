@@ -4,6 +4,7 @@ import { useSearchParams, useLocation } from 'react-router-dom';
 import { collection, query, orderBy, onSnapshot, addDoc, serverTimestamp, limit } from 'firebase/firestore';
 import { db } from '../../firebase';
 import CommentsView from '../../components/CommentsView/CommentsView';
+import { API_BASE_URL } from '../../config';
 import './NewsPage.css';
 
 export default function NewsPage() {
@@ -57,7 +58,7 @@ export default function NewsPage() {
         setError(null);
 
         try {
-            const res = await fetch('http://localhost:3002/api/generate-news', {
+            const res = await fetch(`${API_BASE_URL}/api/generate-news`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ topic })

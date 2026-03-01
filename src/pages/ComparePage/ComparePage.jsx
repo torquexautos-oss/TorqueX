@@ -4,6 +4,7 @@ import { useCompare } from '../../context/CompareContext';
 import { X, BatteryCharging, MountainSnow, Search, Zap } from 'lucide-react';
 import CarImage from '../../components/CarImage/CarImage';
 import { formatPrice } from '../../utils/formatters';
+import { API_BASE_URL } from '../../config';
 import './ComparePage.css';
 
 export default function ComparePage() {
@@ -20,7 +21,7 @@ export default function ComparePage() {
         }
 
         setLoading(true);
-        fetch(`http://localhost:3002/api/db/cars/compare?ids=${compareList.join(',')}`)
+        fetch(`${API_BASE_URL}/api/db/cars/compare?ids=${compareList.join(',')}`)
             .then(res => res.json())
             .then(data => {
                 setCarsData(data.cars || []);

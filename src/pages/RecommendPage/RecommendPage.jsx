@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { API_BASE_URL } from '../../config';
 import './RecommendPage.css';
 
 const FACTORS = [
@@ -71,7 +72,7 @@ export default function RecommendPage() {
     const adjustTimer = useRef(null);
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/recommend/price-range')
+        fetch(`${API_BASE_URL}/api/recommend/price-range`)
             .then(r => r.json())
             .then(data => {
                 const uiMax = Math.min(data.max, 200);
@@ -136,7 +137,7 @@ export default function RecommendPage() {
                     maxPrice: selectedMax >= priceRange.max ? (priceRange.dbMax || priceRange.max) : selectedMax,
                 };
                 if (fuelTypes.length > 0) body.fuelTypes = fuelTypes;
-                const res = await fetch('http://localhost:3002/api/recommend', {
+                const res = await fetch(`${API_BASE_URL}/api/recommend`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(body),
