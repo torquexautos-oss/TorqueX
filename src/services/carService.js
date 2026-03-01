@@ -1,10 +1,11 @@
 /**
  * Car data service — fetches from the SQLite database running on the backend.
  */
+import { API_BASE_URL } from '../config';
 
 export async function fetchAllCars() {
     try {
-        const res = await fetch('http://localhost:3002/api/db/cars');
+        const res = await fetch(`${API_BASE_URL}/api/db/cars`);
         const data = await res.json();
         return data.cars || [];
     } catch (e) {
@@ -15,7 +16,7 @@ export async function fetchAllCars() {
 
 export async function getCarById(id) {
     try {
-        const res = await fetch(`http://localhost:3002/api/db/cars/${id}`);
+        const res = await fetch(`${API_BASE_URL}/api/db/cars/${id}`);
         if (!res.ok) return null;
         const car = await res.json();
         return car;
@@ -27,7 +28,7 @@ export async function getCarById(id) {
 
 export async function searchCars(query) {
     try {
-        const res = await fetch(`http://localhost:3002/api/db/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`${API_BASE_URL}/api/db/search?q=${encodeURIComponent(query)}`);
         const data = await res.json();
         return data.cars || [];
     } catch (e) {
@@ -38,7 +39,7 @@ export async function searchCars(query) {
 
 export async function getUniqueBrands() {
     try {
-        const res = await fetch('http://localhost:3002/api/db/brands');
+        const res = await fetch(`${API_BASE_URL}/api/db/brands`);
         const data = await res.json();
         return data.brands.map(b => b.name) || [];
     } catch (e) {
@@ -53,7 +54,7 @@ export async function getUniqueFuelTypes() {
 
 export async function getUniqueBodyTypes() {
     try {
-        const res = await fetch('http://localhost:3002/api/db/stats');
+        const res = await fetch(`${API_BASE_URL}/api/db/stats`);
         const data = await res.json();
         return data.bodyTypes || [];
     } catch (e) {

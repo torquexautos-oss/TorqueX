@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 // Global image map — loaded once, shared across all components
 let globalImageMap = null;
@@ -16,7 +17,7 @@ const fetchImageMap = () => {
     if (globalImageMap) return Promise.resolve(globalImageMap);
     if (fetchPromise) return fetchPromise;
 
-    fetchPromise = fetch('http://localhost:3002/api/images')
+    fetchPromise = fetch(`${API_BASE_URL}/api/images`)
         .then(res => res.json())
         .then(map => {
             globalImageMap = map;
@@ -36,7 +37,7 @@ const fetchImageMap = () => {
 // Auto-refresh every 30 seconds to pick up newly scraped images
 setInterval(() => {
     const oldCount = globalImageMap ? Object.keys(globalImageMap).length : 0;
-    fetch('http://localhost:3002/api/images')
+    fetch(`${API_BASE_URL}/api/images`)
         .then(r => r.json())
         .then(map => {
             const newCount = Object.keys(map).length;

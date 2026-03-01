@@ -1,8 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import CarCard from '../../components/CarCard/CarCard';
+import { ArrowLeft, Search, SlidersHorizontal } from 'lucide-react';
 import BrandChannelGrid from '../../components/BrandChannelGrid/BrandChannelGrid';
-import { Search, SlidersHorizontal, ArrowLeft } from 'lucide-react';
+import CarCard from '../../components/CarCard/CarCard';
+import { API_BASE_URL } from '../../config';
 import './CatalogPage.css';
 
 const PAGE_SIZE = 24;
@@ -30,7 +31,7 @@ export default function CatalogPage() {
     const [bodies, setBodies] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3002/api/db/cars')
+        fetch(`${API_BASE_URL}/api/db/cars`)
             .then(res => res.json())
             .then(data => {
                 setAllCars(data.cars || []);
@@ -38,11 +39,11 @@ export default function CatalogPage() {
             })
             .catch(() => setLoading(false));
 
-        fetch('http://localhost:3002/api/db/brands')
+        fetch(`${API_BASE_URL}/api/db/brands`)
             .then(res => res.json())
             .then(data => setBrands(data.brands || []));
 
-        fetch('http://localhost:3002/api/db/stats')
+        fetch(`${API_BASE_URL}/api/db/stats`)
             .then(res => res.json())
             .then(data => setBodies(data.bodyTypes || []));
 

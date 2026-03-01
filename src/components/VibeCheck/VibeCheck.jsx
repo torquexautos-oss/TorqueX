@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Sparkles, Loader2, Send, Trophy, Zap, Target, ChevronRight, Brain, TrendingUp, Fuel, Shield, Users, Star, AlertCircle, Car, IndianRupee } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import CarImage from '../CarImage/CarImage';
+import { API_BASE_URL } from '../../config';
 import './VibeCheck.css';
 
 const QUICK_PROMPTS = [
@@ -57,7 +58,7 @@ export default function VibeCheck() {
         setLoadingMsg(0);
 
         try {
-            const res = await fetch('http://localhost:3002/api/vibe-check', {
+            const res = await fetch(`${API_BASE_URL}/api/vibe-check`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ query: q })

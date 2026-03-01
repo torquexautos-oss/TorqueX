@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { ArrowLeft, ExternalLink, Calendar, Globe, AlertCircle } from 'lucide-react';
+import { AlertCircle, ArrowLeft, Calendar, ExternalLink, Globe } from 'lucide-react';
 import CommentsView from '../../components/CommentsView/CommentsView';
+import { API_BASE_URL } from '../../config';
+import { db } from '../../firebase';
 import './NewsArticlePage.css';
 
 const timeAgo = (dateStr) => {
@@ -62,7 +63,7 @@ export default function NewsArticlePage() {
                     const timeoutId = setTimeout(() => controller.abort(), 6000);
 
                     // 2. Fetch full HTML content from local Node proxy parser asynchronously
-                    const res = await fetch(`http://localhost:3002/api/article-content?url=${encodeURIComponent(metaUrl)}`, {
+                    const res = await fetch(`${API_BASE_URL}/api/article-content?url=${encodeURIComponent(metaUrl)}`, {
                         signal: controller.signal
                     });
 

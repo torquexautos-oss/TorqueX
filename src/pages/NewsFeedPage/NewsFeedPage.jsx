@@ -7,6 +7,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { API_BASE_URL } from '../../config';
 import './NewsFeedPage.css';
 
 const timeAgo = (dateStr) => {
@@ -48,7 +49,7 @@ const NewsFeedPage = () => {
     useEffect(() => {
         const init = async () => {
             try {
-                const res = await fetch('http://localhost:3002/api/channels');
+                const res = await fetch(`${API_BASE_URL}/api/channels`);
                 if (!res.ok) throw new Error('Failed to load channels');
                 const data = await res.json();
                 const ids = (data.channels || []).map(c => c.id);
@@ -76,7 +77,7 @@ const NewsFeedPage = () => {
                 ...(activeCategory !== 'all' && { category: activeCategory }),
                 ...(searchQuery && { q: searchQuery }),
             });
-            const res = await fetch(`http://localhost:3002/api/feed?${params}`);
+            const res = await fetch(`${API_BASE_URL}/api/feed?${params}`);
             const data = await res.json();
 
             if (res.ok) {
@@ -111,7 +112,7 @@ const NewsFeedPage = () => {
         if (summaries[article.id]) return;
         setSummaryLoading(article.id);
         try {
-            const res = await fetch('http://localhost:3002/api/summarize', {
+            const res = await fetch(`${API_BASE_URL}/api/summarize`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ title: article.title, description: article.description, url: article.url }),

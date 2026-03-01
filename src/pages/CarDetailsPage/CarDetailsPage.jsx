@@ -8,6 +8,7 @@ import DriveSimulator from '../../components/DriveSimulator/DriveSimulator';
 import CostCalculator from '../../components/CostCalculator/CostCalculator';
 import DepreciationSlider from '../../components/DepreciationSlider/DepreciationSlider';
 import CommentsView from '../../components/CommentsView/CommentsView';
+import { API_BASE_URL } from '../../config';
 import './CarDetailsPage.css';
 
 export default function CarDetailsPage() {
@@ -29,7 +30,7 @@ export default function CarDetailsPage() {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:3002/api/db/cars/${id}`)
+        fetch(`${API_BASE_URL}/api/db/cars/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error('Not found');
                 return res.json();
@@ -42,7 +43,7 @@ export default function CarDetailsPage() {
                 if (data) {
                     // Fetch dynamic real-time price
                     setDynamicLoading(true);
-                    fetch(`http://localhost:3002/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
+                    fetch(`${API_BASE_URL}/api/car/scrape?brand=${data.brand}&modelId=${data.id}&city=delhi`)
                         .then(res => res.json())
                         .then(fetchedData => {
                             if (!fetchedData.error) {
