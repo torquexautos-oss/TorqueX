@@ -1,10 +1,42 @@
 import React, { useState, useEffect } from 'react';
+import { API_BASE_URL } from '../../config';
 import './ArticleReader.css';
 
 function ArticleReader({ article, onClose }) {
     const [imageLoaded, setImageLoaded] = useState(false);
     const [imageError, setImageError] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+    const [fullContent, setFullContent] = useState('');
+    const [contentLoading, setContentLoading] = useState(true);
+
+    // Fetch full content preview
+    useEffect(() => {
+        if (!article?.url) return;
+        const fetchContent = async () => {
+            setContentLoading(true);
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 6000);
+                const res = await fetch(`${API_BASE_URL}/api/article-content?url=${encodeURIComponent(article.url)}`, {
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                const data = await res.json();
+
+                if (res.ok && data.content && data.content.length > 50) {
+                    setFullContent(data.content);
+                } else {
+                    setFullContent('');
+                }
+            } catch (err) {
+                console.error("Failed to load full content preview", err);
+                setFullContent('');
+            } finally {
+                setContentLoading(false);
+            }
+        };
+        fetchContent();
+    }, [article?.url]);
 
     // Smooth entrance animation
     useEffect(() => {
@@ -140,7 +172,24 @@ function ArticleReader({ article, onClose }) {
 
                     {/* Excerpt with fade */}
                     <div className="article-excerpt">
-                        <p>{article.description || getExcerpt(article.content)}</p>
+                        {contentLoading ? (
+                            <div className="content-skeleton-loader">
+                                <div className="loading-skeleton-row" style={{ width: '100%' }}></div>
+                                <div className="loading-skeleton-row" style={{ width: '90%' }}></div>
+                                <div className="loading-skeleton-row" style={{ width: '95%' }}></div>
+                                <div className="loading-skeleton-row" style={{ width: '85%' }}></div>
+                                <div className="loading-skeleton-row" style={{ width: '90%' }}></div>
+                            </div>
+                        ) : fullContent ? (
+                            <div
+                                className="full-content-preview"
+                                dangerouslySetInnerHTML={{ __html: fullContent }}
+                            />
+                        ) : (
+                            <div className="fallback-excerpt">
+                                <p>{article.description || getExcerpt(article.content)}</p>
+                            </div>
+                        )}
                         <div className="excerpt-fade"></div>
                     </div>
 
