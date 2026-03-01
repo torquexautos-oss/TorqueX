@@ -10,12 +10,15 @@
 @media (max-width: 768px) {
     .editorial-page {
         padding: 1.5rem 1rem 5rem;
+        overflow-x: hidden;
     }
 }
 
 @media (max-width: 480px) {
     .editorial-page {
         padding: 1rem 0.75rem 4rem;
+        width: 100%;
+        overflow-x: hidden;
     }
 }
 
@@ -132,7 +135,14 @@
 
 @media (max-width: 480px) {
     .ed-header-left h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+    }
+
+    .ed-subtitle {
+        font-size: 0.9rem;
+        line-height: 1.4;
     }
 }
 
@@ -191,6 +201,17 @@
     padding-bottom: 1rem;
     margin-bottom: 2rem;
     scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+@media (max-width: 768px) {
+    .ed-category-nav {
+        margin: 0 -1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 }
 
 .ed-category-nav::-webkit-scrollbar {
@@ -211,6 +232,7 @@
     cursor: pointer;
     white-space: nowrap;
     transition: all 0.2s ease;
+    flex: 0 0 auto;
 }
 
 .ed-cat-btn:hover {
@@ -371,6 +393,15 @@
     transition: all 0.3s ease;
     cursor: pointer;
     position: relative;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .editorial-card {
+        max-width: 100% !important;
+        margin: 0 0 1rem 0;
+    }
 }
 
 .editorial-card:hover {
@@ -454,6 +485,16 @@
     z-index: 2;
 }
 
+@media (max-width: 768px) {
+    .ec-source-badge {
+        position: relative;
+        top: 0;
+        left: 0;
+        margin: 0.5rem;
+        display: inline-flex;
+    }
+}
+
 .source-favicon {
     width: 12px;
     height: 12px;
@@ -502,6 +543,18 @@
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    word-wrap: break-word;
+}
+
+@media (max-width: 768px) {
+    .ec-title {
+        overflow: visible;
+        text-overflow: clip;
+        white-space: normal;
+        -webkit-line-clamp: unset;
+        line-clamp: unset;
+        display: block;
+    }
 }
 
 .ec-desc {
@@ -617,6 +670,25 @@
 .ec-icon-btn:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+    .ec-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+    }
+
+    .ec-ai-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 0.75rem;
+        font-size: 0.95rem;
+    }
+
+    .ec-action-group {
+        justify-content: flex-end;
+    }
 }
 
 /* ──────────────────────────────────────────────────────────────────

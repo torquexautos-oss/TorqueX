@@ -126,3 +126,33 @@
 .ct-value--empty {
     color: rgba(255, 255, 255, 0.2);
 }
+
+/* ── Mobile Compare Table Responsiveness ── */
+@media (max-width: 768px) {
+    .compare-table-wrap {
+        border-radius: 8px;
+    }
+
+    .ct-car-header {
+        padding: 1rem 0.5rem;
+    }
+
+    .ct-label-col {
+        width: 120px;
+        font-size: 0.8rem;
+        padding: 0.8rem 0.5rem;
+    }
+
+    .ct-car-col {
+        min-width: 180px;
+    }
+
+    .ct-car-name {
+        font-size: 1.1rem;
+    }
+
+    .ct-value {
+        padding: 0.8rem 0.5rem;
+        font-size: 0.9rem;
+    }
+}

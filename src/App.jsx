@@ -14,6 +14,7 @@ import CatalogPage from './pages/CatalogPage/CatalogPage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import AuthModal from './pages/Auth/AuthModal';
 import NewsArticlePage from './pages/NewsArticlePage/NewsArticlePage';
+import FloatingCompareBar from './components/FloatingCompareBar/FloatingCompareBar';
 
 function GlobalAuthModal() {
   const { isAuthModalOpen, closeAuthModal } = useAuth();
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/profile" element={<ProfilePage />} />
           </Routes>
           <GlobalAuthModal />
+          <FloatingCompareBar />
           <Footer />
         </CompareProvider>
       </BrowserRouter>
