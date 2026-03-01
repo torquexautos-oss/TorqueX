@@ -18,10 +18,6 @@
     ],
     "rewrites": [
         {
-            "source": "/__/auth/(.*)",
-            "destination": "https://torquex-b2f0e.firebaseapp.com/__/auth/$1"
-        },
-        {
             "source": "/api/(.*)",
             "destination": "/server/index.js"
         },

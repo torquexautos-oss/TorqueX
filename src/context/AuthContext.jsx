@@ -6,8 +6,7 @@ import {
     onAuthStateChanged,
     updateProfile,
     GoogleAuthProvider,
-    signInWithRedirect,
-    getRedirectResult
+    signInWithPopup
 } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase';
@@ -60,7 +59,23 @@ export function AuthProvider({ children }) {
 
     async function loginWithGoogle() {
         const provider = new GoogleAuthProvider();
-        return signInWithRedirect(auth, provider);
+        const result = await signInWithPopup(auth, provider);
+
+        // Ensure user document exists in Firestore on first login
+        const userDocRef = doc(db, 'users', result.user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (!userDocSnap.exists()) {
+            await setDoc(userDocRef, {
+                uid: result.user.uid,
+                email: result.user.email,
+                displayName: result.user.displayName,
+                createdAt: new Date().toISOString(),
+                role: SUPER_USERS.includes(result.user.email.toLowerCase()) ? 'superadmin' : 'user'
+            });
+        }
+
+        return result;
     }
 
     function logout() {
@@ -70,29 +85,15 @@ export function AuthProvider({ children }) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setCurrentUser(user);
+
             if (user) {
                 setIsSuperUser(SUPER_USERS.includes(user.email.toLowerCase()));
-
-                // Handle Firestore user document creation after redirect
-                const userDocRef = doc(db, 'users', user.uid);
-                const userDocSnap = await getDoc(userDocRef);
-                if (!userDocSnap.exists()) {
-                    await setDoc(userDocRef, {
-                        uid: user.uid,
-                        email: user.email,
-                        displayName: user.displayName,
-                        createdAt: new Date().toISOString(),
-                        role: SUPER_USERS.includes(user.email.toLowerCase()) ? 'superadmin' : 'user'
-                    });
-                }
             } else {
                 setIsSuperUser(false);
             }
+
             setLoading(false);
         });
-
-        // Check for redirect result on mount
-        getRedirectResult(auth).catch(err => console.error("Redirect error:", err));
 
         return unsubscribe;
     }, []);
