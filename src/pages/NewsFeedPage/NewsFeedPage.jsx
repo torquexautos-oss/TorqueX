@@ -1,10 +1,11 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react';
 import ReactMarkdown from 'react-markdown';
 import {
     RefreshCw, Clock, Search, Globe, Zap, ChevronLeft, ChevronRight,
     X, ExternalLink, BookOpen, Sparkles, AlertCircle, TrendingUp, Compass, Star
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+
+const ArticleReader = lazy(() => import('./ArticleReader'));
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { API_BASE_URL } from '../../config';
@@ -43,7 +44,8 @@ const NewsFeedPage = () => {
     const [summaryLoading, setSummaryLoading] = useState(null);
     const [summaries, setSummaries] = useState({});
 
-    const navigate = useNavigate();
+    // Overlay Reader State
+    const [selectedArticle, setSelectedArticle] = useState(null);
 
     // Initial Data Load (Channels)
     useEffect(() => {
@@ -126,11 +128,11 @@ const NewsFeedPage = () => {
         }
     };
 
-    // Redirect to Dedicated Article Page
+    // Open Reader Overlay
     const openReader = (article) => {
         try {
             const docRef = doc(db, 'feed_articles', article.id);
-            // Fire and forget the Firestore write to ensure UI navigates instantly
+            // Fire and forget the Firestore write to ensure UI keeps history
             setDoc(docRef, {
                 id: article.id,
                 title: article.title,
@@ -144,10 +146,10 @@ const NewsFeedPage = () => {
                 console.error("Failed to save article route to Firestore:", err);
             });
 
-            navigate(`/news/article/${article.id}`);
+            setSelectedArticle(article);
         } catch (err) {
             console.error("Critical routing error:", err);
-            navigate(`/news/article/${article.id}`);
+            setSelectedArticle(article);
         }
     };
 
@@ -393,6 +395,20 @@ const NewsFeedPage = () => {
                         </div>
                     )}
                 </div>
+            )}
+
+            {/* Render Overlay lazily if selected */}
+            {selectedArticle && (
+                <Suspense fallback={
+                    <div className="reader-overlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div className="magical-spinner" />
+                    </div>
+                }>
+                    <ArticleReader
+                        article={selectedArticle}
+                        onClose={() => setSelectedArticle(null)}
+                    />
+                </Suspense>
             )}
         </main>
     );
