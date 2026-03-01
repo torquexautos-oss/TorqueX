@@ -8,7 +8,7 @@ import './CarCard.css';
 export default function CarCard({ car }) {
     const { addToCompare, removeFromCompare, isInCompare, compareList } = useCompare();
     const selected = isInCompare(car.id);
-    const isFull = compareList.length >= 2;
+    const isFull = compareList.length >= 3;
 
     const handleCompare = (e) => {
         e.preventDefault();
@@ -90,7 +90,7 @@ export default function CarCard({ car }) {
                 className={`compare-btn ${selected ? 'compare-btn--active' : ''}`}
                 onClick={handleCompare}
                 disabled={!selected && isFull}
-                title={isFull && !selected ? 'Remove a car first (max 2)' : ''}
+                title={isFull && !selected ? 'Remove a car first (max 3)' : ''}
             >
                 {selected ? <><Check size={14} /> Added</> : <><Plus size={14} /> Compare</>}
             </button>

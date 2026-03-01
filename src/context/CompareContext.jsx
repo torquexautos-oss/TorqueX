@@ -7,7 +7,7 @@ export function CompareProvider({ children }) {
 
     const addToCompare = (car) => {
         setCompareList((prev) => {
-            if (prev.length >= 2) return prev;
+            if (prev.length >= 3) return prev;
             if (prev.find((c) => c.id === car.id)) return prev;
             return [...prev, car];
         });
