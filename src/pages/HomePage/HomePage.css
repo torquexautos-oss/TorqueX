@@ -134,6 +134,122 @@
     transform: scale(1.02);
 }
 
+/* ── SEARCH SUGGESTIONS DROPDOWN ── */
+.home-search-wrapper {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    z-index: 50;
+}
+
+.search-suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    background: rgba(var(--surface-rgb), 0.95);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+    text-align: left;
+    animation: slideDown 0.2s ease forwards;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.suggestion-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.suggestion-item:hover,
+.suggestion-item:focus {
+    background: rgba(102, 192, 244, 0.1);
+    outline: none;
+}
+
+.suggestion-icon {
+    color: var(--text-tertiary);
+}
+
+.suggestion-item:hover .suggestion-icon {
+    color: var(--primary);
+}
+
+.suggestion-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-name {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+.suggestion-brand {
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+}
+
+.suggestion-footer button {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.2);
+    border: none;
+    color: var(--primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.suggestion-footer button:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.suggestions-loading,
+.suggestions-empty {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-tertiary);
+    font-size: 0.95rem;
+}
+
 /* ── TOOL CARDS GRID ── */
 .editorial-tools {
     margin-top: -3rem;
