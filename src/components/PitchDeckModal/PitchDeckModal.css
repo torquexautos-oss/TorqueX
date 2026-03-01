@@ -169,6 +169,7 @@
     flex-direction: column;
     padding: 1.5rem 1.5rem 1rem;
     position: relative;
+    overflow-y: auto;
 }
 
 /* ── Indicators ──────────────────────────────────────────────── */
@@ -351,11 +352,21 @@
         border-radius: 16px;
     }
 
+    .pitch-content {
+        padding: 1rem;
+    }
+
     .pitch-title {
         font-size: 1.4rem;
     }
 
     .pitch-text {
         font-size: 0.95rem;
+    }
+
+    .pitch-icon-container {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 1rem;
     }
 }
