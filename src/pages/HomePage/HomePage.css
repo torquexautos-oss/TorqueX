@@ -8,7 +8,7 @@
 .media-hero {
     position: relative;
     padding: 10rem 0 6rem;
-    overflow: hidden;
+    overflow: visible;
     margin-top: -var(--header-height);
     /* Pull up under transparent nav */
 }
