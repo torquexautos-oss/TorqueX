@@ -4,7 +4,8 @@ import dotenv from 'dotenv';
 import Groq from 'groq-sdk';
 import NodeCache from 'node-cache';
 import http from 'http';
-import parser from '@postlight/parser'; // NEW: Mercury Parser for full text
+import * as cheerio from 'cheerio';
+import parser from '@postlight/parser'; // Mercury Parser for full text
 import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
 import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
@@ -38,39 +39,164 @@ const feedCache = new NodeCache({ stdTTL: 900 }); // 15 minutes
 // ── Full Article Cache (1 hour TTL) ────────────────────────────
 const articleCache = new NodeCache({ stdTTL: 3600 });
 
-// ── Full Article Extraction Endpoint ───────────────────────────
-// GET /api/article-content?url=...
+// ── Browser-like headers to avoid bot detection ─────────────────
+const BROWSER_HEADERS = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.5',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'DNT': '1',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Cache-Control': 'no-cache',
+};
+
+// ── Resolve redirect URLs (e.g. Google News) ─────────────────────
+// Follows HTTP 3xx redirects manually (axios does this by default)
+const resolveRedirect = async (url) => {
+    try {
+        const res = await axios.get(url, {
+            headers: BROWSER_HEADERS,
+            maxRedirects: 10,
+            timeout: 10000,
+            validateStatus: () => true, // Don't throw on 4xx/5xx
+        });
+        // After all redirects, the final URL is in res.request.res.responseUrl
+        const finalUrl = res.request?.res?.responseUrl || res.config?.url || url;
+        return { finalUrl, html: res.data, status: res.status };
+    } catch (err) {
+        return { finalUrl: url, html: null, status: 0 };
+    }
+};
+
+// ── Layer 2: Cheerio DOM Extraction ──────────────────────────────
+// Priority selector chain: tries the richest containers first
+const ARTICLE_SELECTORS = [
+    'article',
+    '[class*="article-body"]', '[class*="articleBody"]',
+    '[class*="article-content"]', '[class*="articleContent"]',
+    '[class*="story-body"]', '[class*="story-content"]',
+    '[class*="post-body"]', '[class*="post-content"]',
+    '[class*="entry-content"]', '[class*="entry-body"]',
+    '[itemprop="articleBody"]',
+    '.content-wrapper', '.page-content',
+    'main',
+];
+
+// Tags that are always noise
+const NOISE_SELECTORS = [
+    'script', 'style', 'noscript', 'iframe',
+    'nav', 'header', 'footer', 'aside',
+    '[class*="ad"]', '[class*="advertisement"]', '[class*="sidebar"]',
+    '[class*="newsletter"]', '[class*="subscribe"]', '[class*="social"]',
+    '[class*="related"]', '[class*="recommended"]', '[class*="more-articles"]',
+    '[class*="comment"]', '[class*="share"]', '[class*="tags"]',
+    '[id*="sidebar"]', '[id*="related"]', '[id*="ad"]',
+];
+
+const extractWithCheerio = (html) => {
+    try {
+        const $ = cheerio.load(html);
+
+        // Remove all noise elements
+        $(NOISE_SELECTORS.join(',')).remove();
+
+        // Try each selector in priority order
+        for (const sel of ARTICLE_SELECTORS) {
+            const el = $(sel).first();
+            if (el.length) {
+                const text = el.text().trim();
+                if (text.length > 250) {
+                    return el.html(); // Return inner HTML (preserves paragraphs)
+                }
+            }
+        }
+        return null;
+    } catch (e) {
+        console.warn('[Cheerio] Error:', e.message);
+        return null;
+    }
+};
+
+// ── Full Article Extraction Endpoint ─────────────────────────────
+// GET /api/article-content?url=...&rssContent=<encoded>
 app.get('/api/article-content', async (req, res) => {
     const targetUrl = req.query.url;
     if (!targetUrl) return res.status(400).json({ error: 'URL is required' });
+
+    // Decode optional RSS content fallback sent from the client
+    const rssContent = req.query.rssContent
+        ? decodeURIComponent(req.query.rssContent)
+        : null;
 
     // Check cache first to avoid hammering publishers
     const cached = articleCache.get(targetUrl);
     if (cached) return res.json(cached);
 
-    try {
-        console.log(`[Parser] Extracting full text for: ${targetUrl}`);
-        const result = await parser.parse(targetUrl);
+    let finalUrl = targetUrl;
+    let rawHtml = null;
 
-        if (!result || !result.content) {
-            throw new Error("Parser returned empty content.");
+    // ── Layer 1: Resolve redirects (critical for Google News URLs) ──
+    console.log(`[Parser] Resolving: ${targetUrl}`);
+    const resolved = await resolveRedirect(targetUrl);
+    finalUrl = resolved.finalUrl || targetUrl;
+    rawHtml = typeof resolved.html === 'string' ? resolved.html : null;
+    console.log(`[Parser] Resolved to: ${finalUrl}`);
+
+    // ── Layer 2: Cheerio extraction ─────────────────────────────────
+    let content = null;
+    let leadImage = null;
+
+    if (rawHtml) {
+        content = extractWithCheerio(rawHtml, finalUrl);
+        if (content) {
+            console.log(`[Parser] Cheerio extraction success (${content.length} chars)`);
+        }
+    }
+
+    // ── Layer 3: Mercury Parser fallback ───────────────────────────
+    if (!content || content.length < 250) {
+        try {
+            console.log(`[Parser] Trying Mercury on: ${finalUrl}`);
+            const result = await parser.parse(finalUrl, {
+                contentType: 'html',
+                html: rawHtml || undefined,
+            });
+            if (result && result.content && result.content.length > 250) {
+                content = result.content;
+                leadImage = result.lead_image_url || null;
+                console.log(`[Parser] Mercury success (${content.length} chars)`);
+            }
+        } catch (err) {
+            console.warn(`[Parser] Mercury failed: ${err.message}`);
+        }
+    }
+
+    // ── Layer 4: RSS fullContent passthrough ────────────────────────
+    if ((!content || content.length < 250) && rssContent && rssContent.length > 100) {
+        console.log(`[Parser] Using RSS fullContent fallback (${rssContent.length} chars)`);
+        content = rssContent;
+    }
+
+    // ── Build response ──────────────────────────────────────────────
+    if (content && content.length > 50) {
+        // Extract lead image from rawHtml if not already found
+        if (!leadImage && rawHtml) {
+            const imgMatch = rawHtml.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i)
+                || rawHtml.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i);
+            if (imgMatch) leadImage = imgMatch[1];
         }
 
-        const payload = {
-            title: result.title,
-            content: result.content, // This is clean HTML
-            author: result.author,
-            date_published: result.date_published,
-            lead_image_url: result.lead_image_url,
-            word_count: result.word_count
-        };
-
+        const payload = { content, lead_image_url: leadImage, resolved_url: finalUrl };
         articleCache.set(targetUrl, payload);
-        res.json(payload);
-    } catch (err) {
-        console.error(`[Parser Error] Failed to extract ${targetUrl}:`, err.message);
-        res.status(500).json({ error: 'Failed to extract full article text.' });
+        return res.json(payload);
     }
+
+    // All layers failed
+    console.error(`[Parser] All extraction layers failed for: ${targetUrl}`);
+    res.status(500).json({ error: 'Could not extract article content from this publisher.' });
 });
 
 // ── Live Feed Endpoint ─────────────────────────────────────────
