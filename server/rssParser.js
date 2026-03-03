@@ -1,5 +1,13 @@
 import axios from 'axios';
 import { parseStringPromise } from 'xml2js';
+import { createHash } from 'crypto';
+
+// ── Stable unique ID from full URL (avoids prefix-collision) ──
+// Uses SHA-256 truncated to 12 hex chars → 48-bit space (no padding, URL-safe)
+const makeArticleId = (channelId, url) => {
+    const hash = createHash('sha256').update(url).digest('hex').substring(0, 12);
+    return `${channelId}_${hash}`;
+};
 
 // ── Favicon helper ─────────────────────────────────────────────
 const getFavicon = (urlOrDomain, size = 32) => {
@@ -275,7 +283,7 @@ const normalizeRssItem = (item, channel) => {
             : channel.icon;
 
         return {
-            id: `${channel.id}_${Buffer.from(url).toString('base64url').substring(0, 16)}`,
+            id: makeArticleId(channel.id, url),
             title,
             url,
             channelId: channel.id,
@@ -309,7 +317,7 @@ const normalizeAtomEntry = (entry, channel) => {
         let imageUrl = extractImageFromHtml(rawContent);
 
         return {
-            id: `${channel.id}_${Buffer.from(url).toString('base64url').substring(0, 16)}`,
+            id: makeArticleId(channel.id, url),
             title,
             url,
             channelId: channel.id,
