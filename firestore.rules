@@ -1,0 +1,57 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ──────────────────────────────────────────
+    function isSignedIn() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
+    }
+    function isSuperAdmin() {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'superadmin';
+    }
+
+    // ── User Profiles ─────────────────────────────────────────────
+    // Public read so usernames can be shown in comments.
+    // Only the user themselves (or superadmin) can write their own profile.
+    match /users/{userId} {
+      allow read: if true;
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId) || isSuperAdmin();
+      allow delete: if isSuperAdmin();
+    }
+
+    // ── Feed Articles (news metadata cache) ───────────────────────
+    // Anyone can read. Our app writes these from the frontend when the feed loads.
+    // We allow unauthenticated writes here because the data is public RSS content
+    // (not user-generated) and this is the only way to cache it for shared links.
+    match /feed_articles/{articleId} {
+      allow read: if true;
+      allow write: if true;
+    }
+
+    // ── Comments & Reviews ─────────────────────────────────────────
+    // Anyone can read comments (public discussion).
+    // Only signed-in users can post. Users may only delete their own comments;
+    // superadmins can delete any comment for moderation.
+    match /comments/{commentId} {
+      allow read: if true;
+      allow create: if isSignedIn()
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.text is string
+                    && request.resource.data.text.size() > 0
+                    && request.resource.data.text.size() <= 500;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow delete: if isSignedIn()
+                    && (resource.data.userId == request.auth.uid || isSuperAdmin());
+    }
+
+    // ── Everything else: deny by default ──────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

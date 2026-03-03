@@ -8,7 +8,7 @@ import {
     GoogleAuthProvider,
     signInWithPopup
 } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase';
 
 const AuthContext = createContext();
@@ -35,21 +35,47 @@ export function AuthProvider({ children }) {
     const openAuthModal = () => setIsAuthModalOpen(true);
     const closeAuthModal = () => setIsAuthModalOpen(false);
 
+    /**
+     * Create or update the user's document in Firestore.
+     * - On first signup/login: creates a full document with createdAt timestamp.
+     * - On subsequent logins: refreshes only lastSeen, displayName, photoURL.
+     * Non-critical: if Firestore rules block it, we warn quietly & continue.
+     */
+    const upsertUserDoc = async (firebaseUser, isNewUser = false) => {
+        if (!firebaseUser?.uid) return;
+        try {
+            const userDocRef = doc(db, 'users', firebaseUser.uid);
+            const isSuperAdmin = SUPER_USERS.includes((firebaseUser.email || '').toLowerCase());
+
+            if (isNewUser) {
+                await setDoc(userDocRef, {
+                    uid: firebaseUser.uid,
+                    email: firebaseUser.email || '',
+                    displayName: firebaseUser.displayName || 'Anonymous',
+                    photoURL: firebaseUser.photoURL || null,
+                    role: isSuperAdmin ? 'superadmin' : 'user',
+                    commentCount: 0,
+                    createdAt: serverTimestamp(),
+                    lastSeen: serverTimestamp(),
+                });
+            } else {
+                // Merge-update to avoid wiping existing fields
+                await setDoc(userDocRef, {
+                    displayName: firebaseUser.displayName || 'Anonymous',
+                    photoURL: firebaseUser.photoURL || null,
+                    lastSeen: serverTimestamp(),
+                }, { merge: true });
+            }
+        } catch (err) {
+            console.warn('[Firestore] Could not upsert user doc:', err.code || err.message);
+        }
+    };
+
     async function signup(email, password, displayName) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
-        // Update profile with display name
+        // Apply displayName to the Auth profile first so upsertUserDoc picks it up
         await updateProfile(userCredential.user, { displayName });
-
-        // Create user document in Firestore
-        await setDoc(doc(db, 'users', userCredential.user.uid), {
-            uid: userCredential.user.uid,
-            email: email,
-            displayName: displayName,
-            createdAt: new Date().toISOString(),
-            role: SUPER_USERS.includes(email.toLowerCase()) ? 'superadmin' : 'user'
-        });
-
+        await upsertUserDoc({ ...userCredential.user, displayName }, true);
         return userCredential;
     }
 
@@ -61,19 +87,10 @@ export function AuthProvider({ children }) {
         const provider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth, provider);
 
-        // Ensure user document exists in Firestore on first login
+        // Check if this is the first time this Google account has ever signed in
         const userDocRef = doc(db, 'users', result.user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-
-        if (!userDocSnap.exists()) {
-            await setDoc(userDocRef, {
-                uid: result.user.uid,
-                email: result.user.email,
-                displayName: result.user.displayName,
-                createdAt: new Date().toISOString(),
-                role: SUPER_USERS.includes(result.user.email.toLowerCase()) ? 'superadmin' : 'user'
-            });
-        }
+        const snap = await getDoc(userDocRef);
+        await upsertUserDoc(result.user, !snap.exists());
 
         return result;
     }
@@ -87,7 +104,9 @@ export function AuthProvider({ children }) {
             setCurrentUser(user);
 
             if (user) {
-                setIsSuperUser(SUPER_USERS.includes(user.email.toLowerCase()));
+                setIsSuperUser(SUPER_USERS.includes((user.email || '').toLowerCase()));
+                // Refresh lastSeen on every page load / tab focus (non-blocking)
+                upsertUserDoc(user, false);
             } else {
                 setIsSuperUser(false);
             }
@@ -96,6 +115,7 @@ export function AuthProvider({ children }) {
         });
 
         return unsubscribe;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const value = {
@@ -107,7 +127,7 @@ export function AuthProvider({ children }) {
         logout,
         isAuthModalOpen,
         openAuthModal,
-        closeAuthModal
+        closeAuthModal,
     };
 
     return (
