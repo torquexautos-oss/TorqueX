@@ -11,6 +11,7 @@ import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHAN
 import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
 import recommendRouter from './routes/recommend.js';
 import { startArticleSync } from './firestoreSync.js';
+import { parseVibeQuery, generateVibePitch, generatePitchDeck, validateVibePrompt } from './ai.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -425,7 +426,6 @@ app.post('/api/pitch-deck', async (req, res) => {
     }
 });
 
-import { parseVibeQuery, generateVibePitch, generatePitchDeck, validateVibePrompt } from './ai.js';
 
 // POST /api/vibe-check — AI search
 app.post('/api/vibe-check', async (req, res) => {
