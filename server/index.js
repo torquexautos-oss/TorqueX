@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import Groq from 'groq-sdk';
+import axios from 'axios';
 import NodeCache from 'node-cache';
 import http from 'http';
 import * as cheerio from 'cheerio';
@@ -405,7 +406,6 @@ app.get('/api/car/image', (req, res) => {
     res.json({ imageUrl: null, source: null });
 });
 
-import { parseVibeQuery, generateVibePitch, generatePitchDeck } from './ai.js';
 
 // ── Recommendation Engine ──────────────────────────────────────
 app.use('/api/recommend', recommendRouter);
