@@ -5,6 +5,38 @@ dotenv.config();
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 /**
+ * Validates if the user's prompt is a genuine car-related query.
+ * Prevents "bullshit" prompts from reaching the database scoring.
+ */
+export async function validateVibePrompt(queryText) {
+    const prompt = `
+    You are a strict car expert filter.
+    Determine if the following user query is a genuine request for a car recommendation or car-related information.
+    If it's gibberish, an insult, a random statement, or completely unrelated to cars (e.g., "tell me a joke", "i like pizza"), mark it as INVALID.
+    
+    User query: "${queryText}"
+    
+    Return ONLY a JSON object:
+    {
+      "valid": boolean,
+      "reason": "If invalid, a short 1-sentence reason why. If valid, leave empty."
+    }
+    `;
+
+    try {
+        const completion = await groq.chat.completions.create({
+            messages: [{ role: "user", content: prompt }],
+            model: "llama-3.1-8b-instant", // Smaller model is fine for validation
+            temperature: 0,
+            response_format: { type: "json_object" }
+        });
+        return JSON.parse(completion.choices[0]?.message?.content || '{"valid":false}');
+    } catch (e) {
+        return { valid: true }; // Default to true on API error
+    }
+}
+
+/**
  * Uses Groq to parse a natural language string into a structured JSON query object
  * for querying the SQLite database.
  */
@@ -12,9 +44,10 @@ export async function parseVibeQuery(queryText) {
     const prompt = `
     You are an AI car recommender for the Indian market.
     Convert the user's natural language query into a strict JSON object with these exact keys:
-    - budget (number of rupees, parse lakhs to rupees. If no budget, return 99999999)
+    - budget (number of rupees, parse lakhs to rupees. 1 Lakh = 100,000. If no budget, return 99999999)
     - body_type (string, ONE of: 'SUV', 'Hatchback', 'Sedan', 'MUV', 'Coupe', 'Convertible', 'Minivan', 'Pickup Truck', or 'Any')
     - priority (string, ONE of: 'Performance', 'Mileage', 'Family', 'Status', 'Any')
+    - vibe (string, 20 words max describing the user's core lifestyle/need e.g. "rugged offroad", "daily city luxury")
 
     User query: "${queryText}"
     
@@ -34,7 +67,7 @@ export async function parseVibeQuery(queryText) {
         return JSON.parse(rawJson);
     } catch (error) {
         console.error("Groq JSON parsing error:", error);
-        return { budget: 99999999, body_type: 'Any', priority: 'Any' };
+        return { budget: 99999999, body_type: 'Any', priority: 'Any', vibe: 'Any' };
     }
 }
 
@@ -43,14 +76,16 @@ export async function parseVibeQuery(queryText) {
  */
 export async function generateVibePitch(car, userQuery) {
     const prompt = `
-    You are an extremely cool, enthusiastic car expert.
+    You are a sophisticated, honest car consultant for the Indian market.
     The user asked: "${userQuery}"
     
-    Based on our database, the best matching car is the ${car.brand} ${car.model_name}.
-    It has a ${car.body_type} body, costs roughly ₹${car.price_min} Lakh, and fits their vibe.
-
-    Write a short, punchy, magical 2-3 sentence pitch explaining EXACTLY why this car is the perfect "vibe match" for their specific lifestyle request.
-    Keep it casual, fun, and highly personalized to their text.
+    We have selected the ${car.brand} ${car.model_name} as the top match.
+    Specs: ${car.body_type} body, approx ₹${car.price_min} Lakh, ${car.fuel} fuel.
+    
+    Write a 2-3 sentence recommendation. 
+    1. Acknowledge their specific need (e.g. city traffic, safety, power).
+    2. Explain objectively why this car fits that need based on its specs/nature.
+    3. Be enthusiastic but NOT pushy or "salesy". Avoid phrases like "you must buy" or "perfect for you". Use "This matches your need for..." or "The ${car.model_name} excels at...".
     `;
 
     try {

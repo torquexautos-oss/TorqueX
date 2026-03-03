@@ -425,82 +425,124 @@ app.post('/api/pitch-deck', async (req, res) => {
     }
 });
 
+import { parseVibeQuery, generateVibePitch, generatePitchDeck, validateVibePrompt } from './ai.js';
+
 // POST /api/vibe-check — AI search
 app.post('/api/vibe-check', async (req, res) => {
     try {
         const { query } = req.body;
-        if (!query) return res.status(400).json({ error: 'Query is required' });
-
-        const searchParams = await parseVibeQuery(query);
-        let cars = getAllCars().filter(c => c.price_min && c.status !== 'Discontinued');
-
-        // 1. Filter by Body Type (if specified)
-        if (searchParams.body_type && searchParams.body_type !== 'Any') {
-            const filtered = cars.filter(c => c.body_type && c.body_type.toLowerCase().includes(searchParams.body_type.toLowerCase()));
-            if (filtered.length > 0) cars = filtered;
+        if (!query || query.trim().length < 5) {
+            return res.status(400).json({ error: 'Please provide a more descriptive request!' });
         }
 
-        // 2. Comprehensive Scoring
+        // 1. Validate Prompt (Catch bullshit)
+        const validation = await validateVibePrompt(query);
+        if (!validation.valid) {
+            return res.status(400).json({
+                error: validation.reason || "I'm a car expert, let's talk about cars! Could you refine your request?",
+                isInvalidPrompt: true
+            });
+        }
+
+        // 2. Parse Query
+        const searchParams = await parseVibeQuery(query);
+        console.log("[VibeCheck] Parsed Params:", searchParams);
+
+        // 3. Filter Pool
+        let cars = getAllCars().filter(c => {
+            if (!c.price_min) return false;
+            if (!c.status) return true; // Assume active if no status
+            const status = c.status.toLowerCase();
+            return status !== 'discontinued' && status !== 'upcoming';
+        });
+
+        // 4. Scoring Logic (Refined)
         const budget = searchParams.budget || 99999999;
+        const userVibe = (searchParams.vibe || '').toLowerCase();
+
         const scoredCars = cars.map(car => {
             let score = 0;
             const carPrice = car.price_min * 100000;
+            const carName = car.model_name.toLowerCase();
+            const brand = car.brand.toLowerCase();
 
-            // Budget scoring (0-40 points) — closer to budget = better
+            // A. Budget Scoring (0-40 points)
             if (budget < 99999999) {
                 const ratio = carPrice / budget;
-                if (ratio <= 1.0) score += 40 - Math.round(Math.abs(1 - ratio) * 30);
-                else if (ratio <= 1.15) score += 20;
-                else if (ratio <= 1.3) score += 5;
+                if (ratio >= 0.7 && ratio <= 1.1) score += 40;
+                else if (ratio < 0.7) score += 25; // affordable is good but maybe too cheap
+                else if (ratio <= 1.3) score += 10;
                 else score -= 30;
             }
 
-            // Priority scoring (0-30 points)
+            // B. Priority Scoring (0-30 points)
             const p = searchParams.priority;
             if (p === 'Performance') {
-                if (car.power_output) {
-                    const bhp = parseFloat(car.power_output);
-                    if (bhp > 150) score += 30;
-                    else if (bhp > 100) score += 15;
-                }
-                if (['Coupe', 'Sedan'].includes(car.body_type)) score += 10;
-            }
-            if (p === 'Mileage') {
-                if (car.mileage_kmpl) {
-                    if (car.mileage_kmpl > 20) score += 30;
-                    else if (car.mileage_kmpl > 15) score += 20;
-                    else score += 5;
-                }
-            }
-            if (p === 'Family') {
-                if (['SUV', 'MUV', 'MPV', 'Minivan'].includes(car.body_type)) score += 25;
-                if (car.airbags_count && car.airbags_count >= 6) score += 10;
-                if (car.boot_space_l && car.boot_space_l > 400) score += 5;
-            }
-            if (p === 'Status') {
-                if (carPrice > 3000000) score += 25;
-                if (['Coupe', 'Convertible'].includes(car.body_type)) score += 10;
+                const power = parseFloat(car.power_output) || 0;
+                if (power > 180) score += 30;
+                else if (power > 120) score += 15;
+            } else if (p === 'Mileage') {
+                const mileage = parseFloat(car.mileage_kmpl) || 0;
+                if (mileage > 20 || car.fuel_type?.toLowerCase().includes('electric')) score += 30;
+                else if (mileage > 15) score += 15;
+            } else if (p === 'Family') {
+                if (['SUV', 'MUV', 'MPV'].includes(car.body_type)) score += 20;
+                if ((car.airbags_count || 0) >= 6) score += 10;
+            } else if (p === 'Status') {
+                if (carPrice > 4000000) score += 30; // 40L+ for status
+                else if (carPrice > 2500000) score += 15;
             }
 
-            // Bonus for having more data (car appears more complete/premium)
-            let dataBonus = 0;
-            if (car.power_output) dataBonus += 2;
-            if (car.mileage_kmpl) dataBonus += 2;
-            if (car.airbags_count) dataBonus += 2;
-            if (car.image_url) dataBonus += 3;
-            score += dataBonus;
+            // C. Vibe Keyword Matching (0-20 points)
+            const vibeKeywords = {
+                'offroad': ['suv', '4x4', 'awd', 'ground clearance', 'rugged', 'thar', 'jimny', 'fortuner'],
+                'luxury': ['sedan', 'luxury', 'premium', 'comfort', 'mercedes', 'bmw', 'audi', 'lexus', 'volvo'],
+                'city': ['hatchback', 'compact', 'automatic', 'mileage', 'electric', 'tiago', 'swift', 'i20'],
+                'safe': ['safety', 'airbags', 'adas', 'volvo', 'tata', 'mahindra', 'skoda', 'volkswagen'],
+                'speed': ['power', 'turbo', 'bhp', 'v6', 'v8', 'sport', 'porsche', 'ferrari', 'bmw', 'm3'],
+            };
 
-            // Normalize to percentage (0-100)
-            const matchPct = Math.min(100, Math.max(5, Math.round((score / 80) * 100)));
+            for (const [key, keywords] of Object.entries(vibeKeywords)) {
+                if (userVibe.includes(key)) {
+                    if (keywords.some(k => carName.includes(k) || brand.includes(k) || (car.body_type || '').toLowerCase().includes(k))) {
+                        score += 20;
+                        break;
+                    }
+                }
+            }
+
+            // D. Data Quality & Premium Bonus (0-10)
+            if (car.image_url) score += 3;
+            if (car.power_output && car.mileage_kmpl) score += 4;
+            if (car.has_adas) score += 3;
+
+            // E. VARIETY BRAKE: Add a small random jitter (0-5 points) to prevent same results every time
+            score += Math.random() * 5;
+
+            // Normalize to match percentage (max 100)
+            const matchPct = Math.min(100, Math.max(5, Math.round((score / 100) * 100)));
 
             return { ...car, score, matchPct };
         });
 
-        // 3. Find Top 3 Matches
+        // 5. Diversity Sort: Pick Top 3 but avoid same brand duplicates if possible
         scoredCars.sort((a, b) => b.score - a.score);
-        const topMatches = scoredCars.slice(0, 3);
 
-        // 4. Generate Pitch for #1 match
+        const uniqueBrandMatches = [];
+        const seenBrands = new Set();
+
+        for (const car of scoredCars) {
+            if (uniqueBrandMatches.length >= 3) break;
+            // Allow one duplicate brand max if we have no better options, but favor unique brands for top 3
+            if (!seenBrands.has(car.brand) || uniqueBrandMatches.length > 2) {
+                uniqueBrandMatches.push(car);
+                seenBrands.add(car.brand);
+            }
+        }
+
+        const topMatches = uniqueBrandMatches.length > 0 ? uniqueBrandMatches : scoredCars.slice(0, 3);
+
+        // 6. Generate Pitch for #1
         const pitch = await generateVibePitch(topMatches[0], query);
 
         res.json({
@@ -513,8 +555,8 @@ app.post('/api/vibe-check', async (req, res) => {
         });
 
     } catch (e) {
-        console.error(e);
-        res.status(500).json({ error: e.message });
+        console.error("[VibeCheck] Error:", e);
+        res.status(500).json({ error: "Our AI engine stalled. Please try a different query!" });
     }
 });
 
