@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { AlertCircle, ArrowLeft, Calendar, ExternalLink, Globe } from 'lucide-react';
 import CommentsView from '../../components/CommentsView/CommentsView';
 import { API_BASE_URL } from '../../config';
@@ -26,6 +26,7 @@ export default function NewsArticlePage() {
 
     const [articleMeta, setArticleMeta] = useState(null);
     const [content, setContent] = useState('');
+    const [leadImage, setLeadImage] = useState(null);
     const [metaLoading, setMetaLoading] = useState(true);
     const [contentLoading, setContentLoading] = useState(true);
     const [error, setError] = useState('');
@@ -36,48 +37,20 @@ export default function NewsArticlePage() {
             setContentLoading(true);
             setError('');
             let metaUrl = '';
+            let metaData = null;
 
             try {
                 // 1. Fetch metadata from Firestore
                 const docRef = doc(db, 'feed_articles', id);
                 const docSnap = await getDoc(docRef);
 
-                if (docSnap.exists()) {
-                    const meta = docSnap.data();
-                    setArticleMeta(meta);
-                    metaUrl = meta.url;
-                } else {
-                    // Fallback for direct link sharing where nobody has clicked it yet.
-                    // Instead of failing, we will query the live feed API.
-                    // Since we don't have a direct 'getBySlug' we try a broad search using the slug.
-                    const readableTitle = id.replace(/-/g, ' ');
-                    const res = await fetch(`${API_BASE_URL}/api/feed?q=${encodeURIComponent(readableTitle)}&limit=10`);
-                    if (res.ok) {
-                        const data = await res.json();
-                        // Find the exact match or closest match
-                        const match = data.articles?.find(a => a.id === id) || data.articles?.[0];
-                        if (match) {
-                            setArticleMeta(match);
-                            metaUrl = match.url;
-
-                            // Save it back to Firestore immediately so comments work
-                            await setDoc(docRef, {
-                                id: match.id,
-                                title: match.title,
-                                url: match.url,
-                                source: match.source,
-                                sourceIcon: match.sourceIcon || null,
-                                publishedAt: match.publishedAt,
-                                description: match.description,
-                                createdAt: serverTimestamp()
-                            }, { merge: true });
-                        } else {
-                            throw new Error("Article has expired from the live feed or does not exist.");
-                        }
-                    } else {
-                        throw new Error("Failed to fetch article details from live feed.");
-                    }
+                if (!docSnap.exists()) {
+                    throw new Error("Article not found in database.");
                 }
+
+                metaData = docSnap.data();
+                setArticleMeta(metaData);
+                metaUrl = metaData.url;
             } catch (err) {
                 console.error("Error loading article metadata:", err);
                 setError(err.message || 'Failed to load the article.');
@@ -88,8 +61,8 @@ export default function NewsArticlePage() {
             if (metaUrl) {
                 try {
                     const controller = new AbortController();
-                    // Timeout after 3.5 seconds to prevent hanging and improve user experience
-                    const timeoutId = setTimeout(() => controller.abort(), 3500);
+                    // Timeout after 6 seconds to prevent hanging
+                    const timeoutId = setTimeout(() => controller.abort(), 6000);
 
                     // 2. Fetch full HTML content from local Node proxy parser asynchronously
                     const res = await fetch(`${API_BASE_URL}/api/article-content?url=${encodeURIComponent(metaUrl)}`, {
@@ -101,6 +74,7 @@ export default function NewsArticlePage() {
 
                     if (res.ok && data.content && data.content.length > 50) {
                         setContent(data.content);
+                        setLeadImage(data.lead_image_url || metaData?.imageUrl || null);
                     } else {
                         // Fallback to description
                         setContent(
@@ -190,7 +164,6 @@ export default function NewsArticlePage() {
                     </a>
                 </header>
 
-                {/* Article Content */}
                 <div className="article-body">
                     {contentLoading ? (
                         <div className="content-skeleton slide-up">
@@ -198,10 +171,19 @@ export default function NewsArticlePage() {
                             <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>Extracting publisher content...</p>
                         </div>
                     ) : (
-                        <div
-                            className="article-html-content fade-in"
-                            dangerouslySetInnerHTML={{ __html: content }}
-                        />
+                        <>
+                            {leadImage && (
+                                <img
+                                    src={leadImage}
+                                    alt={articleMeta?.title || "Article Header"}
+                                    className="article-hero-image fade-in"
+                                />
+                            )}
+                            <div
+                                className="article-html-content fade-in"
+                                dangerouslySetInnerHTML={{ __html: content }}
+                            />
+                        </>
                     )}
                 </div>
 

@@ -84,6 +84,17 @@
 }
 
 /* ── Extracted Article Content ────────────────────────────── */
+.article-hero-image {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: var(--radius-md);
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    display: block;
+}
+
 .article-html-content {
     font-size: 1.15rem;
     line-height: 1.8;
@@ -110,12 +121,16 @@
 
 .article-html-content img,
 .article-html-content figure {
-    width: 100%;
     max-width: 100%;
+    height: auto;
     border-radius: var(--radius-md);
-    margin: 2rem 0;
+    margin: 2rem auto;
     display: block;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.article-html-content img[width] {
+    width: auto;
 }
 
 .article-html-content figcaption {
