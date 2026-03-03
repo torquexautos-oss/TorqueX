@@ -9,6 +9,7 @@ import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCach
 import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
 import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
 import recommendRouter from './routes/recommend.js';
+import { startArticleSync } from './firestoreSync.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -438,6 +439,9 @@ app.get('/api/debug', (req, res) => {
 
 // ── Start ──────────────────────────────────────────────────────
 loadImageCache();
+
+// Start background Firestore article sync (runs on startup + every 15 min)
+startArticleSync();
 
 if (process.env.NODE_ENV !== 'production') {
     const server = http.createServer(app);
