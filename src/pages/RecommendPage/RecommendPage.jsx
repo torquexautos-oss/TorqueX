@@ -125,6 +125,21 @@ export default function RecommendPage() {
     const totalWeight = Object.values(weights).reduce((a, b) => a + b, 0);
     const allSet = Object.values(weights).every(v => v > 0);
 
+    const percentages = useMemo(() => {
+        if (totalWeight === 0) return FACTORS.map(() => 0);
+        const pcts = FACTORS.map(f => (weights[f.key] / totalWeight) * 100);
+        const rounded = pcts.map(Math.round);
+        const sum = rounded.reduce((a, b) => a + b, 0);
+        const diff = 100 - sum;
+        if (diff !== 0) {
+            // Find the index of the value with the largest rounding error to adjust
+            const errors = pcts.map((p, i) => Math.abs(p - rounded[i]));
+            const adjustIdx = errors.indexOf(Math.max(...errors));
+            rounded[adjustIdx] += diff;
+        }
+        return rounded;
+    }, [weights, totalWeight]);
+
     const generate = async () => {
         setFiring(true);
         setTimeout(async () => {
@@ -212,9 +227,9 @@ export default function RecommendPage() {
                     </div>
 
                     <div className="pistons-row">
-                        {FACTORS.map(f => {
+                        {FACTORS.map((f, idx) => {
                             const val = weights[f.key];
-                            const pct = totalWeight > 0 ? Math.round((val / totalWeight) * 100) : 0;
+                            const pct = percentages[idx];
                             const isHot = val > 70;
                             const isRippling = ripple === f.key;
                             return (

@@ -550,8 +550,8 @@ export function scoreAllCars(weights) {
     // Sort strictly by final mathematical score (Best match first)
     scored.sort((a, b) => b.finalScore - a.finalScore);
 
-    // Return top 50 strictly by score
-    const results = scored.slice(0, 50);
+    // Return top 10 strictly by score
+    const results = scored.slice(0, 10);
 
     return { results, scoreMethod: 'v2' };
 }

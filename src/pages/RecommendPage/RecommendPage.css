@@ -88,6 +88,17 @@
     white-space: nowrap;
 }
 
+.hud-profile {
+    min-height: 72px;
+    /* Stable height to prevent layout shift on mobile */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 .hud-badge {
     font-family: 'Rajdhani', sans-serif;
     font-size: 0.68rem;
