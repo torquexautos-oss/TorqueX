@@ -26,7 +26,7 @@ export default function Footer() {
             </div>
 
             <div className="footer-bottom container-wide">
-                <p>&copy; {new Date().getFullYear()} TorqueX. Built with passion for Indian automotive enthusiasts.</p>
+                <p>&copy; {new Date().getFullYear()} TorqueX. Made with ❤️ by Pranav Ahuja (~Optimus Prime) & Saket Jindal (~sodiumcyanide)</p>
             </div>
         </footer>
     );
