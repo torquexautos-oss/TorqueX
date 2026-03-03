@@ -212,7 +212,6 @@ const NewsFeedPage = () => {
                         <span className="ec-fallback-source">{article.source}</span>
                     </div>
                     <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
-                        <img src={article.sourceIcon} alt="" className="source-favicon" />
                         <span>{article.source}</span>
                     </div>
                 </div>
