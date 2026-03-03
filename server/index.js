@@ -154,17 +154,24 @@ app.post('/api/summarize', async (req, res) => {
         return res.status(400).json({ error: 'Missing: title' });
     }
 
+    // Cache key based on URL or title to prevent duplicate API calls
+    const cacheKey = `summary_${url || title}`;
+    const cachedSummary = feedCache.get(cacheKey);
+    if (cachedSummary) {
+        return res.json({ summary: cachedSummary, model: 'llama-3.1-8b-instant', cached: true });
+    }
+
     try {
         const content = description || title;
         const completion = await groq.chat.completions.create({
             messages: [
                 {
                     role: "system",
-                    content: "You are a concise news editor. Write a clear 2-3 sentence summary of this article. Be factual and engaging. No filler."
+                    content: "You are a concise news editor. Write a clear 2-3 sentence summary of this specific article. Be factual and engaging. No filler. Focus ONLY on the article provided."
                 },
                 {
                     role: "user",
-                    content: `Summarize this article: "${title}"\n\n${content.substring(0, 1200)}`
+                    content: `Please summarize this specific article: \nTitle: "${title}"\nContent: ${content.substring(0, 1200)}`
                 }
             ],
             model: "llama-3.1-8b-instant",
@@ -173,7 +180,13 @@ app.post('/api/summarize', async (req, res) => {
         });
 
         const summary = completion.choices[0]?.message?.content?.trim() || '';
-        res.json({ summary, model: 'llama-3.1-8b-instant' });
+
+        // Cache the result for 24 hours
+        if (summary) {
+            feedCache.set(cacheKey, summary, 86400);
+        }
+
+        res.json({ summary, model: 'llama-3.1-8b-instant', cached: false });
     } catch (e) {
         if (e.status === 429) {
             return res.status(429).json({ error: 'Rate limited. Try again in a few seconds.' });

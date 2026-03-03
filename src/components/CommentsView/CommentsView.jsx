@@ -41,7 +41,11 @@ export default function CommentsView({ targetId, type }) {
     const [isReplying, setIsReplying] = useState(false);
 
     useEffect(() => {
-        if (!targetId) return;
+        // Prevent global comment spillage if targetId is missing
+        if (!targetId || targetId === 'news_undefined' || targetId === 'news_') {
+            setCommentsList([]);
+            return;
+        }
 
         const q = query(
             collection(db, 'comments'),
@@ -200,6 +204,10 @@ export default function CommentsView({ targetId, type }) {
             hour: 'numeric', minute: '2-digit'
         }).format(date);
     };
+
+    if (!targetId || targetId === 'news_undefined' || targetId === 'news_') {
+        return null; // Do not render anything if targetId is invalid
+    }
 
     return (
         <div id={`comments-${targetId}`} className={`comments-section ${type === 'news' ? 'theme-news' : ''}`}>
