@@ -54,19 +54,41 @@ const BROWSER_HEADERS = {
 };
 
 // ── Resolve redirect URLs (e.g. Google News) ─────────────────────
-// Follows HTTP 3xx redirects manually (axios does this by default)
-const resolveRedirect = async (url) => {
+// Follows HTTP 3xx redirects AND scans HTML for meta-refreshes/links.
+const resolveRedirect = async (url, depth = 0) => {
+    if (depth > 5) return { finalUrl: url, html: null };
+
     try {
         const res = await axios.get(url, {
             headers: BROWSER_HEADERS,
             maxRedirects: 10,
-            timeout: 10000,
-            validateStatus: () => true, // Don't throw on 4xx/5xx
+            timeout: 8000,
+            validateStatus: () => true,
         });
-        // After all redirects, the final URL is in res.request.res.responseUrl
-        const finalUrl = res.request?.res?.responseUrl || res.config?.url || url;
-        return { finalUrl, html: res.data, status: res.status };
+
+        let finalUrl = res.request?.res?.responseUrl || res.config?.url || url;
+        let html = typeof res.data === 'string' ? res.data : '';
+
+        // Check for Meta Refresh: <meta http-equiv="refresh" content="0;url=https://...">
+        const refreshMatch = html.match(/<meta[^>]+http-equiv="refresh"[^>]+content="[^;]*;url=([^"]+)"/i);
+        if (refreshMatch && refreshMatch[1]) {
+            console.log(`[Redirect] Following meta-refresh: ${refreshMatch[1]}`);
+            return resolveRedirect(refreshMatch[1], depth + 1);
+        }
+
+        // Specifically for Google News landing pages that don't auto-redirect
+        if (finalUrl.includes('news.google.com') && html.includes('url=')) {
+            // Find any link that looks like a target URL (not google/gstatic)
+            const urlMatch = html.match(/href="(https:\/\/(?!.*google.com|.*gstatic.com)[^"]+)"/i);
+            if (urlMatch && urlMatch[1]) {
+                console.log(`[Redirect] Found target link in Google page: ${urlMatch[1]}`);
+                return resolveRedirect(urlMatch[1], depth + 1);
+            }
+        }
+
+        return { finalUrl, html, status: res.status };
     } catch (err) {
+        console.error(`[Redirect Error] Failed for ${url}:`, err.message);
         return { finalUrl: url, html: null, status: 0 };
     }
 };
@@ -81,6 +103,7 @@ const ARTICLE_SELECTORS = [
     '[class*="post-body"]', '[class*="post-content"]',
     '[class*="entry-content"]', '[class*="entry-body"]',
     '[itemprop="articleBody"]',
+    '[class*="content-inner"]', '[class*="main-content"]',
     '.content-wrapper', '.page-content',
     'main',
 ];
@@ -149,10 +172,26 @@ app.get('/api/article-content', async (req, res) => {
     let content = null;
     let leadImage = null;
 
+    const isRedirectPage = (text, url) => {
+        if (!text) return true;
+        const lower = text.toLowerCase();
+        // If it's very short and contains 'redirect' or the URL itself
+        if (text.length < 500 && (lower.includes('redirecting') || lower.includes('click here'))) return true;
+        // If it's a Google News consent/redirect page
+        if (url.includes('news.google.com') && text.length < 1000) return true;
+        return false;
+    };
+
     if (rawHtml) {
-        content = extractWithCheerio(rawHtml, finalUrl);
-        if (content) {
-            console.log(`[Parser] Cheerio extraction success (${content.length} chars)`);
+        const extracted = extractWithCheerio(rawHtml);
+        if (extracted) {
+            const plainText = extracted.replace(/<[^>]+>/g, '');
+            if (!isRedirectPage(plainText, finalUrl)) {
+                content = extracted;
+                console.log(`[Parser] Cheerio extraction success (${content.length} chars)`);
+            } else {
+                console.log(`[Parser] Cheerio hit redirect page, skipping...`);
+            }
         }
     }
 
@@ -164,10 +203,16 @@ app.get('/api/article-content', async (req, res) => {
                 contentType: 'html',
                 html: rawHtml || undefined,
             });
-            if (result && result.content && result.content.length > 250) {
-                content = result.content;
-                leadImage = result.lead_image_url || null;
-                console.log(`[Parser] Mercury success (${content.length} chars)`);
+
+            if (result && result.content) {
+                const plainText = result.content.replace(/<[^>]+>/g, '');
+                if (!isRedirectPage(plainText, finalUrl) && plainText.length > 250) {
+                    content = result.content;
+                    leadImage = result.lead_image_url || null;
+                    console.log(`[Parser] Mercury success (${content.length} chars)`);
+                } else {
+                    console.log(`[Parser] Mercury hit redirect/short page, skipping...`);
+                }
             }
         } catch (err) {
             console.warn(`[Parser] Mercury failed: ${err.message}`);
