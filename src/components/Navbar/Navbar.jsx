@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCompare } from '../../context/CompareContext';
 import { useAuth } from '../../context/AuthContext';
-import { Home, Newspaper, LayoutGrid, Compass, GitCompareArrows, BookOpen, User, LogOut, Menu, X } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
+import { Home, Newspaper, LayoutGrid, Compass, GitCompareArrows, BookOpen, User, LogOut, Menu, X, Layers, Sun, Moon } from 'lucide-react';
 import './Navbar.css';
 
 const NAV_ITEMS = [
@@ -16,6 +17,7 @@ const NAV_ITEMS = [
 export default function Navbar() {
     const { compareList } = useCompare();
     const { currentUser, logout, isSuperUser, openAuthModal } = useAuth();
+    const { isBlueprintMode, toggleTheme } = useTheme();
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -35,8 +37,10 @@ export default function Navbar() {
 
     // Close menus on route change
     useEffect(() => {
-        setIsMobileMenuOpen(false);
-        setIsMenuOpen(false);
+        window.queueMicrotask(() => {
+            setIsMobileMenuOpen(prev => prev ? false : prev);
+            setIsMenuOpen(prev => prev ? false : prev);
+        });
     }, [location.pathname]);
 
     useEffect(() => {
@@ -64,14 +68,14 @@ export default function Navbar() {
                 </Link>
 
                 <div className={`navbar-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
-                    {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
+                    {NAV_ITEMS.map(({ to, label, icon: _Icon }) => (
                         <Link
                             key={to}
                             to={to}
                             className={`nav-link ${location.pathname === to ? 'nav-link--active' : ''}`}
                             onClick={() => setIsMobileMenuOpen(false)}
                         >
-                            <Icon size={18} />
+                            <_Icon size={18} />
                             <span>{label}</span>
                         </Link>
                     ))}
@@ -86,6 +90,25 @@ export default function Navbar() {
                             <span className="nav-compare-badge">{compareList.length}</span>
                         )}
                     </Link>
+
+                    <div className="nav-divider"></div>
+
+                    <button
+                        className={`nav-theme-toggle ${isBlueprintMode ? 'light' : 'dark'}`}
+                        onClick={toggleTheme}
+                        title={isBlueprintMode ? "Enter Stealth Mode (Dark)" : "View Engineering Blueprint (Light)"}
+                    >
+                        <div className="toggle-track">
+                            <div className="toggle-thumb">
+                                {isBlueprintMode ? <Sun size={12} strokeWidth={3} /> : <Moon size={12} strokeWidth={3} />}
+                            </div>
+                        </div>
+                        <div className="theme-labels">
+                            <span className={`label-item ${!isBlueprintMode ? 'active' : ''}`}>STEALTH</span>
+                            <span className="label-sep">/</span>
+                            <span className={`label-item ${isBlueprintMode ? 'active' : ''}`}>BLUEPRINT</span>
+                        </div>
+                    </button>
 
                     <div className="nav-divider"></div>
 

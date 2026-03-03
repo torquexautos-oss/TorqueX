@@ -118,7 +118,7 @@ const scrapeImage = async (brand, name) => {
             imageUrl = imageUrl.replace(/\/\d+x\d+\//, '/600x337/');
             return { imageUrl, source: 'CarWale', sourceUrl: url };
         }
-    } catch (e) {
+    } catch {
         // Silent fail
     }
     return null;
@@ -255,7 +255,7 @@ export const scrapeCarData = async (brand, modelId, city) => {
             return resultData;
         }
         return { error: 'Data not found', sourceUrl: priceUrl };
-    } catch (e) {
-        return { error: 'Failed to scrape', details: e.message };
+    } catch {
+        return null;
     }
 };

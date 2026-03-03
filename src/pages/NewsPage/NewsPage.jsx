@@ -120,7 +120,7 @@ export default function NewsPage() {
 
             <section className="news-feed">
                 {feed.length === 0 && !loading && (
-                    <div className="no-news" style={{ textAlign: 'center', color: '#888', padding: '3rem 0', fontSize: '1.1rem' }}>
+                    <div className="no-news" style={{ textAlign: 'center', color: 'var(--text-muted)', padding: '3rem 0', fontSize: '1.1rem' }}>
                         <p>No articles generated yet. Be the first to contribute to the TorqueX database!</p>
                     </div>
                 )}
@@ -132,7 +132,7 @@ export default function NewsPage() {
                         className={`generated-article feed-item ${targetSlug === item.slug ? 'highlighted-article' : ''}`}
                         style={{ marginBottom: '4rem' }}
                     >
-                        <h2 className="article-topic-title" style={{ fontSize: '2.5rem', color: '#fff', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '1rem', marginBottom: '2rem' }}>
+                        <h2 className="article-topic-title" style={{ fontSize: '2.5rem', color: 'var(--text-primary)', borderBottom: '1px solid var(--border-light)', paddingBottom: '1rem', marginBottom: '2rem' }}>
                             {item.topic}
                         </h2>
 

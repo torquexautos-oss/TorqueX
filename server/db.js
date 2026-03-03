@@ -44,6 +44,7 @@ const BaseCarSelect = `
         MAX(s.boot_space_l) AS boot_space_litres,
         0 AS ncap_rating, 
         MAX(s.engine_displacement_cc) || ' cc' AS engine,
+        MAX(CAST(s.power_output AS FLOAT)) AS power,
         MAX(s.mileage_kmpl) AS mileage,
         MAX(v.transmission_type) AS transmission_type,
         MAX(v.fuel_type) AS fuelType,
@@ -80,6 +81,7 @@ const transformCar = (row) => ({
     fuelType: row.fuelType || row.fuel_type,
     transmission: row.transmission_type,
     engine: row.engine,
+    power: row.power,
     mileage: row.mileage ? `${row.mileage} km/l` : null,
     image_url: row.image_url,
     launch_year: row.launch_year,
@@ -225,7 +227,42 @@ export const getStats = () => {
     };
 };
 
-// ── Compare Cars ───────────────────────────────────────────────
+// ── Highlights ─────────────────────────────────────────────────
+export const getHighlights = () => {
+    // Top Power
+    const topPower = db.prepare(`
+        ${BaseCarSelect}
+        WHERE m.status != 'Discontinued'
+        GROUP BY m.id
+        ORDER BY MAX(CAST(s.power_output AS FLOAT)) DESC
+        LIMIT 5
+    `).all();
+
+    // Best Mileage (excluding EVs for this metric)
+    const topMileage = db.prepare(`
+        ${BaseCarSelect}
+        WHERE m.status != 'Discontinued' AND LOWER(v.fuel_type) != 'electric'
+        GROUP BY m.id
+        ORDER BY MAX(CAST(s.mileage_kmpl AS FLOAT)) DESC
+        LIMIT 5
+    `).all();
+
+    // Electric Leaders
+    const topEVs = db.prepare(`
+        ${BaseCarSelect}
+        WHERE LOWER(v.fuel_type) = 'electric'
+        GROUP BY m.id
+        ORDER BY price_min DESC
+        LIMIT 5
+    `).all();
+
+    return {
+        topPower: topPower.map(transformCar),
+        topMileage: topMileage.map(transformCar),
+        topEVs: topEVs.map(transformCar)
+    };
+};
+
 export const compareCars = (ids) => {
     return ids.map(id => getCarById(id)).filter(Boolean);
 };

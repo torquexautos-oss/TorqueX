@@ -68,21 +68,29 @@ export function useCarImage(brand, modelId) {
         // If map already loaded, use it immediately
         if (globalImageMap) {
             const entry = globalImageMap[modelId];
-            setImageData({
-                imageUrl: entry?.imageUrl || null,
-                source: entry?.source || null,
-                sourceUrl: entry?.sourceUrl || null,
-                loading: false
+            window.queueMicrotask(() => {
+                setImageData(prev => {
+                    const next = {
+                        imageUrl: entry?.imageUrl || null,
+                        source: entry?.source || null,
+                        sourceUrl: entry?.sourceUrl || null,
+                        loading: false
+                    };
+                    if (prev.imageUrl === next.imageUrl && prev.loading === next.loading) return prev;
+                    return next;
+                });
             });
         } else {
             // Register a listener for when the map loads
             listeners.push((map) => {
                 const entry = map[modelId];
-                setImageData({
-                    imageUrl: entry?.imageUrl || null,
-                    source: entry?.source || null,
-                    sourceUrl: entry?.sourceUrl || null,
-                    loading: false
+                window.queueMicrotask(() => {
+                    setImageData({
+                        imageUrl: entry?.imageUrl || null,
+                        source: entry?.source || null,
+                        sourceUrl: entry?.sourceUrl || null,
+                        loading: false
+                    });
                 });
             });
             fetchImageMap();

@@ -30,56 +30,6 @@ export const CHANNELS = {
         feedUrl: 'https://www.autocarindia.com/RSS/rss.ashx',
         website: 'https://www.autocarindia.com',
     },
-    'google-auto': {
-        id: 'google-auto',
-        name: 'Auto News',
-        description: 'Breaking automotive news aggregated from hundreds of global publications',
-        icon: getFavicon('news.google.com'),
-        color: '#4285f4',
-        category: 'industry',
-        feedUrl: 'https://news.google.com/rss/search?q=automotive+cars+when:3d&hl=en-IN&gl=IN&ceid=IN:en',
-        website: 'https://news.google.com',
-    },
-    'google-ev': {
-        id: 'google-ev',
-        name: 'EV News',
-        description: 'Electric vehicle news, launches, battery tech, and charging infrastructure',
-        icon: getFavicon('news.google.com'),
-        color: '#0f9d58',
-        category: 'evs',
-        feedUrl: 'https://news.google.com/rss/search?q=electric+vehicles+EV+when:3d&hl=en-IN&gl=IN&ceid=IN:en',
-        website: 'https://news.google.com',
-    },
-    'google-india': {
-        id: 'google-india',
-        name: 'India Auto',
-        description: 'Indian car market news — Tata, Mahindra, Maruti, Hyundai, and more',
-        icon: getFavicon('news.google.com'),
-        color: '#ff9933',
-        category: 'indian',
-        feedUrl: 'https://news.google.com/rss/search?q=India+car+launch+Tata+Mahindra+Maruti+when:3d&hl=en-IN&gl=IN&ceid=IN:en',
-        website: 'https://news.google.com',
-    },
-    'google-f1': {
-        id: 'google-f1',
-        name: 'Motorsport',
-        description: 'Formula 1, MotoGP, WRC, NASCAR — race results and team news',
-        icon: getFavicon('news.google.com'),
-        color: '#e10600',
-        category: 'motorsport',
-        feedUrl: 'https://news.google.com/rss/search?q=Formula+1+MotoGP+motorsport+when:3d&hl=en&gl=US&ceid=US:en',
-        website: 'https://news.google.com',
-    },
-    'google-policy': {
-        id: 'google-policy',
-        name: 'Auto Policy',
-        description: 'Tariffs, regulations, emission standards, and government policy',
-        icon: getFavicon('news.google.com'),
-        color: '#f4b400',
-        category: 'policy',
-        feedUrl: 'https://news.google.com/rss/search?q=auto+tariffs+car+regulations+emission+when:7d&hl=en&gl=US&ceid=US:en',
-        website: 'https://news.google.com',
-    },
     'electrek': {
         id: 'electrek',
         name: 'Electrek',
@@ -140,35 +90,65 @@ export const CHANNELS = {
         feedUrl: 'https://www.thedrive.com/feed',
         website: 'https://www.thedrive.com',
     },
-    'reddit-cars': {
-        id: 'reddit-cars',
-        name: 'r/cars',
-        description: 'Reddit\'s largest car community — trending discussions and news',
-        icon: getFavicon('www.reddit.com'),
-        color: '#ff4500',
-        category: 'community',
-        feedUrl: 'https://www.reddit.com/r/cars/hot/.rss',
-        website: 'https://www.reddit.com/r/cars',
+    'motorbeam': {
+        id: 'motorbeam',
+        name: 'MotorBeam',
+        description: 'Indian automotive news, reviews, and detailed shootout comparisons',
+        icon: getFavicon('www.motorbeam.com'),
+        color: '#0078ff',
+        category: 'indian',
+        feedUrl: 'https://www.motorbeam.com/feed/',
+        website: 'https://www.motorbeam.com',
     },
-    'reddit-india': {
-        id: 'reddit-india',
-        name: 'r/CarsIndia',
-        description: 'India\'s Reddit car community — ownership reviews and advice',
-        icon: getFavicon('www.reddit.com'),
-        color: '#ff4500',
-        category: 'community',
-        feedUrl: 'https://www.reddit.com/r/CarsIndia/hot/.rss',
-        website: 'https://www.reddit.com/r/CarsIndia',
+    'rushlane': {
+        id: 'rushlane',
+        name: 'RushLane',
+        description: 'Daily spy shots, launches, and breaking news from the Indian auto industry',
+        icon: getFavicon('www.rushlane.com'),
+        color: '#e31e24',
+        category: 'indian',
+        feedUrl: 'https://www.rushlane.com/feed',
+        website: 'https://www.rushlane.com',
     },
-    'reddit-ev': {
-        id: 'reddit-ev',
-        name: 'r/electricvehicles',
-        description: 'EV owner community — real-world experiences and advice',
-        icon: getFavicon('www.reddit.com'),
-        color: '#ff4500',
-        category: 'community',
-        feedUrl: 'https://www.reddit.com/r/electricvehicles/hot/.rss',
-        website: 'https://www.reddit.com/r/electricvehicles',
+    'gaadiwaadi': {
+        id: 'gaadiwaadi',
+        name: 'GaadiWaadi',
+        description: 'Latest Indian car and bike news, scoops, and in-depth reviews',
+        icon: getFavicon('gaadiwaadi.com'),
+        color: '#ffcc00',
+        category: 'indian',
+        feedUrl: 'https://gaadiwaadi.com/feed/',
+        website: 'https://gaadiwaadi.com',
+    },
+    'iab': {
+        id: 'iab',
+        name: 'Indian Autos Blog',
+        description: 'The pioneer of Indian automotive blogging — scoops and global reveals',
+        icon: getFavicon('indianautosblog.com'),
+        color: '#d4af37',
+        category: 'indian',
+        feedUrl: 'https://indianautosblog.com/feed',
+        website: 'https://indianautosblog.com',
+    },
+    'motor1': {
+        id: 'motor1',
+        name: 'Motor1',
+        description: 'Global authority on car news, reviews, and future vehicle renders',
+        icon: getFavicon('www.motor1.com'),
+        color: '#000000',
+        category: 'launches',
+        feedUrl: 'https://www.motor1.com/rss/news/all/',
+        website: 'https://www.motor1.com',
+    },
+    'jalopnik': {
+        id: 'jalopnik',
+        name: 'Jalopnik',
+        description: 'The car culture and racing community — news with a unique perspective',
+        icon: getFavicon('jalopnik.com'),
+        color: '#f71a1a',
+        category: 'tech',
+        feedUrl: 'https://jalopnik.com/rss',
+        website: 'https://jalopnik.com',
     },
 };
 
@@ -182,7 +162,6 @@ export const CHANNEL_CATEGORIES = [
     { id: 'tech', label: 'Tech' },
     { id: 'reviews', label: 'Reviews' },
     { id: 'launches', label: 'Launches' },
-    { id: 'community', label: 'Community' },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────
@@ -269,18 +248,9 @@ const normalizeRssItem = (item, channel) => {
         const author = item['dc:creator'] || item.author || '';
         let imageUrl = extractImageFromHtml(rawDesc);
 
-        // Google News: extract real source from title
+        // Feed normalization
         let realSource = channel.name;
-        if (channel.id.startsWith('google-') && title.includes(' - ')) {
-            const parts = title.split(' - ');
-            realSource = parts.pop().trim();
-            title = parts.join(' - ').trim();
-        }
-
-        // For Google News, derive favicon from the article's actual domain
-        const sourceFavicon = channel.id.startsWith('google-') && url
-            ? getFavicon(url)
-            : channel.icon;
+        const sourceFavicon = channel.icon;
 
         return {
             id: makeArticleId(channel.id, url),

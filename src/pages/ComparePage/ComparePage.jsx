@@ -15,12 +15,12 @@ export default function ComparePage() {
 
     useEffect(() => {
         if (compareList.length === 0) {
-            setCarsData([]);
-            setLoading(false);
             return;
         }
 
-        setLoading(true);
+        window.queueMicrotask(() => {
+            setLoading(prev => prev ? prev : true);
+        });
         fetch(`${API_BASE_URL}/api/db/compare`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -48,10 +48,14 @@ export default function ComparePage() {
 
     if (compareList.length === 0) {
         return (
-            <div className="compare-empty">
-                <h2>Your Virtual Garage is Empty</h2>
-                <p>Select up to 3 cars to compare them side-by-side in your garage.</p>
-                <Link to="/cars" className="btn btn-primary">Find Cars to Add</Link>
+            <div className="compare-page empty-garage">
+                <div className="compare-content container">
+                    <div className="compare-empty">
+                        <h2>Your Virtual Garage is Empty</h2>
+                        <p>Select up to 3 cars to compare them side-by-side in your garage.</p>
+                        <Link to="/cars" className="btn btn-primary" style={{ marginTop: '2rem' }}>Find Cars to Add</Link>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -131,9 +135,12 @@ export default function ComparePage() {
                                             <span className="v-spec-label">Engine</span>
                                             <span className="v-spec-val">{mainVariant.engine_cc || 'N/A'}{mainVariant.engine_cc ? ' cc' : ''}</span>
                                         </div>
-                                        <div className="v-spec">
+                                        <div className="v-spec spec-with-flavor">
                                             <span className="v-spec-label">Power</span>
                                             <span className="v-spec-val">{mainVariant.power_bhp} bhp</span>
+                                            {idx > 0 && Math.abs(mainVariant.power_bhp - (carsData[idx - 1]?.variants?.[0]?.power_bhp || 0)) < 15 && (
+                                                <div className="spec-flavor-tag" style={{ left: 'auto', right: 0 }}>PHOTO FINISH</div>
+                                            )}
                                         </div>
                                         <div className="v-spec">
                                             <span className="v-spec-label">Efficiency</span>

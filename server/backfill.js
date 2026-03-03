@@ -39,22 +39,22 @@ function extractSpecs(html) {
     const specs = {};
 
     // Engine displacement: "1199 cc", "1498 cc"
-    let m = html.match(/([\d,\.]+)\s*cc/i);
+    let m = html.match(/([\d,.])\s*cc/i);
     if (m) {
         const val = parseFloat(m[1].replace(/,/g, ''));
         if (val > 50 && val < 10000) specs.engine_displacement_cc = Math.round(val);
     }
 
     // Power: "105 bhp", "81.86bhp"
-    m = html.match(/([\d,\.]+)\s*bhp/i);
+    m = html.match(/([\d,.])\s*bhp/i);
     if (m) specs.power_output = m[0].trim();
 
     // Torque: "115 Nm", "280Nm"
-    m = html.match(/([\d,\.]+)\s*nm/i);
+    m = html.match(/([\d,.])\s*nm/i);
     if (m) specs.torque = m[0].trim();
 
     // Mileage: "18.8 kmpl", "20.09 km/l"
-    m = html.match(/([\d\.]+)\s*(?:kmpl|km\/l)/i);
+    m = html.match(/([\d.])\s*(?:kmpl|km\/l)/i);
     if (m) {
         const val = parseFloat(m[1]);
         if (val > 3 && val < 60) specs.mileage_kmpl = val;
@@ -88,7 +88,7 @@ function extractSpecs(html) {
     }
 
     // Boot space: "350 litres", "415 L"
-    m = html.match(/(?:boot\s*space|cargo\s*volume|boot\s*capacity)[^<>]{0,60}?([\d,\.]+)\s*(?:litres?|l\b)/i);
+    m = html.match(/(?:boot\s*space|cargo\s*volume|boot\s*capacity)[^<>]{0,60}?([\d,.]+)\s*(?:litres?|l\b)/i);
     if (m) {
         const val = parseFloat(m[1].replace(/,/g, ''));
         if (val > 30 && val < 3000) specs.boot_space_l = Math.round(val);
@@ -131,7 +131,7 @@ function extractSpecs(html) {
     if (m) specs.fuel_type = m[1].charAt(0).toUpperCase() + m[1].slice(1).toLowerCase();
 
     // Battery (EV)
-    m = html.match(/([\d\.]+)\s*kwh/i);
+    m = html.match(/([\d.])\s*kwh/i);
     if (m) {
         const val = parseFloat(m[1]);
         if (val > 5 && val < 300) specs.battery_capacity_kwh = val;
@@ -171,29 +171,7 @@ function extractImage(html) {
 }
 
 // ── Available Colors Extraction ──────────────────────────────────
-function extractColors(html) {
-    const $ = cheerio.load(html);
-    const colors = new Set();
-
-    // CarWale often has color names in title/alt attributes of color swatches
-    $('[class*="color" i], [data-color]').each((i, el) => {
-        const title = $(el).attr('title') || $(el).attr('data-color') || $(el).attr('alt') || '';
-        if (title && title.length < 40 && !/^#/.test(title)) {
-            colors.add(title.trim());
-        }
-    });
-
-    // Also try text near color labels
-    const colorMatch = html.match(/(?:available\s*(?:in|colors?))[^<>]{0,200}/gi);
-    if (colorMatch) {
-        for (const block of colorMatch) {
-            const names = block.match(/[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*/g);
-            if (names) names.forEach(n => { if (n.length > 3 && n.length < 30) colors.add(n); });
-        }
-    }
-
-    return colors.size > 0 ? [...colors].join(', ') : null;
-}
+// function extractColors(html) { ... already removed logic }
 
 // ── Delay helper ─────────────────────────────────────────────────
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -313,10 +291,10 @@ async function main() {
             } else {
                 specSkip++;
             }
-        } catch (e) {
-            specFail++;
+        } catch (err) {
+            console.error(`[Error] Failed variant ${v.id}: ${err.message}`);
+            specFail++; // Keep specFail count for reporting
         }
-
         await sleep(DELAY_MS);
     }
     console.log('\n');
@@ -372,8 +350,8 @@ async function main() {
             } else {
                 imgFail++;
             }
-        } catch (e) {
-            imgFail++;
+        } catch {
+            specFail++;
         }
 
         await sleep(DELAY_MS);

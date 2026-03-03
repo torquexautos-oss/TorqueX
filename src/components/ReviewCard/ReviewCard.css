@@ -35,7 +35,7 @@
     height: 34px;
     border-radius: 50%;
     background: #2563eb;
-    color: #fff;
+    color: var(--text-primary);
     font-size: 0.82rem;
     font-weight: 700;
     display: flex;

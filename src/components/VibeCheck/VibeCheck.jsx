@@ -6,20 +6,24 @@ import { API_BASE_URL } from '../../config';
 import './VibeCheck.css';
 
 const QUICK_PROMPTS = [
-    { label: 'City Commuter', text: 'I need a fuel-efficient car under 10 Lakhs for daily city driving in Bangalore traffic' },
-    { label: 'Family Road Trip', text: 'Looking for a spacious SUV under 20 Lakhs with good safety for weekend family road trips' },
-    { label: 'EV Convert', text: 'I want to switch to an electric car. Budget around 15-20 Lakhs, good range for city use' },
-    { label: 'Performance Beast', text: 'I love fast cars. What\'s the most powerful car I can get under 30 Lakhs?' },
-    { label: 'Executive Look', text: 'Need a premium sedan under 25 Lakhs that makes a statement in client meetings' },
-    { label: 'Highway Cruiser', text: 'I do 200km highway drives weekly. Need something comfortable with great mileage under 15 Lakhs' },
+    { label: 'NA V8 ONLY', text: 'I want a pure Naturally Aspirated V8 experience. Budget is around 50-70 Lakhs. Real engine notes only.' },
+    { label: 'Track Day Weapon', text: 'Looking for a track-ready beast under 40 Lakhs. Handling and stiff chassis are priorities over comfort.' },
+    { label: 'Sleeper Vibes', text: 'I need a sleeper sedan. Looks boring, but pushes serious BHP. Under 25 Lakhs.' },
+    { label: 'Daily Drift?', text: 'Need a RWD fun car under 30 Lakhs that I can daily drive but take to a drift lot on weekends.' },
+    { label: 'Highway King', text: 'Spends 90% of time on the Expressway. Need effortless triple-digit cruising and rock-solid stability.' },
+    { label: 'Off-Road Junkie', text: 'Give me the most capable 4x4 for dune bashing and rock crawling under 20 Lakhs.' },
 ];
 
 const LOADING_MESSAGES = [
-    'Reading your vibe...',
-    'Scanning 500+ cars in our garage...',
-    'Matching specs to your lifestyle...',
-    'Asking our AI car expert...',
-    'Almost there, finding your perfect match...',
+    'Tuning the carburetors...',
+    'Checking compression on all cylinders...',
+    'Warming up the transmission fluid...',
+    'Scanning the redline limits...',
+    'Ready for launch, choosing your weapon...',
+    'Calculating drag coefficients...',
+    'Checking the apex...',
+    'Adjusting fuel maps...',
+    'Consulting the stig...',
 ];
 
 const PRIORITY_ICONS = {

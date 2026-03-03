@@ -65,7 +65,7 @@ export default function SearchPage() {
                 // Combine them without duplicates
                 const combined = [...new Set([...localMatches, ...wikiMatches])].slice(0, 6);
                 setSuggestions(combined);
-            } catch (e) {
+            } catch {
                 setSuggestions(localMatches);
             }
         }, 200);
@@ -92,7 +92,6 @@ export default function SearchPage() {
 
             // Extract the perfect noun result to feed into the strict Wikipedia Summary REST API
             const bestTitle = searchData.query.search[0].title;
-            const pageId = searchData.query.search[0].pageid;
 
             // ---> SAFETY CHECK: FETCH CATEGORIES TO BLOCK IRRELEVANT TOPICS <---
             const catRes = await fetch(`https://en.wikipedia.org/w/api.php?action=query&prop=categories|pageprops&titles=${encodeURIComponent(bestTitle)}&format=json&origin=*`);
@@ -311,11 +310,11 @@ export default function SearchPage() {
                     </p>
 
                     <form className="wiki-search-box" onSubmit={handleSearch}>
-                        <Search size={20} className="search-icon" />
+                        <Search className="search-icon" size={20} />
                         <div className="search-input-wrapper">
                             <input
                                 type="text"
-                                placeholder="Search for car parts, history, or engineering concepts..."
+                                placeholder="Search for car parts, history, or engineering..."
                                 value={query}
                                 onChange={(e) => {
                                     setQuery(e.target.value);

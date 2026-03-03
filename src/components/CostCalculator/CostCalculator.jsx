@@ -46,7 +46,7 @@ export default function CostCalculator({ carPriceLakh, mileageKmpl, fuelType }) 
         const totalMonthly = emi + monthlyFuelCost + monthlyMaintenance;
 
         return { emi, monthlyFuelCost, monthlyMaintenance, totalMonthly };
-    }, [carPriceLakh, dailyCommute, downPaymentPercent, loanTenureYears, mileageKmpl, fuelType, currentFuelPrice, isEV]);
+    }, [carPriceLakh, dailyCommute, downPaymentPercent, loanTenureYears, mileageKmpl, currentFuelPrice, isEV]);
 
     return (
         <div className="cost-calc" id="cost">

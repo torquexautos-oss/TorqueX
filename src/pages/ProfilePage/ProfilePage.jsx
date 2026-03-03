@@ -41,9 +41,18 @@ export default function ProfilePage() {
             }));
             setUserComments(fetched);
             setLoading(false);
+        }, (error) => {
+            console.error("Profile feed error:", error);
+            setLoading(false);
         });
 
-        return () => unsubscribe();
+        // Safety timeout to prevent stuck loading state
+        const timer = setTimeout(() => setLoading(false), 3000);
+
+        return () => {
+            unsubscribe();
+            clearTimeout(timer);
+        };
     }, [currentUser]);
 
     const handleSignOut = async () => {
@@ -96,16 +105,21 @@ export default function ProfilePage() {
         return `/#comments-${comment.targetId}`;
     };
 
-    const getTargetName = (comment) => {
-        if (comment.type === 'car') return 'Car Profile';
-        if (comment.type === 'news') return 'News Article';
-        return 'Link';
-    };
-
     if (!currentUser) return null;
 
     const carReviewsCount = userComments.filter(c => c.type === 'car').length;
     const newsCommentsCount = userComments.filter(c => c.type === 'news').length;
+
+    // Racing Driver Class Easter Egg
+    const totalActivity = carReviewsCount + newsCommentsCount;
+    let driverClass = 'ROOKIE';
+    let classColor = '#94a3b8';
+
+    if (totalActivity >= 50) { driverClass = 'S-CLASS LICENSE'; classColor = '#eab308'; }
+    else if (totalActivity >= 20) { driverClass = 'A-CLASS LICENSE'; classColor = '#ef4444'; }
+    else if (totalActivity >= 10) { driverClass = 'B-CLASS LICENSE'; classColor = '#3b82f6'; }
+    else if (totalActivity >= 3) { driverClass = 'C-CLASS LICENSE'; classColor = '#22c55e'; }
+
 
     return (
         <div className="profile-dashboard container-wide">
@@ -117,9 +131,13 @@ export default function ProfilePage() {
                     </div>
                     <h2>{currentUser.displayName || 'TorqueX User'}</h2>
                     <p>{currentUser.email}</p>
-                    {isSuperUser && (
+                    {isSuperUser ? (
                         <div className="sidebar-badge super-admin">
                             <ShieldAlert size={14} /> Super Admin
+                        </div>
+                    ) : (
+                        <div className="sidebar-badge driver-class" style={{ borderColor: classColor, color: classColor }}>
+                            <Award size={14} /> {driverClass}
                         </div>
                     )}
                 </div>
@@ -178,7 +196,7 @@ export default function ProfilePage() {
                             <h2>Recent Activity Feed</h2>
 
                             {loading ? (
-                                <div className="loading-pulse">Loading feed...</div>
+                                <div className="loading-pulse">FETCHING_USER_ACTIVITY_LOGS...</div>
                             ) : userComments.length === 0 ? (
                                 <div className="empty-state">
                                     <div className="empty-icon-wrap">

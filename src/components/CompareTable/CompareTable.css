@@ -1,7 +1,7 @@
 .compare-table-wrap {
     overflow-x: auto;
     background: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
@@ -19,7 +19,7 @@
 .ct-car-col {
     width: 50%;
     min-width: 250px;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 1px solid var(--border-light);
 }
 
 .ct-car-header {
@@ -53,7 +53,7 @@
 .ct-car-name {
     font-size: 1.3rem;
     font-weight: 800;
-    color: #fff;
+    color: var(--text-primary);
     font-family: 'Outfit', sans-serif;
     text-align: center;
 }
@@ -73,7 +73,7 @@
 
 .ct-remove:hover {
     background: var(--accent-red);
-    color: #fff;
+    color: var(--text-primary);
     box-shadow: 0 0 10px rgba(211, 47, 47, 0.4);
 }
 
@@ -97,7 +97,7 @@
 }
 
 .compare-table tbody tr {
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-light);
     transition: background var(--transition-fast);
 }
 
@@ -120,7 +120,7 @@
     font-size: 1rem;
     font-weight: 600;
     color: var(--text-primary);
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 1px solid var(--border-light);
 }
 
 .ct-value--empty {

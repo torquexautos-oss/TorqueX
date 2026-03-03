@@ -1,6 +1,6 @@
 .comments-section {
     background: var(--bg-card);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
     border-radius: var(--radius-lg);
     padding: 2rem;
     margin-top: 3rem;
@@ -36,7 +36,7 @@
     align-items: center;
     gap: 0.75rem;
     font-size: 1.5rem;
-    color: #fff;
+    color: var(--text-primary);
     margin: 0;
 }
 
@@ -62,7 +62,7 @@
     width: 100%;
     background: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: var(--text-primary);
     padding: 1rem;
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     resize: vertical;
@@ -81,7 +81,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--border-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-top: none;
     padding: 0.75rem 1rem;
@@ -95,7 +95,7 @@
 
 .comment-submit-btn {
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-primary);
     border: none;
     padding: 0.6rem 1.25rem;
     border-radius: var(--radius-sm);
@@ -148,7 +148,7 @@
 
     .login-prompt-btn {
         background: var(--accent-primary);
-        color: #fff;
+        color: var(--text-primary);
         border: none;
         padding: 0.75rem 1.5rem;
         border-radius: var(--radius-md);
@@ -169,7 +169,7 @@
 .rating-selector {
     margin-bottom: 1.5rem;
     background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
     padding: 1rem;
     border-radius: var(--radius-md);
 }
@@ -196,7 +196,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--border-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-secondary);
     border-radius: 8px;
@@ -208,14 +208,14 @@
 
 .rate-btn:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: var(--text-primary);
     transform: translateY(-2px);
 }
 
 .rate-btn.active {
     background: var(--accent-primary);
     border-color: var(--accent-primary);
-    color: #fff;
+    color: var(--text-primary);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
     transform: translateY(-2px) scale(1.05);
 }
@@ -250,7 +250,7 @@
     gap: 1.25rem;
     padding: 1.5rem 0;
     background: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-light);
     position: relative;
     transition: transform 0.2s ease;
 }
@@ -281,7 +281,7 @@
 
 .my-comment .comment-avatar {
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-primary);
     border-color: var(--accent-primary-glow);
 }
 
@@ -297,7 +297,7 @@
 }
 
 .comment-author {
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 600;
     font-size: 0.95rem;
 }
@@ -379,7 +379,7 @@
     flex-direction: column;
     padding-left: 1.25rem;
     margin-left: 0;
-    border-left: 2px solid rgba(255, 255, 255, 0.08);
+    border-left: 2px solid var(--border-light);
     /* Thread connection line */
     position: relative;
     transition: border-color 0.2s ease;
@@ -442,14 +442,14 @@
     flex: 1;
     background: transparent;
     border: none;
-    color: #fff;
+    color: var(--text-primary);
     font-size: 0.95rem;
     outline: none;
 }
 
 .reply-submit-btn {
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-primary);
     border: none;
     padding: 0.5rem 1.25rem;
     border-radius: var(--radius-full);
@@ -478,7 +478,7 @@
 
 .reply-login-prompt button {
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-primary);
     border: none;
     padding: 0.4rem 1rem;
     border-radius: var(--radius-sm);

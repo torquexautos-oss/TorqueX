@@ -125,7 +125,7 @@ function DepreciationChart({ points, activeYear, originalPrice, onYearClick }) {
                             stroke="rgba(255,255,255,0.06)" strokeDasharray="4,4" />
                         {pct > 0 && (
                             <text x={W - PAD_R + 2} y={yPos + 3}
-                                fill="rgba(255,255,255,0.25)" fontSize="8" textAnchor="start">
+                                fill="var(--text-muted)" fontSize="8" textAnchor="start">
                                 {pct}%
                             </text>
                         )}
@@ -155,7 +155,7 @@ function DepreciationChart({ points, activeYear, originalPrice, onYearClick }) {
             {points.map(p => (
                 <g key={p.year} onClick={() => onYearClick(p.year)} style={{ cursor: 'pointer' }}>
                     <text x={x(p.year)} y={H - 8}
-                        fill={p.year === activeYear ? '#f59e0b' : 'rgba(255,255,255,0.35)'}
+                        fill={p.year === activeYear ? '#f59e0b' : 'var(--text-muted)'}
                         fontSize="9" textAnchor="middle"
                         fontWeight={p.year === activeYear ? '700' : '400'}>
                         {p.year === 0 ? 'New' : `${p.year}Y`}
@@ -166,8 +166,8 @@ function DepreciationChart({ points, activeYear, originalPrice, onYearClick }) {
             {/* Dot markers */}
             {points.map(p => (
                 <circle key={p.year} cx={x(p.year)} cy={y(p.value)} r={p.year === activeYear ? 5 : 2.5}
-                    fill={p.year <= activeYear ? '#f59e0b' : 'rgba(255,255,255,0.2)'}
-                    stroke={p.year === activeYear ? '#fff' : 'none'} strokeWidth="2"
+                    fill={p.year <= activeYear ? '#f59e0b' : 'var(--border-strong)'}
+                    stroke={p.year === activeYear ? 'var(--text-primary)' : 'none'} strokeWidth="2"
                     onClick={() => onYearClick(p.year)} style={{ cursor: 'pointer' }}
                     filter={p.year === activeYear ? 'url(#glow)' : 'none'}
                 />

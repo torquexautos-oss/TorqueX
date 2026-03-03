@@ -111,7 +111,7 @@ export default function DriveSimulator({ carName, powerBhp = 100, engineCc = 100
                     oscillatorRef.current.disconnect();
                     oscillatorRef.current = null;
                 }
-            } catch (e) { /* already stopped */ }
+            } catch { /* already stopped */ }
         }, 400);
     }, []);
 
@@ -263,6 +263,17 @@ export default function DriveSimulator({ carName, powerBhp = 100, engineCc = 100
         return '#dc2626';
     };
 
+    // ── Visuals ─────────────────────────────────────────────────
+    const [speedLines] = useState(() => {
+        return [...Array(20)].map((_, i) => ({
+            id: i,
+            duration: 0.3 + Math.random() * 0.7,
+            left: Math.random() * 100,
+            top: Math.random() * 100,
+            delay: Math.random() * 0.5
+        }));
+    });
+
     const speedColor = getSpeedColor();
 
     return (
@@ -270,12 +281,12 @@ export default function DriveSimulator({ carName, powerBhp = 100, engineCc = 100
             {/* Background speed lines */}
             {simulating && (
                 <div className="sim-speed-lines" style={{ opacity: Math.min(speedPercent, 0.6) }}>
-                    {[...Array(20)].map((_, i) => (
-                        <div key={i} className="speed-line" style={{
-                            animationDuration: `${0.3 + Math.random() * 0.7}s`,
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                            animationDelay: `${Math.random() * 0.5}s`,
+                    {speedLines.map((line) => (
+                        <div key={line.id} className="speed-line" style={{
+                            animationDuration: `${line.duration}s`,
+                            left: `${line.left}%`,
+                            top: `${line.top}%`,
+                            animationDelay: `${line.delay}s`,
                         }} />
                     ))}
                 </div>
@@ -301,7 +312,7 @@ export default function DriveSimulator({ carName, powerBhp = 100, engineCc = 100
                             {/* Speed arc */}
                             {speed > 0 && (
                                 <path d={speedArc} fill="none" stroke={speedColor} strokeWidth="8" strokeLinecap="round"
-                                    style={{ filter: `drop-shadow(0 0 8px ${speedColor})`, transition: 'stroke 0.3s' }} />
+                                    style={{ transition: 'stroke 0.3s' }} />
                             )}
                             {/* Tick marks */}
                             {[...Array(13)].map((_, i) => {

@@ -22,6 +22,7 @@
     "express": "^5.2.1",
     "firebase": "^12.10.0",
     "firebase-admin": "^13.7.0",
+    "framer-motion": "^12.34.5",
     "groq-sdk": "^0.37.0",
     "jsdom": "^28.1.0",
     "lucide-react": "^0.575.0",

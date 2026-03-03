@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
     createUserWithEmailAndPassword,
@@ -115,7 +116,6 @@ export function AuthProvider({ children }) {
         });
 
         return unsubscribe;
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const value = {

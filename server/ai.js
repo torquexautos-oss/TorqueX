@@ -31,7 +31,7 @@ export async function validateVibePrompt(queryText) {
             response_format: { type: "json_object" }
         });
         return JSON.parse(completion.choices[0]?.message?.content || '{"valid":false}');
-    } catch (e) {
+    } catch {
         return { valid: true }; // Default to true on API error
     }
 }

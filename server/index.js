@@ -6,10 +6,20 @@ import axios from 'axios';
 import NodeCache from 'node-cache';
 import http from 'http';
 import * as cheerio from 'cheerio';
-import parser from '@postlight/parser'; // Mercury Parser for full text
-import { scrapeCarData, loadImageCache, getImageMap, getCarImage, buildImageCache } from './scraper.js';
-import { fetchMultipleChannels, fetchChannelFeed, getChannelList, CHANNELS, CHANNEL_CATEGORIES } from './rssParser.js';
-import { getAllCars, getCarById, getCarByBrandAndModel, getAllBrands, getCarsByBrand, searchCars, getCarsByBodyType, getStats, compareCars } from './db.js';
+import parser from '@postlight/parser';
+import { loadImageCache, getImageMap, scrapeCarData, getCarImage } from './scraper.js';
+import { CHANNELS, fetchMultipleChannels, getChannelList, CHANNEL_CATEGORIES } from './rssParser.js';
+import {
+    getAllCars,
+    getCarById,
+    getAllBrands,
+    getStats,
+    compareCars,
+    searchCars,
+    getCarsByBrand,
+    getCarsByBodyType,
+    getHighlights
+} from './db.js';
 import recommendRouter from './routes/recommend.js';
 import { startArticleSync } from './firestoreSync.js';
 import { parseVibeQuery, generateVibePitch, generatePitchDeck, validateVibePrompt } from './ai.js';
@@ -37,6 +47,7 @@ const groq = groqKey ? new Groq({ apiKey: groqKey }) : null;
 
 // ── Feed Cache (15-minute TTL per channel — keeps it live) ─────
 const feedCache = new NodeCache({ stdTTL: 900 }); // 15 minutes
+feedCache.flushAll(); // Flush on startup to clear any phantoms from removed sources
 
 // ── Full Article Cache (1 hour TTL) ────────────────────────────
 const articleCache = new NodeCache({ stdTTL: 3600 });
@@ -78,15 +89,7 @@ const resolveRedirect = async (url, depth = 0) => {
             return resolveRedirect(refreshMatch[1], depth + 1);
         }
 
-        // Specifically for Google News landing pages that don't auto-redirect
-        if (finalUrl.includes('news.google.com') && html.includes('url=')) {
-            // Find any link that looks like a target URL (not google/gstatic)
-            const urlMatch = html.match(/href="(https:\/\/(?!.*google.com|.*gstatic.com)[^"]+)"/i);
-            if (urlMatch && urlMatch[1]) {
-                console.log(`[Redirect] Found target link in Google page: ${urlMatch[1]}`);
-                return resolveRedirect(urlMatch[1], depth + 1);
-            }
-        }
+
 
         return { finalUrl, html, status: res.status };
     } catch (err) {
@@ -174,13 +177,11 @@ app.get('/api/article-content', async (req, res) => {
     let content = null;
     let leadImage = null;
 
-    const isRedirectPage = (text, url) => {
+    const isRedirectPage = (text, _url) => {
         if (!text) return true;
         const lower = text.toLowerCase();
         // If it's very short and contains 'redirect' or the URL itself
         if (text.length < 500 && (lower.includes('redirecting') || lower.includes('click here'))) return true;
-        // If it's a Google News consent/redirect page
-        if (url.includes('news.google.com') && text.length < 1000) return true;
         return false;
     };
 
@@ -621,6 +622,15 @@ app.get('/api/db/search', (req, res) => {
 app.get('/api/db/stats', (req, res) => {
     try {
         res.json(getStats());
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+// GET /api/db/highlights — top car leaders
+app.get('/api/db/highlights', (req, res) => {
+    try {
+        res.json(getHighlights());
     } catch (e) {
         res.status(500).json({ error: e.message });
     }

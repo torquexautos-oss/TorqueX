@@ -11,9 +11,9 @@ const SLIDE_ICONS = {
 };
 
 const SLIDE_COLORS = [
-    { gradient: 'linear-gradient(135deg, #3b82f6, #1d4ed8)', glow: 'rgba(59,130,246,0.2)' },
-    { gradient: 'linear-gradient(135deg, #10b981, #059669)', glow: 'rgba(16,185,129,0.2)' },
-    { gradient: 'linear-gradient(135deg, #f59e0b, #d97706)', glow: 'rgba(245,158,11,0.2)' },
+    { bg: 'var(--accent-primary)', color: 'var(--text-on-accent)' },
+    { bg: '#10b981', color: 'var(--text-primary)' },
+    { bg: '#3b82f6', color: 'var(--text-primary)' },
 ];
 
 export default function PitchDeckModal({ carName, specs, onClose }) {
@@ -23,9 +23,9 @@ export default function PitchDeckModal({ carName, specs, onClose }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        setLoading(true);
-        setError(false);
-
+        window.queueMicrotask(() => {
+            setError(prev => prev ? false : prev);
+        });
         fetch(`${API_BASE_URL}/api/pitch-deck`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -108,7 +108,7 @@ export default function PitchDeckModal({ carName, specs, onClose }) {
 
                         {/* Slide content */}
                         <div className="pitch-slide" key={currentIndex}>
-                            <div className="pitch-icon-container" style={{ background: slideColor.gradient, boxShadow: `0 8px 30px ${slideColor.glow}` }}>
+                            <div className="pitch-icon-container" style={{ background: slideColor.bg, color: slideColor.color }}>
                                 <SlideIcon size={28} />
                             </div>
                             <h2 className="pitch-title">{slides[currentIndex].title}</h2>

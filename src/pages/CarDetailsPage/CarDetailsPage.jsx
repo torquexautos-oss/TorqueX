@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Gauge, Users, Shield, Lock, Cpu, Sun, BatteryCharging, Route, Zap } from 'lucide-react';
-import { formatPrice, formatMileage } from '../../utils/formatters';
+import { formatPrice } from '../../utils/formatters';
 import CarImage from '../../components/CarImage/CarImage';
 import PitchDeckModal from '../../components/PitchDeckModal/PitchDeckModal';
 import DriveSimulator from '../../components/DriveSimulator/DriveSimulator';
@@ -29,7 +29,6 @@ export default function CarDetailsPage() {
     const [selectedVariantIdx, setSelectedVariantIdx] = useState(0);
 
     useEffect(() => {
-        setLoading(true);
         fetch(`${API_BASE_URL}/api/db/cars/${id}`)
             .then(res => {
                 if (!res.ok) throw new Error('Not found');
@@ -96,9 +95,9 @@ export default function CarDetailsPage() {
         : [];
 
     // Helper to render a spec value or a styled N/A
-    const spec = (val, suffix = '') => {
-        if (val === null || val === undefined || val === '' || val === 'N/A') {
-            return <span className="spec-na">—</span>;
+    const renderSpec = (val, suffix = '', fallback = '—') => {
+        if (val === null || val === undefined || val === '' || val === 'N/A' || val === 0) {
+            return <span className="spec-na">{fallback}</span>;
         }
         return `${val}${suffix}`;
     };
@@ -108,7 +107,11 @@ export default function CarDetailsPage() {
             {/* ── Hero Section ────────────────────────────────────── */}
             <div className="hero">
                 <div className="hero-inner container">
-                    <div className="hero-image">
+                    <div className="cd-hero-image-side">
+                        <div className="image-blueprint-overlay">
+                            <span className="bp-coord bp-top">CHASSIS_SEC // {car.id.toUpperCase()}</span>
+                            <span className="bp-coord bp-right">AXLE_ALIGN // 0.00°</span>
+                        </div>
                         <CarImage
                             brand={car.brand}
                             modelId={car.id}
@@ -127,7 +130,7 @@ export default function CarDetailsPage() {
                             <span className="current">{car.modelName}</span>
                         </nav>
 
-                        <div className="hero-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '10px' }}>
+                        <div className="hero-header-row">
                             <div>
                                 <span className="hero-brand">{car.brand}</span>
                                 <h1 className="hero-name">{car.modelName}</h1>
@@ -136,15 +139,8 @@ export default function CarDetailsPage() {
                             <div className="epic-actions" style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
                                 {/* EPIC FEATURE 3: Drive Simulator Button */}
                                 <button
-                                    className="drive-sim-btn"
+                                    className="btn-machine drive-sim-btn"
                                     onClick={() => setShowDriveSim(true)}
-                                    style={{
-                                        background: 'linear-gradient(135deg, #ef4444, #b91c1c)',
-                                        color: 'white', border: 'none', padding: '10px 20px',
-                                        borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold',
-                                        display: 'flex', alignItems: 'center', gap: '8px',
-                                        boxShadow: '0 4px 15px rgba(239, 68, 68, 0.3)'
-                                    }}
                                 >
                                     <Gauge size={16} />
                                     <span>Simulate Launch</span>
@@ -152,15 +148,8 @@ export default function CarDetailsPage() {
 
                                 {/* EPIC FEATURE 2: Family Pitch Deck Button */}
                                 <button
-                                    className="pitch-deck-btn"
+                                    className="btn-machine pitch-deck-btn"
                                     onClick={() => setShowPitchDeck(true)}
-                                    style={{
-                                        background: 'linear-gradient(135deg, #10b981, #059669)',
-                                        color: 'white', border: 'none', padding: '10px 20px',
-                                        borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold',
-                                        display: 'flex', alignItems: 'center', gap: '8px',
-                                        boxShadow: '0 4px 15px rgba(16, 185, 129, 0.3)'
-                                    }}
                                 >
                                     <Users size={16} />
                                     <span>Convince Family</span>
@@ -186,10 +175,12 @@ export default function CarDetailsPage() {
                             <div className={`hero-status-badge status-${car.status.toLowerCase()}`}>
                                 {car.status} Model
                             </div>
-                        ) : (
+                        ) : (v.price_lakh || car.priceMin) ? (
                             <p className="hero-price">
                                 {formatPrice((v.price_lakh || car.priceMin) * 100000)}
                             </p>
+                        ) : (
+                            <p className="hero-price price-tba">Price TBA</p>
                         )}
 
                         {!dynamicData && car.priceMin && car.priceMax && car.status === 'Active' && (
@@ -199,12 +190,11 @@ export default function CarDetailsPage() {
                         {/* ── Variant Selector ──────────────────── */}
                         {car.variants && car.variants.length > 1 && (
                             <div className="variant-selector">
-                                <div className="variant-header-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div className="variant-header-row">
                                     <span className="variant-label">Select Variant ({car.variants.length})</span>
                                     <button
                                         className="compare-matrix-btn text-accent"
                                         onClick={() => setShowVariantMatrix(!showVariantMatrix)}
-                                        style={{ background: 'transparent', border: '1px solid currentColor', padding: '4px 12px', borderRadius: '4px', fontSize: '0.8rem', color: 'var(--accent-primary)' }}
                                     >
                                         {showVariantMatrix ? 'Hide Matrix' : 'Compare All Specs'}
                                     </button>
@@ -223,29 +213,30 @@ export default function CarDetailsPage() {
                                 </div>
 
                                 {showVariantMatrix && (
-                                    <div className="variant-matrix-container" style={{ marginTop: '1rem', overflowX: 'auto', background: 'var(--bg-secondary)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                        <table className="variant-matrix" style={{ width: '100%', minWidth: '600px', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
+                                    <div className="variant-matrix-container">
+                                        <table className="variant-matrix">
                                             <thead>
                                                 <tr>
-                                                    <th style={{ textAlign: 'left', padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Variant Name</th>
-                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Price</th>
-                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Engine</th>
-                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Trans.</th>
-                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Mileage</th>
-                                                    <th style={{ padding: '12px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>Airbags</th>
+                                                    <th>Variant Name</th>
+                                                    <th>Price</th>
+                                                    <th>Engine</th>
+                                                    <th>Trans.</th>
+                                                    <th>Mileage</th>
+                                                    <th>Airbags</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {car.variants.map((variant, i) => (
-                                                    <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', cursor: 'pointer', background: i === selectedVariantIdx ? 'rgba(102, 192, 244, 0.08)' : 'transparent' }}
+                                                    <tr key={i}
+                                                        className={i === selectedVariantIdx ? 'matrix-row--active' : ''}
                                                         onClick={() => setSelectedVariantIdx(i)}
                                                     >
-                                                        <td style={{ padding: '10px 12px', fontWeight: 'bold' }}>{variant.variant_name}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--accent-green)' }}>{variant.price_lakh ? formatPrice(variant.price_lakh * 100000) : '—'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.engine_displacement_cc ? variant.engine_displacement_cc + ' cc' : '—'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.transmission_type || '—'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.mileage_kmpl ? variant.mileage_kmpl + ' kmpl' : '—'}</td>
-                                                        <td style={{ padding: '10px 12px', textAlign: 'center', color: 'var(--text-secondary)' }}>{variant.airbags_count ?? '—'}</td>
+                                                        <td className="m-name">{variant.variant_name}</td>
+                                                        <td className="m-price">{variant.price_lakh ? formatPrice(variant.price_lakh * 100000) : '—'}</td>
+                                                        <td className="m-spec">{variant.engine_displacement_cc ? variant.engine_displacement_cc + ' cc' : '—'}</td>
+                                                        <td className="m-spec">{variant.transmission_type || '—'}</td>
+                                                        <td className="m-spec">{variant.mileage_kmpl ? variant.mileage_kmpl + ' kmpl' : '—'}</td>
+                                                        <td className="m-spec">{variant.airbags_count ?? '—'}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -257,19 +248,20 @@ export default function CarDetailsPage() {
 
                         <div className="quick-specs">
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.mileage || (v.mileage_kmpl ? `${v.mileage_kmpl} kmpl` : '—')}</span>
+                                <span className="qs-value">{renderSpec(dynamicData?.specs?.mileage || v.mileage_kmpl, ' kmpl')}</span>
                                 <span className="qs-label">Mileage</span>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.fuelType || v.fuel_type || '—'}</span>
+                                <span className="qs-value">{renderSpec(dynamicData?.specs?.fuelType || v.fuel_type)}</span>
                                 <span className="qs-label">Fuel</span>
                             </div>
-                            <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.engine || (v.engine_displacement_cc ? `${v.engine_displacement_cc} cc` : '—')}</span>
-                                <span className="qs-label">Engine</span>
+                            <div className="qs-item spec-with-flavor">
+                                <span className="qs-value">{renderSpec(v.engine_displacement_cc, ' cc')}</span>
+                                <span className="qs-label">Displacement</span>
+                                <div className="spec-flavor-tag">{car.bodyType === 'EV' ? 'VOLTAGE_LOAD' : 'FIRING_ORDER: 1-3-4-2'}</div>
                             </div>
                             <div className="qs-item">
-                                <span className="qs-value">{dynamicData?.specs?.transmission || v.transmission_type || '—'}</span>
+                                <span className="qs-value">{renderSpec(dynamicData?.specs?.transmission || v.transmission_type)}</span>
                                 <span className="qs-label">Transmission</span>
                             </div>
                         </div>
@@ -300,27 +292,27 @@ export default function CarDetailsPage() {
                     <div className="overview-grid">
                         <div className="overview-item">
                             <span className="ov-label">Body Type</span>
-                            <span className="ov-value">{spec(car.bodyType)}</span>
+                            <span className="ov-value">{renderSpec(car.bodyType)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Fuel Type</span>
-                            <span className="ov-value">{spec(v.fuel_type)}</span>
+                            <span className="ov-value">{renderSpec(v.fuel_type)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Transmission</span>
-                            <span className="ov-value">{spec(v.transmission_type)}</span>
+                            <span className="ov-value">{renderSpec(v.transmission_type)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Seating</span>
-                            <span className="ov-value">{spec(v.seating_capacity || car.seatingCapacity, ' persons')}</span>
+                            <span className="ov-value">{renderSpec(v.seating_capacity || car.seatingCapacity, ' persons')}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Launch Year</span>
-                            <span className="ov-value">{spec(car.launch_year)}</span>
+                            <span className="ov-value">{renderSpec(car.launch_year)}</span>
                         </div>
                         <div className="overview-item">
                             <span className="ov-label">Price Range</span>
-                            <span className="ov-value">{car.priceMin && car.priceMax ? `₹${car.priceMin.toFixed(2)} - ${car.priceMax.toFixed(2)} Lakh` : <span className="spec-na">—</span>}</span>
+                            <span className="ov-value">{car.priceMin && car.priceMax ? `₹${car.priceMin.toFixed(2)} - ${car.priceMax.toFixed(2)} Lakh` : renderSpec(null)}</span>
                         </div>
                     </div>
                 </section>
@@ -333,20 +325,20 @@ export default function CarDetailsPage() {
                         <table className="spec-table">
                             <caption>Engine & Performance</caption>
                             <tbody>
-                                <tr><td className="st-key">Displacement</td><td className="st-val">{spec(v.engine_displacement_cc, ' cc')}</td></tr>
-                                <tr><td className="st-key">Power</td><td className="st-val">{spec(v.power_output)}</td></tr>
-                                <tr><td className="st-key">Torque</td><td className="st-val">{spec(v.torque)}</td></tr>
-                                <tr><td className="st-key">Drivetrain</td><td className="st-val">{spec(v.drivetrain || v.transmission_type)}</td></tr>
-                                <tr><td className="st-key">Mileage (ARAI)</td><td className="st-val">{spec(v.mileage_kmpl, ' kmpl')}</td></tr>
+                                <tr><td className="st-key">Displacement</td><td className="st-val">{renderSpec(v.engine_displacement_cc, ' cc')}</td></tr>
+                                <tr><td className="st-key">Power</td><td className="st-val">{renderSpec(v.power_output)}</td></tr>
+                                <tr><td className="st-key">Torque</td><td className="st-val">{renderSpec(v.torque)}</td></tr>
+                                <tr><td className="st-key">Drivetrain</td><td className="st-val">{renderSpec(v.drivetrain || v.transmission_type)}</td></tr>
+                                <tr><td className="st-key">Mileage (ARAI)</td><td className="st-val">{renderSpec(v.mileage_kmpl, ' kmpl')}</td></tr>
                             </tbody>
                         </table>
                         <table className="spec-table">
                             <caption>Capacity</caption>
                             <tbody>
-                                <tr><td className="st-key">Boot Space</td><td className="st-val">{spec(v.boot_space_l || car.bootSpace, ' L')}</td></tr>
-                                <tr><td className="st-key">Ground Clearance</td><td className="st-val">{spec(v.ground_clearance_mm || car.groundClearance, ' mm')}</td></tr>
-                                <tr><td className="st-key">Seating</td><td className="st-val">{spec(v.seating_capacity || car.seatingCapacity, ' persons')}</td></tr>
-                                <tr><td className="st-key">Body Type</td><td className="st-val">{spec(car.bodyType)}</td></tr>
+                                <tr><td className="st-key">Boot Space</td><td className="st-val">{renderSpec(v.boot_space_l || car.bootSpace, ' L')}</td></tr>
+                                <tr><td className="st-key">Ground Clearance</td><td className="st-val">{renderSpec(v.ground_clearance_mm || car.groundClearance, ' mm')}</td></tr>
+                                <tr><td className="st-key">Seating</td><td className="st-val">{renderSpec(v.seating_capacity || car.seatingCapacity, ' persons')}</td></tr>
+                                <tr><td className="st-key">Body Type</td><td className="st-val">{renderSpec(car.bodyType)}</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -360,22 +352,22 @@ export default function CarDetailsPage() {
                             <div className="dim-grid">
                                 <div className="dim-card">
                                     <span className="dim-icon">↔</span>
-                                    <span className="dim-value">{spec(v.length_mm, ' mm')}</span>
+                                    <span className="dim-value">{renderSpec(v.length_mm, ' mm')}</span>
                                     <span className="dim-label">Length</span>
                                 </div>
                                 <div className="dim-card">
                                     <span className="dim-icon">⇔</span>
-                                    <span className="dim-value">{spec(v.width_mm, ' mm')}</span>
+                                    <span className="dim-value">{renderSpec(v.width_mm, ' mm')}</span>
                                     <span className="dim-label">Width</span>
                                 </div>
                                 <div className="dim-card">
                                     <span className="dim-icon">↕</span>
-                                    <span className="dim-value">{spec(v.height_mm, ' mm')}</span>
+                                    <span className="dim-value">{renderSpec(v.height_mm, ' mm')}</span>
                                     <span className="dim-label">Height</span>
                                 </div>
                                 <div className="dim-card">
                                     <span className="dim-icon">⟷</span>
-                                    <span className="dim-value">{spec(v.wheelbase_mm, ' mm')}</span>
+                                    <span className="dim-value">{renderSpec(v.wheelbase_mm, ' mm')}</span>
                                     <span className="dim-label">Wheelbase</span>
                                 </div>
                             </div>

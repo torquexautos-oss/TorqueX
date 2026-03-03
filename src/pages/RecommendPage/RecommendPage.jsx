@@ -27,7 +27,6 @@ function OdoDigit({ value }) {
 
     useEffect(() => {
         if (prev.current !== value) {
-            setRolling(true);
             const t = setTimeout(() => {
                 setDisplay(value);
                 setRolling(false);
@@ -117,6 +116,11 @@ export default function RecommendPage() {
     const profileTop2 = useMemo(() => {
         const sorted = FACTORS.map(f => ({ label: f.label, val: weights[f.key] }))
             .sort((a, b) => b.val - a.val);
+
+        // Hide if all weights are default/equal to avoid "Performance & Safety" appearing by default
+        const allEqual = sorted.every(s => s.val === sorted[0].val);
+        if (allEqual) return null;
+
         const top = sorted.filter(s => s.val > 0).slice(0, 2);
         if (!top.length) return null;
         return top.map(t => t.label).join(' & ');
@@ -427,7 +431,10 @@ export default function RecommendPage() {
                                         <div className="res-top">
                                             <div>
                                                 <span className="res-brand">{car.brand}</span>
-                                                <h3 className="res-name">{car.name}</h3>
+                                                <h3 className="res-name">
+                                                    {car.name}
+                                                    {car.finalScore >= 8.5 && <span className="god-tier-badge">GOD TIER CHASSIS</span>}
+                                                </h3>
                                                 <div className="res-tags">
                                                     <span>{formatPrice(car.price_min)}</span>
                                                     {car.fuel !== 'N/A' && <span>{car.fuel}</span>}

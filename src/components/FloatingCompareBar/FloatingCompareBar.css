@@ -25,7 +25,7 @@
 }
 
 .compare-selected-count {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 0.95rem;
     font-weight: 700;
 }

@@ -64,7 +64,7 @@ const timeAgo = (dateStr) => {
 const NewsFeedPage = () => {
     const navigate = useNavigate();
     const [categories, setCategories] = useState([]);
-    const [allChannelIds, setAllChannelIds] = useState([]);
+    const [allChannels, setAllChannels] = useState([]);
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -83,6 +83,19 @@ const NewsFeedPage = () => {
     const [summaryLoading, setSummaryLoading] = useState(null);
     const [summaries, setSummaries] = useState({});
 
+    const [loadingMessage] = useState(() => {
+        const msgs = [
+            "Warming up the turbochargers...",
+            "Checking tire pressures...",
+            "Syncing the dual-clutch transmission...",
+            "Priming the fuel injectors...",
+            "Adjusting the rear wing for downforce...",
+            "Oiling the gears...",
+            "Waiting for the green light..."
+        ];
+        return msgs[Math.floor(Math.random() * msgs.length)];
+    });
+
     // Initial Data Load (Channels)
     useEffect(() => {
         const init = async () => {
@@ -90,10 +103,9 @@ const NewsFeedPage = () => {
                 const res = await fetch(`${API_BASE_URL}/api/channels`);
                 if (!res.ok) throw new Error('Failed to load channels');
                 const data = await res.json();
-                const ids = (data.channels || []).map(c => c.id);
                 setCategories(data.categories || []);
-                setAllChannelIds(ids);
-            } catch (err) {
+                setAllChannels(data.channels || []);
+            } catch {
                 setError('Could not connect to news server.');
                 setLoading(false);
             }
@@ -103,13 +115,14 @@ const NewsFeedPage = () => {
 
     // Fetch Master Feed
     const fetchFeed = useCallback(async (isRefresh = false) => {
-        if (allChannelIds.length === 0) return;
+        if (allChannels.length === 0) return;
         if (!isRefresh) setLoading(true);
         setError('');
 
         try {
+            const channelIds = allChannels.map(c => c.id);
             const params = new URLSearchParams({
-                channels: allChannelIds.join(','),
+                channels: channelIds.join(','),
                 page: page.toString(),
                 limit: '24', // Enough to fill out the magazine grid
                 ...(activeCategory !== 'all' && { category: activeCategory }),
@@ -135,7 +148,7 @@ const NewsFeedPage = () => {
         } finally {
             setLoading(false);
         }
-    }, [allChannelIds, page, activeCategory, searchQuery]);
+    }, [allChannels, page, activeCategory, searchQuery]);
 
     useEffect(() => {
         fetchFeed();
@@ -146,11 +159,12 @@ const NewsFeedPage = () => {
         setActiveSource(null);
     }, [activeCategory, searchQuery]);
 
-    // Unique sources for the current feed
+    // Comprehensive list of sources available (from channels + any specialized subsources)
     const availableSources = useMemo(() => {
-        const sources = articles.map(a => a.source).filter(Boolean);
-        return [...new Set(sources)].sort();
-    }, [articles]);
+        const channelSources = allChannels.map(c => c.name);
+        const articleSources = articles.map(a => a.source).filter(Boolean);
+        return [...new Set([...channelSources, ...articleSources])].sort();
+    }, [allChannels, articles]);
 
     const filteredArticles = activeSource
         ? articles.filter(a => a.source === activeSource)
@@ -158,11 +172,11 @@ const NewsFeedPage = () => {
 
     // Auto-refresh every 5 minutes on page 1 only
     useEffect(() => {
-        if (allChannelIds.length > 0 && page === 1 && !searchQuery) {
+        if (allChannels.length > 0 && page === 1 && !searchQuery) {
             refreshTimerRef.current = setInterval(() => fetchFeed(true), 5 * 60 * 1000);
             return () => clearInterval(refreshTimerRef.current);
         }
-    }, [allChannelIds, fetchFeed, page, searchQuery]);
+    }, [allChannels, fetchFeed, page, searchQuery]);
 
     // AI On-Demand Summarization
     const requestSummary = async (article) => {
@@ -200,16 +214,9 @@ const NewsFeedPage = () => {
         tech: Zap,
         reviews: BookOpen,
         launches: Sparkles,
-        community: Clock,
     };
 
-    // Deterministic gradient from source name
-    const getGradient = (source) => {
-        let hash = 0;
-        for (let i = 0; i < (source || '').length; i++) hash = source.charCodeAt(i) + ((hash << 5) - hash);
-        const hue = Math.abs(hash) % 360;
-        return `linear-gradient(135deg, hsl(${hue}, 40%, 12%) 0%, hsl(${(hue + 40) % 360}, 35%, 8%) 100%)`;
-    };
+
 
     // Preload images on hover for faster ArticleReader open
     const handleArticleHover = (imageUrl) => {
@@ -231,10 +238,13 @@ const NewsFeedPage = () => {
                 onMouseEnter={() => handleArticleHover(article.imageUrl || article.urlToImage || article.image)}
             >
                 {/* Image Section */}
-                <div
-                    className="ec-image-wrapper"
-                    style={{ background: getGradient(article.source) }}
-                >
+                <div className="ec-image-wrapper">
+                    {/* Fallback layer — always present behind image */}
+                    <div className="ec-fallback-content">
+                        <FallbackIcon size={type === 'hero' ? 44 : 28} strokeWidth={1.2} />
+                        <span className="ec-fallback-source">{article.source}</span>
+                    </div>
+
                     {article.imageUrl && (
                         <img
                             src={article.imageUrl}
@@ -244,11 +254,6 @@ const NewsFeedPage = () => {
                             onError={(e) => { e.target.style.display = 'none'; }}
                         />
                     )}
-                    {/* Fallback layer — always present behind image */}
-                    <div className="ec-fallback-content">
-                        <FallbackIcon size={type === 'hero' ? 44 : 28} strokeWidth={1.2} />
-                        <span className="ec-fallback-source">{article.source}</span>
-                    </div>
                     <div className="ec-source-badge" style={{ '--badge-color': article.sourceColor }}>
                         <span>{article.source}</span>
                     </div>
@@ -314,8 +319,9 @@ const NewsFeedPage = () => {
             {/* Master Header */}
             <header className="editorial-header">
                 <div className="ed-header-left">
-                    <div className="ed-badge">
-                        <span className="live-dot" /> LIVE EDITORIAL
+                    <div className="ed-badge radar-intercept">
+                        <div className="radar-sweep"></div>
+                        <span className="live-dot" /> SIGNAL INTERCEPT
                     </div>
                     <h1>TorqueX <span className="gradient-text">Media</span></h1>
                     <p className="ed-subtitle">Curated live feeds from premium automotive publishers, supercharged with AI.</p>
@@ -372,17 +378,23 @@ const NewsFeedPage = () => {
             {!loading && !error && articles.length === 0 && (
                 <div className="ed-empty-state slide-up">
                     <Search size={48} className="text-muted" />
-                    <h2>No coverage found</h2>
-                    <p>{searchQuery ? `We couldn't find any articles matching "${searchQuery}".` : 'No articles available in this category currently.'}</p>
-                    {searchQuery && <button className="btn btn-primary mt-4" onClick={() => { setSearchQuery(''); fetchFeed(); }}>Clear Search</button>}
+                    <h2>Pit Stop: No Coverage Found</h2>
+                    <p>
+                        {searchQuery
+                            ? `We searched the whole track, but couldn't find any articles matching "${searchQuery}". Maybe it's a prototype?`
+                            : 'The feed is currently as empty as a dry fuel tank. Check back after the next lap.'}
+                    </p>
+                    {searchQuery && <button className="btn btn-primary mt-4" onClick={() => { setSearchQuery(''); fetchFeed(); }}>Back to Pits (Clear Search)</button>}
                 </div>
             )}
 
-            {/* Loading Skeleton Indicator (Only on initial load/page change, not background refresh) */}
+            {/* Loading Skeleton Indicator */}
             {loading && articles.length === 0 && (
                 <div className="ed-loading-view">
                     <div className="magical-spinner" />
-                    <p>Fetching the latest auto news...</p>
+                    <p className="loading-text">
+                        {loadingMessage}
+                    </p>
                 </div>
             )}
 

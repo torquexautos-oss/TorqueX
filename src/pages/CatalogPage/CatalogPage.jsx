@@ -24,10 +24,21 @@ export default function CatalogPage() {
     const [budgetFilter, setBudgetFilter] = useState('');
     const [sortBy, setSortBy] = useState('newest');
 
+    const [loadingMessage] = useState(() => {
+        const msgs = [
+            "Shifting into 5th gear...",
+            "Polishing the bodywork...",
+            "Tuning the ECU...",
+            "Aligning the wheels...",
+            "Checking the spark plugs..."
+        ];
+        return msgs[Math.floor(Math.random() * msgs.length)];
+    });
+
     const isChannelView = !brandFilter && !search && !fuelFilter && !bodyFilter && !budgetFilter;
 
     const [brands, setBrands] = useState([]);
-    const [fuels, setFuels] = useState(['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid']);
+    const [fuels] = useState(['Petrol', 'Diesel', 'CNG', 'Electric', 'Hybrid']);
     const [bodies, setBodies] = useState([]);
 
     useEffect(() => {
@@ -58,9 +69,16 @@ export default function CatalogPage() {
 
     useEffect(() => {
         const brandQuery = searchParams.get('brand');
-        if (brandQuery && brandQuery !== brandFilter) {
-            setBrandFilter(brandQuery);
-            setVisible(PAGE_SIZE);
+        if (brandQuery) {
+            window.queueMicrotask(() => {
+                setBrandFilter(prev => {
+                    if (prev !== brandQuery) {
+                        setVisible(PAGE_SIZE);
+                        return brandQuery;
+                    }
+                    return prev;
+                });
+            });
         }
     }, [searchParams]);
 
@@ -122,7 +140,9 @@ export default function CatalogPage() {
     if (loading) {
         return (
             <main className="catalog-page container">
-                <p className="loading-text">Loading catalog...</p>
+                <p className="loading-text">
+                    {loadingMessage}
+                </p>
             </main>
         );
     }
@@ -193,12 +213,12 @@ export default function CatalogPage() {
             ) : (
                 <>
                     {brandFilter && !search && !fuelFilter && !bodyFilter && !budgetFilter && (
-                        <div className="brand-channel-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '1rem 0 2rem 0', padding: '1.5rem', background: 'var(--bg-secondary)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div className="brand-channel-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', margin: '1rem 0 2rem 0', padding: '1.5rem', background: 'var(--bg-secondary)', borderRadius: '0', border: 'var(--border-main)', borderLeft: '6px solid var(--accent-primary)', position: 'relative' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                 <button onClick={handleReset} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '1rem', fontWeight: 'bold' }} title="Back to Channels">
                                     <ArrowLeft size={20} />
                                 </button>
-                                <h2 style={{ margin: 0, fontSize: '1.8rem', color: '#fff' }}>{brandFilter} Catalog</h2>
+                                <h2 style={{ margin: 0, fontSize: '1.8rem', color: 'var(--text-primary)' }}>{brandFilter} Catalog</h2>
                             </div>
                             <span style={{ background: 'rgba(102, 192, 244, 0.1)', color: 'var(--accent-primary)', padding: '0.4rem 1rem', borderRadius: '6px', fontWeight: 'bold' }}>
                                 {filteredModels.length} Models
@@ -207,15 +227,26 @@ export default function CatalogPage() {
                     )}
 
                     {visibleModels.length > 0 ? (
-                        <div className="car-grid">
+                        <div className="catalog-grid">
                             {visibleModels.map((model) => (
                                 <CarCard key={model.slug || model.id} car={model} />
                             ))}
                         </div>
                     ) : (
-                        <div className="no-results">
-                            <p>No cars match your filters.</p>
-                            <button onClick={handleReset}>Reset Filters</button>
+                        <div className="no-results terminal-error">
+                            <div className="terminal-header">
+                                <span className="term-dot red"></span>
+                                <span className="term-dot yellow"></span>
+                                <span className="term-dot green"></span>
+                                <strong>root@torquex-ecu:~#</strong>
+                            </div>
+                            <div className="terminal-body">
+                                <p>&gt; RUN QUERY: Search criteria...</p>
+                                <p className="term-err-line">ERROR 404: CHASSIS NOT FOUND</p>
+                                <p>&gt; DIAGNOSTICS: The specified parameters yielded no production or prototype models in our database.</p>
+                                <p>&gt; RECOMMENDATION: Reset filters and attempt a broader scan.</p>
+                                <button onClick={handleReset} className="term-reset-btn">&gt; EXECUTE /RESET</button>
+                            </div>
                         </div>
                     )}
 

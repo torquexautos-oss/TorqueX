@@ -174,13 +174,20 @@ export default function NewsArticlePage() {
                         </div>
                     ) : (
                         <>
-                            {leadImage && (
-                                <img
-                                    src={leadImage}
-                                    alt={articleMeta?.title || "Article Header"}
-                                    className="article-hero-image fade-in"
-                                />
-                            )}
+                            <div className="article-hero-wrapper">
+                                <div className="article-hero-fallback">
+                                    <Globe size={48} strokeWidth={1} />
+                                    <span>OPTIMIZING_VIEW_PORT...</span>
+                                </div>
+                                {leadImage && (
+                                    <img
+                                        src={leadImage}
+                                        alt={articleMeta?.title || "Article Header"}
+                                        className="article-hero-image fade-in"
+                                        onError={(e) => { e.target.style.display = 'none'; }}
+                                    />
+                                )}
+                            </div>
                             <div
                                 className="article-html-content fade-in"
                                 dangerouslySetInnerHTML={{ __html: content }}

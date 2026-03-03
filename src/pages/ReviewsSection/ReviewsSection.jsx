@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import ReviewCard from '../../components/ReviewCard/ReviewCard';
 import ReviewForm from '../../components/ReviewForm/ReviewForm';
 import { Pencil } from 'lucide-react';

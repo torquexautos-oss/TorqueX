@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useCompare } from '../../context/CompareContext';
 import { formatPrice, formatMileage } from '../../utils/formatters';
 import CarImage from '../CarImage/CarImage';
-import { Fuel, Gauge, Settings2, Check, Plus, Layers } from 'lucide-react';
+import { Fuel, Gauge, Settings2, Check, Plus } from 'lucide-react';
 import './CarCard.css';
 
 export default function CarCard({ car }) {
@@ -20,13 +20,11 @@ export default function CarCard({ car }) {
         }
     };
 
-    const hasVariants = car.variantCount && car.variantCount > 1;
-    const displayEngine = car.engine && car.engine !== 'N/A'
-        ? car.engine
-        : (car.fuelType?.toLowerCase().includes('electric') ? 'Electric' : 'N/A');
+    const vin = `TX-${car.brand.substring(0, 2).toUpperCase()}-${car.id.toString(16).toUpperCase().padStart(4, '0')}`;
 
     return (
         <div className="car-card-wrapper card">
+            <span className="car-card-vin">{vin}</span>
             <Link to={`/car/${car.id}`} className="car-card">
                 <div className="car-card-image">
                     <CarImage

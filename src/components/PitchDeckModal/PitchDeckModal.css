@@ -21,13 +21,11 @@
     max-width: 440px;
     height: 85vh;
     max-height: 700px;
-    background: linear-gradient(170deg, #141420 0%, #0a0a12 100%);
-    border-radius: 24px;
+    background: var(--bg-secondary);
+    border-radius: 0;
     position: relative;
-    box-shadow:
-        0 30px 80px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 15px 15px 0px rgba(0, 0, 0, 0.5);
+    border: 3px solid #10b981;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -50,12 +48,12 @@
     position: absolute;
     top: 14px;
     right: 14px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-secondary, #a1a1aa);
+    background: var(--bg-primary);
+    border: var(--border-light);
+    color: var(--text-secondary);
     width: 34px;
     height: 34px;
-    border-radius: 10px;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -65,8 +63,8 @@
 }
 
 .pitch-close:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
+    background: var(--border-main);
+    color: var(--text-primary);
 }
 
 /* ── Loading ─────────────────────────────────────────────────── */
@@ -83,15 +81,15 @@
 .pitch-loading-spinner {
     width: 60px;
     height: 60px;
-    background: rgba(139, 92, 246, 0.08);
-    border-radius: 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .pitch-spin {
-    color: #8b5cf6;
+    color: #10b981;
     animation: pitchSpin 1s linear infinite;
 }
 
@@ -102,7 +100,7 @@
 }
 
 .pitch-loading-title {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 1.15rem;
     font-weight: 700;
     margin: 0;
@@ -134,7 +132,7 @@
 }
 
 .pitch-error-title {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 1.1rem;
     font-weight: 700;
     margin: 0;
@@ -148,12 +146,12 @@
 
 .pitch-retry-btn {
     margin-top: 0.5rem;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--border-light);
     border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: var(--text-primary);
     padding: 0.6rem 1.5rem;
-    border-radius: 10px;
-    font-weight: 600;
+    border-radius: 0;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -204,7 +202,7 @@
     top: 0;
     left: 0;
     height: 100%;
-    background: #fff;
+    background: #10b981;
     width: 0%;
     animation: fillProgress 8s linear forwards;
 }
@@ -256,17 +254,18 @@
 .pitch-icon-container {
     width: 56px;
     height: 56px;
-    border-radius: 16px;
+    border-radius: 0;
+    border: 2px solid #10b981;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 1.5rem;
     transition: all 0.4s ease;
 }
 
 .pitch-title {
-    color: #fff;
+    color: var(--text-primary);
     font-size: 1.8rem;
     font-weight: 800;
     margin: 0 0 1.2rem;
@@ -275,11 +274,13 @@
 }
 
 .pitch-text {
-    color: var(--text-secondary, #a1a1aa);
+    color: var(--text-secondary);
     font-size: 1.05rem;
     line-height: 1.7;
     margin: 0;
     max-width: 360px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
 }
 
 /* ── Car badge ───────────────────────────────────────────────── */
@@ -290,11 +291,11 @@
     justify-content: center;
     padding: 0.4rem 0.8rem;
     margin: 0.75rem auto 0;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 20px;
+    background: var(--bg-primary);
+    border: var(--border-light);
+    border-radius: 0;
     font-size: 0.7rem;
-    color: var(--text-muted, #52525b);
+    color: var(--text-muted);
     font-weight: 600;
 }
 
@@ -310,12 +311,12 @@
 }
 
 .pitch-nav-btn {
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: white;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    color: var(--text-primary);
     width: 44px;
     height: 44px;
-    border-radius: 12px;
+    border-radius: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -325,7 +326,7 @@
 
 .pitch-nav-btn:hover:not(:disabled) {
     background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.15);
+    border-color: var(--border-main);
 }
 
 .pitch-nav-btn:disabled {
@@ -349,7 +350,8 @@
     .pitch-modal {
         max-width: 95vw;
         height: 90vh;
-        border-radius: 16px;
+        border-radius: 0;
+        border-width: 2px;
     }
 
     .pitch-content {

@@ -1,980 +1,470 @@
-/* ═══════════════════════════════════════════════════════════════
-   TORQUEX — INTELLIGENT CAR ADVISOR
-   ₹10Cr visual fidelity. McLaren infotainment. Machined, not designed.
-   ═══════════════════════════════════════════════════════════════ */
+/* ── MECHANICAL RECOMMENDATION (ENGINE CONFIGURATOR) ── */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@400;500;600;700&display=swap');
-
-/* ── Global Transitions ──────────────────────────────────────── */
-*,
-*::before,
-*::after {
-    transition-property: color, background-color, border-color, box-shadow, opacity, transform;
-    transition-duration: 200ms;
-    transition-timing-function: ease;
-}
-
-/* ── Page Background — Studio Spotlight ──────────────────────── */
 .mach-page {
+    background-color: var(--bg-primary);
+    background-image: var(--grid-line);
+    background-size: 50px 50px;
+    padding-top: calc(var(--header-height) + 5rem);
+    padding-bottom: 6rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     min-height: 100vh;
-    padding: 1.5rem 1rem 5rem;
-    background-color: #080808;
-    background-image:
-        radial-gradient(ellipse 60% 40% at 50% 0%, #0f0f0f 0%, #080808 70%),
-        repeating-linear-gradient(45deg, transparent, transparent 2px,
-            rgba(255, 255, 255, 0.008) 2px, rgba(255, 255, 255, 0.008) 4px),
-        repeating-linear-gradient(-45deg, transparent, transparent 2px,
-            rgba(255, 255, 255, 0.005) 2px, rgba(255, 255, 255, 0.005) 4px);
 }
 
 .mach-container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* ── Header ──────────────────────────────────────────────────── */
 .mach-header {
-    text-align: center;
-    margin-bottom: 1.2rem;
-    padding-top: 0.5rem;
+    margin-bottom: 3rem;
+    border-left: 6px solid var(--accent-primary);
+    padding-left: 1.5rem;
 }
 
 .mach-header h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #d0d7de;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.3rem;
+    font-family: 'Teko', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
     text-transform: uppercase;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    line-height: 1;
+    margin-bottom: 0.25rem;
 }
 
 .mach-sub {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 500;
-    color: #484f58;
-    letter-spacing: 0.03em;
-}
-
-/* ── Section Rule — Machined Aluminum Panel Label ────────────── */
-.section-rule {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.section-rule.sm {
-    margin-bottom: 0.8rem;
-}
-
-.section-rule::before,
-.section-rule::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.06) 50%, transparent 100%);
-}
-
-.section-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.52rem;
-    font-weight: 600;
-    letter-spacing: 0.25em;
-    color: #3b4048;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-primary);
     text-transform: uppercase;
-    white-space: nowrap;
+    letter-spacing: 0.15em;
 }
 
+/* ── HUD Profile (Stable Layout) ── */
 .hud-profile {
-    min-height: 72px;
-    /* Stable height to prevent layout shift on mobile */
+    min-height: 4.5rem;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.hud-badge {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 0.68rem;
-    /* Increased from 0.58rem */
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #5a6370;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed var(--border-light);
 }
 
 .hud-tag {
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: rgba(58, 175, 92, 0.5);
-    letter-spacing: 0.12em;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .hud-badges {
     display: flex;
-    gap: 0.35rem;
+    gap: 0.75rem;
     flex-wrap: wrap;
-    justify-content: center;
 }
 
 .hud-badge {
+    background: var(--bg-card);
+    border: 1px solid var(--accent-primary);
+    color: var(--accent-primary);
+    padding: 0.2rem 0.8rem;
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.58rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #5a6370;
+    letter-spacing: 0.05em;
+    box-shadow: 2px 2px 0px var(--accent-primary-glow);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ENGINE BLOCK — Main Configurator Card
-   ═══════════════════════════════════════════════════════════════ */
-
+/* Engine Block */
 .engine-block {
-    background: linear-gradient(160deg, #111214, #0c0d0f);
-    border-radius: 12px;
-    padding: 1.8rem 1.2rem 1.4rem;
-    margin-bottom: 1rem;
+    background: var(--bg-card);
+    border: var(--border-strong);
+    border-top: 4px solid var(--accent-primary);
+    padding: 3rem;
+    margin-bottom: 4rem;
+    box-shadow: var(--shadow-hard);
     position: relative;
     overflow: hidden;
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 4px 6px rgba(0, 0, 0, 0.4),
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-/* Machining texture */
 .engine-block::before {
     content: '';
     position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 2px,
-            rgba(255, 255, 255, 0.004) 2px, rgba(255, 255, 255, 0.004) 3px);
+    top: 0;
+    right: 0;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle at 100% 0%, var(--accent-primary-glow) 0%, transparent 70%);
     pointer-events: none;
+}
+
+.section-rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.section-rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
+}
+
+.section-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .pistons-row {
     display: flex;
-    justify-content: space-around;
-    gap: 0.3rem;
-    position: relative;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-/* ── Piston Column ───────────────────────────────────────────── */
 .piston-col {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
-    max-width: 150px;
-    padding: 0.5rem 0.4rem;
-    border-radius: 8px;
+    position: relative;
+    padding: 1rem 0;
+    gap: 0.5rem;
 }
 
-/* Hover — backlit halo */
-.piston-col:hover {
-    box-shadow:
-        0 0 24px color-mix(in srgb, var(--pc) 12%, transparent),
-        0 0 60px color-mix(in srgb, var(--pc) 5%, transparent);
-}
-
-/* ── Odometer Numbers — Racing Font + Glow ───────────────────── */
 .piston-odo {
-    text-align: center;
-    margin-bottom: 0.2rem;
+    margin-bottom: 1rem;
 }
 
 .odo-number {
-    display: inline-flex;
-    gap: 1px;
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 4px;
-    padding: 0.2rem 0.3rem;
-    overflow: hidden;
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+    display: flex;
+    gap: 2px;
 }
 
 .odo-digit {
-    display: inline-block;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 800;
+    font-family: 'Teko', sans-serif;
+    font-size: 2.5rem;
     line-height: 1;
-    min-width: 0.8em;
-    text-align: center;
-    text-shadow:
-        0 0 12px currentColor,
-        0 0 30px color-mix(in srgb, currentColor 30%, transparent);
+    color: var(--text-primary);
 }
 
-.odo-rolling {
-    transform: translateY(-4px);
-    opacity: 0.5;
-}
-
-/* ECU readout — sensor pill badge */
 .piston-ecu {
-    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
-    font-size: 0.52rem;
-    font-weight: 500;
-    color: #333a42;
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.06em;
-    padding: 0.12rem 0.4rem;
-    border: 1px solid rgba(255, 255, 255, 0.04);
-    border-radius: 10px;
-    background: rgba(0, 0, 0, 0.3);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
 }
 
-/* ── Cylinder — Mechanical Bore ──────────────────────────────── */
+/* DELETE REDUNDANT CLASS ADDED BY MISTAKE */
+/* .recommend-page was here */
+
+
 .cyl {
+    width: 60px;
+    height: 200px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
     position: relative;
-    width: 46px;
-    height: 170px;
+    box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .cyl-bore {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg,
-            #101215 0%, #171b20 14%, #13161a 48%, #171b20 86%, #101215 100%);
-    border-radius: 6px 6px 3px 3px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    inset: 2px;
     overflow: hidden;
-    /* Curved wall depth simulation */
-    box-shadow:
-        inset 3px 0 8px rgba(0, 0, 0, 0.5),
-        inset -3px 0 8px rgba(0, 0, 0, 0.5),
-        inset 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Bore honing marks */
-.cyl-bore::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(180deg, transparent, transparent 5px,
-            rgba(255, 255, 255, 0.008) 5px, rgba(255, 255, 255, 0.008) 6px);
-    pointer-events: none;
-}
-
-/* Pressure gauge tick marks — right side */
-.cyl-tick {
-    position: absolute;
-    right: 2px;
-    width: 4px;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.12);
-}
-
-/* Combustion glow — heat from above */
-.combustion {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 45%;
-    pointer-events: none;
-}
-
-.combustion-pulse {
-    animation: combPulse 1.4s ease-in-out infinite;
-}
-
-@keyframes combPulse {
-
-    0%,
-    100% {
-        opacity: 0.5;
-    }
-
-    50% {
-        opacity: 0.75;
-    }
-}
-
-/* ── Piston Head — Chrome + Rings ────────────────────────────── */
 .piston-head {
     position: absolute;
-    left: 2px;
-    right: 2px;
-    height: 14px;
-    /* Chrome-like gradient */
-    background: linear-gradient(to bottom, #5a5a5a, #2a2a2a);
-    border-radius: 3px;
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.6),
-        0 0 0 1px rgba(255, 255, 255, 0.08);
-    z-index: 3;
-    transition: bottom 0.12s ease-out, box-shadow 0.3s ease;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: linear-gradient(to bottom, var(--text-muted), #222);
+    border-top: 2px solid var(--text-secondary);
+    z-index: 2;
+    transition: bottom 0.3s var(--ease-snap);
 }
 
-/* Chrome bevel highlight */
-.piston-head::before {
-    content: '';
-    position: absolute;
-    top: 1px;
-    left: 3px;
-    right: 3px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-    border-radius: 1px;
-}
-
-/* Piston rings */
 .p-ring {
-    width: 100%;
     height: 1px;
-    background: rgba(255, 255, 255, 0.15);
-    margin-top: 3px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
 
-.p-ring::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.4);
-    margin-top: 1px;
-}
-
-/* Pressure fill — heat rising gradient */
 .piston-fill {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    pointer-events: none;
-    transition: height 0.12s ease-out;
+    z-index: 1;
+    transition: height 0.3s var(--ease-snap);
+    filter: blur(4px);
+    opacity: 0.6;
 }
 
-.piston-hot .cyl-bore {
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Range input — invisible overlay */
-.cyl-input {
-    -webkit-appearance: none;
-    appearance: none;
+.cyl-tick {
     position: absolute;
-    width: 170px;
-    height: 46px;
-    transform: rotate(-90deg);
-    transform-origin: 85px 85px;
-    background: transparent;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-light);
+    z-index: 1;
+}
+
+.cyl-input {
+    position: absolute;
+    inset: 0;
+    width: 200px;
+    height: 60px;
+    transform: rotate(-90deg) translate(-70px, -70px);
+    opacity: 0;
     cursor: ns-resize;
     z-index: 5;
-    margin: 0;
-    padding: 0;
-    opacity: 0;
-    touch-action: none;
 }
 
-.cyl-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 46px;
-    height: 46px;
-    background: transparent;
-    cursor: grab;
-}
-
-.cyl-input::-moz-range-thumb {
-    width: 46px;
-    height: 46px;
-    background: transparent;
-    cursor: grab;
-    border: none;
-}
-
-/* ── Connecting Rod ──────────────────────────────────────────── */
+/* Conrod removed to fix overlap */
 .conrod {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: -1px;
+    display: none;
 }
 
-.conrod-shaft {
-    width: 3px;
-    height: 12px;
-    background: linear-gradient(90deg, #1e2228, #2a2f38, #1e2228);
-}
-
-.conrod-pin {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 38% 32%, #3e4450, #252930);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* ── Torque Ripple ───────────────────────────────────────────── */
-.torque-ripple {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 1px solid transparent;
-    margin-top: 0.2rem;
-    opacity: 0;
-    transform: scale(0.5);
-}
-
-.ripple-active {
-    animation: torqueOut 0.4s ease-out forwards;
-}
-
-@keyframes torqueOut {
-    0% {
-        opacity: 0.5;
-        transform: scale(0.6);
-    }
-
-    50% {
-        opacity: 0.3;
-        transform: scale(1.3);
-    }
-
-    100% {
-        opacity: 0;
-        transform: scale(1.5);
-    }
-}
-
-/* ── Stamped Labels — Embossed Metal ─────────────────────────── */
 .stamp-label {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.72rem;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    color: #bbb;
+    font-weight: 800;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
     text-transform: uppercase;
-    text-shadow:
-        0 1px 0 rgba(255, 255, 255, 0.03),
-        0 -1px 0 rgba(0, 0, 0, 0.6);
-    margin-top: 0.25rem;
-    white-space: nowrap;
+    margin-top: 1rem;
+    letter-spacing: 0.12em;
+    border-bottom: 3px solid var(--accent-primary);
+    padding: 0.2rem 0;
+    width: 80%;
+    text-align: center;
 }
 
-.stamp-accent {
-    width: 24px;
-    height: 2px;
-    border-radius: 1px;
-    opacity: 0.6;
-    margin: 4px auto 0;
-}
-
-
-/* ═══════════════════════════════════════════════════════════════
-   FILTERS — Frosted Machined Panels
-   ═══════════════════════════════════════════════════════════════ */
-
+/* Filters Row */
 .filters-row {
-    display: flex;
-    gap: 0.8rem;
-    margin-bottom: 1rem;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
 .filter-panel {
-    flex: 1;
-    min-width: 260px;
-    background: linear-gradient(160deg, #111214, #0c0d0f);
-    border-radius: 10px;
-    padding: 1.1rem 1.3rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 4px 6px rgba(0, 0, 0, 0.4),
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    background: var(--bg-card);
+    border: var(--border-main);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
 }
 
-/* ── LED Fuel Pills — Per-Fuel Glow Colors ───────────────────── */
 .led-pills {
     display: flex;
-    gap: 0.4rem;
     flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1rem;
 }
 
 .led-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
+    background: var(--bg-secondary);
+    border: var(--border-main);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 500;
-    padding: 0.4rem 0.85rem;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.03);
-    color: #666;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.8rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    transition: all var(--duration-fast);
+}
+
+.led-pill.led-on {
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
 }
 
 .led-dot {
     width: 6px;
     height: 6px;
-    border-radius: 50%;
-    background: #2a2f38;
+    background: var(--text-muted);
 }
 
-.led-pill:hover {
-    border-color: rgba(255, 255, 255, 0.12);
-    color: #888;
+.led-on .led-dot {
+    background: var(--accent-primary);
+    box-shadow: 0 0 5px var(--accent-primary);
 }
 
-/* Fuel-specific colors */
-.led-pill[data-fuel="petrol"].led-on {
-    --fc: #e8a020;
-    background: rgba(232, 160, 32, 0.1);
-    border-color: #e8a020;
-    color: #fff;
-    box-shadow: 0 0 12px rgba(232, 160, 32, 0.25), inset 0 0 8px rgba(232, 160, 32, 0.05);
+/* Boost Panel */
+.boost-hud {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
-.led-pill[data-fuel="petrol"].led-on .led-dot {
-    background: #e8a020;
-    box-shadow: 0 0 6px #e8a020;
+.boost-chip {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.75rem;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    padding: 2px 12px;
+    border: var(--border-light);
 }
 
-.led-pill[data-fuel="diesel"].led-on {
-    --fc: #4a9eff;
-    background: rgba(74, 158, 255, 0.1);
-    border-color: #4a9eff;
-    color: #fff;
-    box-shadow: 0 0 12px rgba(74, 158, 255, 0.25), inset 0 0 8px rgba(74, 158, 255, 0.05);
-}
-
-.led-pill[data-fuel="diesel"].led-on .led-dot {
-    background: #4a9eff;
-    box-shadow: 0 0 6px #4a9eff;
-}
-
-.led-pill[data-fuel="hybrid"].led-on {
-    --fc: #2ecc71;
-    background: rgba(46, 204, 113, 0.1);
-    border-color: #2ecc71;
-    color: #fff;
-    box-shadow: 0 0 12px rgba(46, 204, 113, 0.25), inset 0 0 8px rgba(46, 204, 113, 0.05);
-}
-
-.led-pill[data-fuel="hybrid"].led-on .led-dot {
-    background: #2ecc71;
-    box-shadow: 0 0 6px #2ecc71;
-}
-
-.led-pill[data-fuel="electric"].led-on {
-    --fc: #a855f7;
-    background: rgba(168, 85, 247, 0.1);
-    border-color: #a855f7;
-    color: #fff;
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.25), inset 0 0 8px rgba(168, 85, 247, 0.05);
-}
-
-.led-pill[data-fuel="electric"].led-on .led-dot {
-    background: #a855f7;
-    box-shadow: 0 0 6px #a855f7;
-}
-
-.led-pill[data-fuel="cng"].led-on {
-    --fc: #06b6d4;
-    background: rgba(6, 182, 212, 0.1);
-    border-color: #06b6d4;
-    color: #fff;
-    box-shadow: 0 0 12px rgba(6, 182, 212, 0.25), inset 0 0 8px rgba(6, 182, 212, 0.05);
-}
-
-.led-pill[data-fuel="cng"].led-on .led-dot {
-    background: #06b6d4;
-    box-shadow: 0 0 6px #06b6d4;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   BOOST GAUGE — Budget Range Slider
-   ═══════════════════════════════════════════════════════════════ */
-
-.boost-panel {
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    padding: 32px 36px;
-    background: linear-gradient(160deg, #111214, #0c0d0f);
-    border-radius: 10px;
+.boost-gauge {
+    height: 80px;
     position: relative;
-    overflow: hidden;
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        0 4px 6px rgba(0, 0, 0, 0.4),
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
 }
 
-/* Lit panel edge top border */
-.boost-panel::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.3), transparent);
-    z-index: 2;
-}
-
-/* Carbon fiber scanline texture */
-.boost-panel::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, transparent, transparent 1px,
-            rgba(255, 255, 255, 0.006) 1px, rgba(255, 255, 255, 0.006) 2px);
-    pointer-events: none;
+.boost-track {
+    height: 12px;
+    background: var(--bg-primary);
+    border: 2px solid var(--text-muted);
+    position: relative;
+    width: 100%;
     z-index: 1;
 }
 
-.boost-active {
-    border-color: rgba(210, 140, 30, 0.12) !important;
-    box-shadow:
-        0 0 0 1px rgba(210, 140, 30, 0.08),
-        0 4px 6px rgba(0, 0, 0, 0.4),
-        0 20px 60px rgba(0, 0, 0, 0.6),
-        inset 0 0 24px rgba(210, 140, 30, 0.03) !important;
+.boost-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-primary-glow);
 }
 
-/* Redline Alert Flash */
-.boost-redline {
-    animation: redlinePanelPulse 1.5s ease-out;
+.boost-scale {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    display: flex;
+    pointer-events: none;
 }
 
-@keyframes redlinePanelPulse {
-    0% {
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.3), inset 0 0 24px rgba(255, 0, 0, 0.1);
-        border-color: rgba(255, 0, 0, 0.2);
-    }
-
-    100% {
-        box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04), 0 4px 6px rgba(0, 0, 0, 0.4), 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-    }
+.boost-tick {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateX(-50%);
 }
 
-/* ── HUD Readout ────────────────────────────────────────────── */
+.boost-tick-line {
+    width: 1px;
+    height: 8px;
+    background: var(--text-muted);
+    margin-bottom: 4px;
+}
+
+.tick-major .boost-tick-line {
+    height: 12px;
+    background: var(--text-secondary);
+}
+
+.boost-tick-label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.tick-active .boost-tick-label {
+    color: var(--accent-primary);
+}
+
+.boost-input {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    background: transparent;
+    pointer-events: none;
+    -webkit-appearance: none;
+    appearance: none;
+    z-index: 20;
+    transform: translateY(-50%);
+}
+
+.boost-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 24px;
+    width: 10px;
+    background: var(--text-primary);
+    border: 2px solid var(--accent-primary);
+    cursor: pointer;
+    pointer-events: all;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 0;
+    margin-top: -2px;
+}
+
+.boost-input::-moz-range-thumb {
+    height: 24px;
+    width: 10px;
+    background: var(--text-primary);
+    border: 2px solid var(--accent-primary);
+    cursor: pointer;
+    pointer-events: all;
+    border-radius: 0;
+}
+
+/* ── Vertical Boost Meter ── */
 .boost-container {
     display: flex;
-    gap: 2rem;
+    gap: 2.5rem;
     align-items: center;
-    position: relative;
-    z-index: 3;
 }
 
 .boost-main {
     flex: 1;
 }
 
-.boost-hud {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.7rem;
-    margin-bottom: 1.5rem;
-}
-
-.boost-chip {
-    background: rgba(245, 158, 11, 0.08);
-    border: 1px solid rgba(245, 158, 11, 0.2);
-    border-radius: 6px;
-    padding: 6px 14px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 1.35rem;
-    /* Increased from 1.15rem */
-    font-weight: 700;
-    color: #f59e0b;
-    box-shadow: 0 0 12px rgba(245, 158, 11, 0.1);
-    letter-spacing: 0.04em;
-    min-width: 90px;
-    text-align: center;
-}
-
-.chip-redline {
-    border-color: rgba(255, 0, 0, 0.4);
-    color: #ff3333;
-    box-shadow: 0 0 16px rgba(255, 0, 0, 0.25);
-    background: rgba(255, 0, 0, 0.1);
-}
-
-.boost-sep {
-    color: #f59e0b;
-    font-size: 1.2rem;
-    opacity: 0.8;
-    animation: pulseArrow 2s infinite ease-in-out;
-}
-
-@keyframes pulseArrow {
-
-    0%,
-    100% {
-        opacity: 0.6;
-        text-shadow: none;
-    }
-
-    50% {
-        opacity: 1;
-        text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
-    }
-}
-
-/* ── Gauge Track — Thick Pressure Tube ───────────────────────── */
-.boost-gauge {
-    position: relative;
-    height: 60px;
-    margin-bottom: 0.5rem;
-}
-
-.boost-track {
-    position: absolute;
-    top: 10px;
-    left: 0;
-    right: 0;
-    height: 28px;
-    border-radius: 14px;
-    background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow:
-        inset 0 4px 12px rgba(0, 0, 0, 0.8),
-        inset 0 -2px 4px rgba(255, 255, 255, 0.03),
-        0 0 0 1px rgba(0, 0, 0, 0.5);
-    pointer-events: none;
-    overflow: hidden;
-}
-
-/* The Boost Fill Zone */
-.boost-fill {
-    position: absolute;
-    top: 0;
-    height: 100%;
-    background: linear-gradient(90deg,
-            #f59e0b 0%,
-            /* idle - amber */
-            #f97316 35%,
-            /* building - orange */
-            #ef4444 70%,
-            /* hot - red */
-            #dc2626 88%,
-            /* pushing - deep red */
-            #ff0000 100%
-            /* REDLINE */
-        );
-    box-shadow:
-        0 0 8px rgba(239, 68, 68, 0.6),
-        0 0 20px rgba(239, 68, 68, 0.3),
-        0 0 40px rgba(239, 68, 68, 0.1),
-        inset 0 1px 0 rgba(255, 200, 0, 0.3);
-    border-radius: 14px;
-    overflow: hidden;
-}
-
-/* Shimmer animation on the fill */
-.boost-fill::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg,
-            transparent 0%,
-            rgba(255, 255, 255, 0.4) 50%,
-            transparent 100%);
-    width: 60%;
-    animation: boostShimmer 2.5s infinite linear;
-}
-
-@keyframes boostShimmer {
-    0% {
-        transform: translateX(-100%) skewX(-20deg);
-    }
-
-    100% {
-        transform: translateX(400%) skewX(-20deg);
-    }
-}
-
-/* ── Tick Marks — Analog Gauge Scale ─────────────────────────── */
-.boost-scale {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    right: 0;
-    height: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-}
-
-.boost-tick {
-    position: absolute;
-    top: 0;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.tick-major .boost-tick-line {
-    width: 2px;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.25);
-}
-
-.tick-minor .boost-tick-line {
-    width: 1px;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.boost-tick-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 9px;
-    color: #555;
-    margin-top: 4px;
-    white-space: nowrap;
-    transition: color 0.2s ease, text-shadow 0.2s ease;
-}
-
-.tick-active .boost-tick-label {
-    color: #f59e0b;
-    text-shadow: 0 0 6px rgba(245, 158, 11, 0.4);
-}
-
-/* ── Thumb Handles — Redline Needles ─────────────────────────── */
-.boost-input {
-    -webkit-appearance: none;
-    appearance: none;
-    position: absolute;
-    top: 2px;
-    left: 0;
-    width: 100%;
-    height: 44px;
-    background: none;
-    pointer-events: none;
-    outline: none;
-    margin: 0;
-    padding: 0;
-    z-index: 5;
-    touch-action: none;
-}
-
-/* WebKit Thumb */
-.boost-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 28px;
-    height: 44px;
-    background: linear-gradient(170deg, #6b6b6b 0%, #3a3a3a 30%, #1f1f1f 60%, #2d2d2d 100%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    cursor: grab;
-    pointer-events: all;
-    box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.7),
-        0 0 0 1px rgba(0, 0, 0, 0.8),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.4);
-    position: relative;
-    /* Machined grip ridges */
-    background-image:
-        linear-gradient(transparent 40%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0.12) 42%, transparent 42%),
-        linear-gradient(transparent 50%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.12) 52%, transparent 52%),
-        linear-gradient(transparent 60%, rgba(255, 255, 255, 0.12) 60%, rgba(255, 255, 255, 0.12) 62%, transparent 62%);
-    background-size: 100% 100%;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-}
-
-/* Firefox Thumb */
-.boost-input::-moz-range-thumb {
-    width: 28px;
-    height: 44px;
-    background: linear-gradient(170deg, #6b6b6b 0%, #3a3a3a 30%, #1f1f1f 60%, #2d2d2d 100%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 6px;
-    cursor: grab;
-    pointer-events: all;
-    box-shadow:
-        0 4px 15px rgba(0, 0, 0, 0.7),
-        0 0 0 1px rgba(0, 0, 0, 0.8),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.4);
-    /* Machined grip ridges */
-    background-image:
-        linear-gradient(transparent 40%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0.12) 42%, transparent 42%),
-        linear-gradient(transparent 50%, rgba(255, 255, 255, 0.12) 50%, rgba(255, 255, 255, 0.12) 52%, transparent 52%),
-        linear-gradient(transparent 60%, rgba(255, 255, 255, 0.12) 60%, rgba(255, 255, 255, 0.12) 62%, transparent 62%);
-    background-size: 100% 100%;
-    transition: transform 150ms ease, box-shadow 150ms ease;
-}
-
-.boost-input::-webkit-slider-thumb:hover {
-    transform: scale(1.05);
-    box-shadow:
-        0 6px 20px rgba(0, 0, 0, 0.8),
-        0 0 0 1px rgba(0, 0, 0, 0.9),
-        inset 0 2px 2px rgba(255, 255, 255, 0.3),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.5);
-}
-
-.boost-input:active::-webkit-slider-thumb {
-    cursor: grabbing;
-    box-shadow:
-        0 0 15px rgba(245, 158, 11, 0.4),
-        0 4px 15px rgba(0, 0, 0, 0.7),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.boost-input::-webkit-slider-runnable-track {
-    height: 28px;
-    background: transparent;
-}
-
-.boost-input::-moz-range-track {
-    height: 28px;
-    background: transparent;
-}
-
-
-/* ── Vertical Boost Pressure Meter ───────────────────────────── */
 .boost-meter-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.4rem;
-    z-index: 3;
+    gap: 0.75rem;
+    padding-left: 2rem;
+    border-left: 1px solid var(--border-light);
 }
 
 .boost-meter-label {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 8px;
-    color: #666;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    writing-mode: vertical-lr;
+    transform: rotate(180deg);
     letter-spacing: 0.1em;
 }
 
 .boost-meter {
-    width: 6px;
-    height: 80px;
-    background: linear-gradient(to bottom, #1a1a1a, #0d0d0d);
-    border-radius: 3px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8);
+    height: 120px;
+    width: 10px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-light);
     position: relative;
     overflow: hidden;
 }
@@ -983,704 +473,330 @@
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 100%;
-    background: linear-gradient(to top, #f59e0b, #ef4444);
-    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
-    transition: height 0.2s ease-out;
-}
-
-/* ── REDLINE Indicator ───────────────────────────────────────── */
-.redline-alert {
-    position: absolute;
-    top: -15px;
     right: 0;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    color: #ff3333;
-    text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
-    animation: redlineFade 1.5s ease-out forwards;
+    background: var(--accent-primary);
+    box-shadow: 0 0 15px var(--accent-primary-glow);
+    transition: height 0.3s var(--ease-snap);
 }
 
-@keyframes redlineFade {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    70% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   ACTION ROW
-   ═══════════════════════════════════════════════════════════════ */
-
+/* Actions */
 .action-row {
     display: flex;
-    gap: 0.6rem;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.5rem;
-    flex-wrap: wrap;
+    gap: 3rem;
+    margin-top: 2rem;
 }
 
-/* ENGINE READY — Live system status chip */
 .engine-ready {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.52rem;
-    font-weight: 600;
-    letter-spacing: 0.15em;
-    color: #3aaf5c;
-    text-shadow: 0 0 6px rgba(58, 175, 92, 0.3);
-    padding: 0.3rem 0.6rem 0.3rem 1.1rem;
-    border: 1px solid rgba(58, 175, 92, 0.12);
-    border-radius: 20px;
-    background: rgba(58, 175, 92, 0.04);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 800;
+    color: var(--accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.9rem;
     position: relative;
+    padding-left: 1.5rem;
 }
 
-/* Pulsing green dot */
 .engine-ready::before {
     content: '';
     position: absolute;
-    left: 0.5rem;
+    left: 0;
     top: 50%;
     transform: translateY(-50%);
-    width: 5px;
-    height: 5px;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-primary);
+    box-shadow: 0 0 10px var(--accent-primary);
     border-radius: 50%;
-    background: #3aaf5c;
-    box-shadow: 0 0 4px #3aaf5c;
-    animation: readyDot 1.5s ease-in-out infinite;
 }
 
-@keyframes readyDot {
-
-    0%,
-    100% {
-        opacity: 0.5;
-        box-shadow: 0 0 4px #3aaf5c;
-    }
-
-    50% {
-        opacity: 1;
-        box-shadow: 0 0 8px #3aaf5c, 0 0 16px rgba(58, 175, 92, 0.3);
-    }
-}
-
-/* ── IGNITE Button — Red Glow Beast ──────────────────────────── */
 .ignition-btn {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    padding: 0.8rem 2.2rem;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-family: 'Teko', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    padding: 1rem 3.5rem;
     border: none;
-    border-radius: 6px;
     cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(180deg, #c03030 0%, #8a1e1e 100%);
-    color: #f0d0d0;
-    box-shadow:
-        0 0 20px rgba(220, 38, 38, 0.4),
-        0 0 60px rgba(220, 38, 38, 0.15),
-        0 3px 0 #601818,
-        0 4px 8px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    box-shadow: var(--shadow-hard);
+    transition: all var(--duration-fast) var(--ease-snap);
 }
 
 .ignition-btn:hover:not(:disabled) {
-    transform: scale(1.02);
-    box-shadow:
-        0 0 30px rgba(220, 38, 38, 0.55),
-        0 0 80px rgba(220, 38, 38, 0.2),
-        0 4px 0 #601818,
-        0 8px 16px rgba(0, 0, 0, 0.5),
-        inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    background: var(--text-primary);
+    color: var(--bg-primary);
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 var(--accent-primary);
 }
 
-.ignition-btn:active:not(:disabled) {
-    transform: scale(0.97);
-    box-shadow:
-        0 0 15px rgba(220, 38, 38, 0.3),
-        0 0 40px rgba(220, 38, 38, 0.1),
-        0 1px 0 #601818,
-        0 2px 4px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.ignition-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-/* Spark flash on ignition */
-.ignition-fire::after {
-    content: '';
-    position: absolute;
-    inset: -4px;
-    background: radial-gradient(circle at center,
-            rgba(255, 200, 100, 0.6) 0%,
-            rgba(255, 120, 40, 0.3) 40%,
-            transparent 70%);
-    border-radius: 10px;
-    animation: sparkFlash 0.35s ease-out forwards;
-}
-
-@keyframes sparkFlash {
-    0% {
-        opacity: 1;
-        transform: scale(0.85);
-    }
-
-    50% {
-        opacity: 0.7;
-        transform: scale(1.15);
-    }
-
-    100% {
-        opacity: 0;
-        transform: scale(1.4);
-    }
-}
-
-/* ── ECU RESET ───────────────────────────────────────────────── */
 .ecu-reset {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
+    background: transparent;
+    border: 1px solid var(--text-muted);
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    padding: 0.75rem 1.5rem;
     text-transform: uppercase;
-    padding: 0.65rem 1.3rem;
-    border: 1px solid #333;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, 0.02);
-    color: #484f58;
     cursor: pointer;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
+    transition: all var(--duration-fast);
 }
 
-.ecu-reset:hover:not(:disabled) {
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #6b7685;
+.ecu-reset:hover {
+    color: var(--text-primary);
+    border-color: var(--text-primary);
 }
 
-.ecu-reset:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-}
-
-.ecu-flicker {
-    animation: ecuFlick 0.5s ease-out;
-}
-
-@keyframes ecuFlick {
-    0% {
-        opacity: 1;
-    }
-
-    15% {
-        opacity: 0.15;
-    }
-
-    30% {
-        opacity: 0.9;
-    }
-
-    45% {
-        opacity: 0.2;
-    }
-
-    60% {
-        opacity: 1;
-    }
-
-    75% {
-        opacity: 0.4;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-/* ── Error ────────────────────────────────────────────────────── */
-.mach-error {
-    background: rgba(200, 50, 50, 0.06);
-    border: 1px solid rgba(200, 50, 50, 0.1);
-    border-radius: 5px;
-    padding: 0.7rem 1rem;
-    margin-bottom: 1.2rem;
-    color: #c04040;
-    font-family: 'SF Mono', monospace;
-    font-size: 0.75rem;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   RESULTS
-   ═══════════════════════════════════════════════════════════════ */
-
-.mach-results {
-    margin-top: 0.5rem;
-}
-
+/* Results List */
 .results-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
-/* ── Result Card — Same Panel Treatment ──────────────────────── */
 .res-card {
     display: flex;
-    background: linear-gradient(160deg, #111214, #0c0d0f);
-    border-radius: 6px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.035),
-        0 2px 4px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    background: var(--bg-card);
+    border: var(--border-main);
+    transition: all var(--duration-fast) var(--ease-snap);
 }
 
 .res-card:hover {
-    box-shadow:
-        0 0 0 1px rgba(255, 255, 255, 0.08),
-        0 4px 12px rgba(0, 0, 0, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    background: var(--bg-card-hover);
+    border-color: var(--text-primary);
+    transform: translateX(10px);
 }
 
 .res-rank {
+    width: 60px;
+    background: var(--bg-secondary);
+    border-right: var(--border-light);
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 40px;
-    background: rgba(255, 255, 255, 0.01);
-    border-right: 1px solid rgba(255, 255, 255, 0.025);
-}
-
-.res-rank span {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 1rem;
-    /* Increased from 0.85rem */
-    color: #2a2f38;
+    font-family: 'Teko', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent-primary);
 }
 
 .res-body {
+    padding: 1.5rem 2rem;
     flex: 1;
-    padding: 0.9rem 1.1rem;
 }
 
 .res-top {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .res-brand {
     font-family: 'Rajdhani', sans-serif;
-    font-size: 0.7rem;
-    /* Increased from 0.58rem */
-    font-weight: 600;
+    font-weight: 700;
+    color: var(--accent-primary);
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: #484f58;
+    font-size: 0.9rem;
 }
 
 .res-name {
+    font-family: 'Teko', sans-serif;
+    font-size: 2.25rem;
+    color: var(--text-primary);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.god-tier-badge {
+    background: #FFD700;
+    color: #000;
     font-family: 'Rajdhani', sans-serif;
-    font-size: 1.25rem;
-    /* Increased from 1.05rem */
-    font-weight: 700;
-    color: #c8cdd3;
-    margin: 0;
-    line-height: 1.2;
+    font-size: 0.85rem;
+    font-weight: 900;
+    padding: 0.2rem 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+    animation: gold-pulse 2s infinite;
+}
+
+@keyframes gold-pulse {
+    0% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    }
+
+    100% {
+        box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+    }
 }
 
 .res-tags {
+    margin-top: 0.5rem;
     display: flex;
-    gap: 0.3rem;
-    margin-top: 0.3rem;
-    flex-wrap: wrap;
-}
-
-.res-tags span {
-    font-family: 'SF Mono', monospace;
-    font-size: 0.52rem;
-    font-weight: 500;
-    padding: 0.12rem 0.35rem;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.025);
-    color: #484f58;
+    gap: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
 }
 
 .res-score {
-    display: flex;
-    align-items: baseline;
-    gap: 0.1rem;
-    flex-shrink: 0;
+    text-align: right;
 }
 
 .res-score-big {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 1.6rem;
-    /* Increased from 1.4rem */
-    color: #c8cdd3;
-    line-height: 1;
+    font-family: 'Teko', sans-serif;
+    font-size: 3rem;
+    color: var(--text-primary);
+    line-height: 0.8;
 }
 
 .res-score-sub {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.5rem;
-    color: #333a42;
-    font-weight: 500;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    color: var(--text-muted);
 }
 
-/* ── Score Bars ───────────────────────────────────────────────── */
 .res-bars {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 0.75rem;
-    margin-top: 0.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
 }
 
 .res-bar {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.4rem;
 }
 
 .res-bar-k {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 0.55rem;
-    /* Increased from 0.5rem */
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: #6b7685;
-    /* Lighter, readable grey */
-    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 800;
+    font-size: 0.65rem;
+    color: var(--text-muted);
 }
 
 .res-bar-track {
-    height: 5px;
-    /* Thicker track */
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 3px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    /* Subtle rim */
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.8);
-    overflow: hidden;
-    position: relative;
+    height: 4px;
+    background: var(--bg-primary);
 }
 
 .res-bar-fill {
     height: 100%;
-    border-radius: 2px;
-    min-width: 2px;
-    /* Glow is applied dynamically via inline style in JSX */
 }
 
 .res-bar-v {
-    font-family: 'SF Mono', monospace;
-    font-size: 0.75rem;
-    /* Increased from 0.65rem */
-    font-weight: 700;
-    color: #c8cdd3;
-    /* Bright visible text */
-    font-variant-numeric: tabular-nums;
-    margin-top: 0.1rem;
+    font-family: 'Teko', sans-serif;
+    font-size: 1rem;
+    color: var(--text-primary);
 }
 
-/* ── 1px Section Dividers ────────────────────────────────────── */
-.engine-block+.filters-row {
-    border-top: 1px solid rgba(255, 255, 255, 0.04);
-    padding-top: 1rem;
-}
+@keyframes redlineFlicker {
 
-/* ═══════════════════════════════════════════════════════════════
-   ENTRANCE ANIMATIONS
-   ═══════════════════════════════════════════════════════════════ */
-
-@keyframes machFadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(25px);
+    0%,
+    100% {
+        background: var(--accent-primary);
+        box-shadow: 0 0 10px var(--accent-primary);
     }
 
-    to {
+    50% {
+        background: #ff3333;
+        box-shadow: 0 0 25px #ff0000;
+    }
+}
+
+.boost-redline .boost-fill {
+    animation: redlineFlicker 0.1s infinite;
+}
+
+.ignition-fire {
+    animation: nitrousBoost 0.3s var(--ease-snap) infinite;
+    background: #00ccff !important;
+    box-shadow: 0 0 30px #00ccff !important;
+}
+
+@keyframes nitrousBoost {
+    0% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+        filter: brightness(1.5);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+.redline-alert {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff3333;
+    font-family: 'Teko', sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    animation: blink 0.2s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
         opacity: 1;
-        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 0.2;
     }
 }
 
-.mach-header {
-    animation: machFadeInUp 0.5s ease-out both;
-}
-
-.hud-profile {
-    animation: machFadeInUp 0.5s ease-out 0.1s both;
-}
-
-.engine-block {
-    animation: machFadeInUp 0.6s ease-out 0.15s both;
-}
-
-.filters-row {
-    animation: machFadeInUp 0.6s ease-out 0.25s both;
-}
-
-.action-row {
-    animation: machFadeInUp 0.5s ease-out 0.35s both;
-}
-
-.mach-results {
-    animation: machFadeInUp 0.6s ease-out 0.1s both;
-}
-
-.res-card {
-    animation: machFadeInUp 0.4s ease-out both;
-}
-
-/* Stagger result cards */
-.res-card:nth-child(1) {
-    animation-delay: 0.05s;
-}
-
-.res-card:nth-child(2) {
-    animation-delay: 0.1s;
-}
-
-.res-card:nth-child(3) {
-    animation-delay: 0.15s;
-}
-
-.res-card:nth-child(4) {
-    animation-delay: 0.2s;
-}
-
-.res-card:nth-child(5) {
-    animation-delay: 0.25s;
-}
-
-.res-card:nth-child(6) {
-    animation-delay: 0.3s;
-}
-
-.res-card:nth-child(7) {
-    animation-delay: 0.35s;
-}
-
-.res-card:nth-child(8) {
-    animation-delay: 0.4s;
-}
-
-.res-card:nth-child(9) {
-    animation-delay: 0.45s;
-}
-
-.res-card:nth-child(10) {
-    animation-delay: 0.5s;
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE — Tablet (≤700px)
-   ═══════════════════════════════════════════════════════════════ */
-
-@media (max-width: 700px) {
-    .mach-header h1 {
-        font-size: 1.2rem;
-    }
-
-    .pistons-row {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .piston-col {
-        max-width: 80px;
-    }
-
-    .odo-digit {
-        font-size: 1.3rem;
-        /* Increased from 1.1rem */
-    }
-
-    .cyl {
-        width: 38px;
-        height: 130px;
-    }
-
-    .cyl-input {
-        width: 130px;
-        height: 38px;
-        transform: rotate(-90deg);
-        transform-origin: 65px 65px;
-    }
-
-    .res-card {
-        flex-direction: column;
-    }
-
-    .res-rank {
-        min-width: unset;
-        padding: 0.35rem;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.025);
-    }
-
-    .res-bars {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
+@media (max-width: 900px) {
     .filters-row {
-        flex-direction: column;
-    }
-
-    .boost-tick-label {
-        font-size: 9px;
-    }
-
-    .boost-panel {
-        padding: 1.2rem;
-    }
-
-    .boost-chip {
-        font-size: 1.15rem;
-        /* Increased from 0.95rem */
-        min-width: 70px;
-        padding: 5px 10px;
-    }
-
-    .boost-meter-container {
-        display: none;
-    }
-
-    .action-row {
-        flex-direction: column;
-        gap: 0.6rem;
-    }
-
-    .ignition-btn,
-    .ecu-reset {
-        width: 100%;
-    }
-}
-
-/* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE — Small phones (≤480px)
-   ═══════════════════════════════════════════════════════════════ */
-
-@media (max-width: 480px) {
-    .mach-page {
-        padding: 1rem 0.5rem 3rem;
-    }
-
-    .mach-header h1 {
-        font-size: 1rem;
-    }
-
-    .mach-sub {
-        font-size: 0.75rem;
-    }
-
-    .engine-block {
-        padding: 1.2rem 0.6rem 1rem;
-    }
-
-    .piston-col {
-        max-width: 60px;
-        padding: 0.3rem 0.2rem;
-    }
-
-    .odo-digit {
-        font-size: 0.9rem;
-    }
-
-    .cyl {
-        width: 30px;
-        height: 100px;
-    }
-
-    .cyl-input {
-        width: 100px;
-        height: 30px;
-        transform: rotate(-90deg);
-        transform-origin: 50px 50px;
-    }
-
-    .stamp-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.5px;
-    }
-
-    .boost-hud {
-        gap: 0.3rem;
-        margin-bottom: 1rem;
-    }
-
-    .boost-chip {
-        font-size: 0.8rem;
-        min-width: auto;
-        padding: 4px 8px;
-    }
-
-    .boost-gauge {
-        height: 50px;
-    }
-
-    .boost-track {
-        height: 22px;
-        border-radius: 11px;
+        grid-template-columns: 1fr;
     }
 
     .res-bars {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+@media (max-width: 600px) {
+    .pistons-row {
+        flex-wrap: wrap;
+    }
+
+    .piston-col {
+        flex: none;
+        width: 30%;
+    }
 
     .res-top {
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 1rem;
     }
 
     .res-score {
-        border-left: none;
-        padding-left: 0;
-        border-top: 1px solid rgba(255, 255, 255, 0.03);
-        padding-top: 0.5rem;
+        text-align: left;
     }
 
-    .res-score-big {
-        font-size: 1.35rem;
-        /* Increased for mobile visibility */
-    }
-
-    .hud-badges {
-        gap: 0.25rem;
-    }
-
-    .hud-badge {
-        font-size: 0.55rem;
-        /* Increased slightly for mobile */
-        padding: 0.15rem 0.4rem;
+    .res-bars {
+        grid-template-columns: 1fr;
     }
 }

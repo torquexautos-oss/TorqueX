@@ -1,236 +1,316 @@
-/* ── CATALOG PAGE STYLES ── */
+/* ── MECHANICAL CATALOG ── */
 
 .catalog-page {
-    padding-top: calc(var(--header-height) + 2rem);
+    padding-top: calc(var(--header-height) + 5rem);
     padding-bottom: 4rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
     min-height: 100vh;
 }
 
 .catalog-header {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
+    border-left: 6px solid var(--accent-primary);
+    padding-left: 2rem;
 }
 
 .catalog-header h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin: 0 0 0.5rem 0;
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-family: 'Teko', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    background: none;
 }
 
 .catalog-subtitle {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-    margin: 0;
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.catalog.ed-header-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
 }
 
 .catalog-search {
     display: flex;
     align-items: center;
     background: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
-    padding: 0.5rem 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: all var(--duration-fast) var(--ease-smooth);
-}
-
-.catalog-search:focus-within {
-    border-color: rgba(var(--primary-rgb), 0.5);
-    box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.1);
+    border: var(--border-main);
+    border-left: 6px solid var(--accent-primary);
+    padding: 0.4rem 1.5rem;
+    margin: 2rem 0 3rem;
+    position: relative;
+    box-shadow: var(--shadow-sm);
 }
 
 .catalog-search .search-icon {
-    color: var(--text-tertiary);
+    color: var(--accent-primary);
     margin-right: 1rem;
 }
 
 .catalog-search input {
-    flex: 1;
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 1.1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    width: 100%;
+    padding: 1rem 0;
     outline: none;
-    padding: 0.75rem 0;
 }
 
-.catalog-search input::placeholder {
-    color: var(--text-tertiary);
+.ec-ai-summary::before {
+    content: "ENGINE BRIEF";
+    position: absolute;
+    top: -9px;
+    left: 8px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.65rem;
+    padding: 1px 6px;
+    font-weight: 800;
+}
+
+.catalog-search::after {
+    content: "DATABASE_SEARCH_v1.0";
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--bg-primary);
+    padding: 0 10px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+}
+
+.catalog-search:focus-within {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 15px rgba(230, 30, 37, 0.1);
+}
+
+.catalog-search input {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
 }
 
 .catalog-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
     align-items: center;
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: var(--radius-lg);
-}
-
-.filter-icon {
-    color: var(--text-tertiary);
-    margin-right: 0.5rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    background: var(--bg-card);
+    border: var(--border-main);
+    border-radius: 0;
 }
 
 .catalog-filters select {
     background: var(--bg-primary);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    padding: 0.6rem 2.5rem 0.6rem 1rem;
-    border-radius: var(--radius-md);
-    font-size: 0.95rem;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 16px;
-    transition: all 0.2s ease;
+    border: var(--border-strong);
+    color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-.catalog-filters select:hover,
-.catalog-filters select:focus {
-    border-color: rgba(255, 255, 255, 0.2);
-    color: var(--text-primary);
-    outline: none;
+.catalog-filters select:hover {
+    border-color: var(--accent-primary);
 }
 
 .reset-btn {
-    background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
-    border: 1px solid rgba(239, 68, 68, 0.2);
-    padding: 0.6rem 1.25rem;
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    margin-left: auto;
+    background: var(--bg-primary);
+    color: var(--accent-primary);
+    border: 1px solid var(--accent-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
 }
 
 .reset-btn:hover {
-    background: rgba(239, 68, 68, 0.15);
-    border-color: rgba(239, 68, 68, 0.3);
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
 }
 
-.car-grid {
+.terminal-error {
+    background: #0c0c0c;
+    border: 1px solid #333;
+    font-family: 'Courier New', Courier, monospace;
+    color: #0f0;
+    text-align: left;
+    margin: 4rem auto;
+    max-width: 600px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.terminal-header {
+    background: #1a1a1a;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.term-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.term-dot.red {
+    background: #ff5f56;
+}
+
+.term-dot.yellow {
+    background: #ffbd2e;
+}
+
+.term-dot.green {
+    background: #27c93f;
+}
+
+.terminal-header strong {
+    color: #888;
+    margin-left: 1rem;
+    font-size: 0.85rem;
+}
+
+.terminal-body {
+    padding: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.term-err-line {
+    color: #ff5f56;
+    font-weight: bold;
+    margin: 1rem 0;
+}
+
+.term-reset-btn {
+    background: transparent;
+    border: none;
+    color: #0f0;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+    padding: 0;
+    text-decoration: underline;
+}
+
+.term-reset-btn:hover {
+    color: #fff;
+    text-shadow: 0 0 5px #fff;
+}
+
+
+.catalog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1.5rem;
-}
-
-.load-more {
-    text-align: center;
-    margin-top: 3rem;
-    padding: 2rem 0;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 3rem;
 }
 
 .load-more button {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    padding: 0.75rem 2rem;
-    border-radius: 100px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    background: transparent;
+    border: 2px solid var(--accent-primary);
+    color: var(--text-primary);
+    padding: 1rem 3rem;
+    border-radius: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
 }
 
 .load-more button:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
+    background: var(--accent-primary);
+    transform: translate(-5px, -5px);
+    box-shadow: 5px 5px 0px var(--bg-primary);
 }
 
-.no-results {
-    text-align: center;
-    padding: 4rem 1rem;
-    background: var(--bg-secondary);
-    border-radius: var(--radius-lg);
-    border: 1px dashed rgba(255, 255, 255, 0.1);
+@media (max-width: 1024px) {
+    .catalog-page {
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+
+    .catalog-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+    }
 }
 
-.no-results p {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-}
-
-.loading-text {
-    text-align: center;
-    color: var(--text-tertiary);
-    font-size: 1.2rem;
-    margin-top: 4rem;
-}
-
-/* ── Responsive ──────────────────────────────────────────────── */
 @media (max-width: 768px) {
+    .catalog-page {
+        padding: calc(var(--header-height) + 2rem) 1rem 2rem;
+    }
+
+    .catalog-header {
+        padding-left: 1rem;
+        margin-bottom: 2rem;
+    }
+
     .catalog-header h1 {
-        font-size: 1.8rem;
+        font-size: 2.8rem;
     }
 
-    .catalog-filters {
-        gap: 0.6rem;
-        padding: 1rem;
-    }
-
-    .catalog-filters select {
-        font-size: 0.85rem;
-        padding: 0.5rem 2rem 0.5rem 0.75rem;
-        min-width: 0;
-        flex: 1 1 calc(50% - 0.3rem);
+    .catalog-subtitle {
+        font-size: 1rem;
     }
 
     .catalog-search {
-        padding: 0.4rem 1rem;
+        margin: 1.5rem 0;
+        padding: 0.2rem 1rem;
     }
 
     .catalog-search input {
-        font-size: 0.95rem;
+        font-size: 1.1rem;
     }
 
-    .car-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    .catalog-filters {
+        padding: 1.25rem;
         gap: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .catalog-filters select,
+    .reset-btn {
+        width: 100%;
+    }
+
+    .catalog-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
 
 @media (max-width: 480px) {
     .catalog-header h1 {
-        font-size: 1.8rem;
-    }
-
-    .catalog-subtitle {
-        font-size: 0.95rem;
-    }
-
-    .catalog-filters {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 1rem;
-        gap: 0.75rem;
-    }
-
-    .catalog-filters select {
-        width: 100%;
-        flex: 1 1 100%;
-        padding: 0.7rem 2.5rem 0.7rem 1rem;
-        font-size: 0.95rem;
-    }
-
-    .reset-btn {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 0.5rem;
-        text-align: center;
-    }
-
-    .car-grid {
-        grid-template-columns: 1fr;
-        gap: 1.2rem;
+        font-size: 2.2rem;
     }
 }

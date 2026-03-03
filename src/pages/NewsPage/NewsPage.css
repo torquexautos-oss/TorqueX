@@ -10,7 +10,7 @@
 
 .news-header h1 {
     font-size: 3rem;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 0.5rem;
     text-shadow: 0 0 20px rgba(102, 192, 244, 0.3);
 }
@@ -26,7 +26,7 @@
     background: var(--bg-panel);
     padding: 2rem;
     border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
     box-shadow: var(--shadow-subtle);
 }
 
@@ -85,7 +85,7 @@
 .generated-article h1 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    color: #fff;
+    color: var(--text-primary);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 0.5rem;
 }
@@ -120,7 +120,7 @@
 }
 
 .generated-article strong {
-    color: #fff;
+    color: var(--text-primary);
 }
 
 .generated-article a {

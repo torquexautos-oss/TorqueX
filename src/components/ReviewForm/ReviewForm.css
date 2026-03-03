@@ -212,7 +212,7 @@
 
 .rf-btn--submit {
     background: #2563eb;
-    color: #fff;
+    color: var(--text-primary);
     border-color: #2563eb;
 }
 
