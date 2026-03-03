@@ -547,19 +547,11 @@ export function scoreAllCars(weights) {
     });
 
     // ── Rank the pool ──────────────────────────────────────────
-    // Step 1: Sort primarily by final mathematical score
+    // Sort strictly by final mathematical score (Best match first)
     scored.sort((a, b) => b.finalScore - a.finalScore);
 
-    // Step 2: Slice top 10 results
-    const top10 = scored.slice(0, 10);
+    // Return top 50 strictly by score
+    const results = scored.slice(0, 50);
 
-    // Step 3: Within the top 10 subset, sort by descending price as requested
-    top10.sort((a, b) => b.price_min - a.price_min);
-
-    // Provide up to top 50 strictly by score for the rest of the list
-    const top50 = scored.slice(0, 50);
-    // Splice the newly price-sorted top 10 back in to maintain the overall array length
-    top50.splice(0, 10, ...top10);
-
-    return { results: top50, scoreMethod: 'v2' };
+    return { results, scoreMethod: 'v2' };
 }

@@ -374,6 +374,7 @@
     margin: 0;
     padding: 0;
     opacity: 0;
+    touch-action: none;
 }
 
 .cyl-input::-webkit-slider-thumb {
@@ -860,6 +861,7 @@
     margin: 0;
     padding: 0;
     z-index: 5;
+    touch-action: none;
 }
 
 /* WebKit Thumb */
