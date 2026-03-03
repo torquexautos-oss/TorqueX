@@ -26,6 +26,7 @@ export default function NewsArticlePage() {
 
     const [articleMeta, setArticleMeta] = useState(null);
     const [content, setContent] = useState('');
+    const [leadImage, setLeadImage] = useState(null);
     const [metaLoading, setMetaLoading] = useState(true);
     const [contentLoading, setContentLoading] = useState(true);
     const [error, setError] = useState('');
@@ -36,6 +37,7 @@ export default function NewsArticlePage() {
             setContentLoading(true);
             setError('');
             let metaUrl = '';
+            let metaData = null;
 
             try {
                 // 1. Fetch metadata from Firestore
@@ -46,9 +48,9 @@ export default function NewsArticlePage() {
                     throw new Error("Article not found in database.");
                 }
 
-                const meta = docSnap.data();
-                setArticleMeta(meta);
-                metaUrl = meta.url;
+                metaData = docSnap.data();
+                setArticleMeta(metaData);
+                metaUrl = metaData.url;
             } catch (err) {
                 console.error("Error loading article metadata:", err);
                 setError(err.message || 'Failed to load the article.');
@@ -72,6 +74,7 @@ export default function NewsArticlePage() {
 
                     if (res.ok && data.content && data.content.length > 50) {
                         setContent(data.content);
+                        setLeadImage(data.lead_image_url || metaData?.imageUrl || null);
                     } else {
                         // Fallback to description
                         setContent(
@@ -161,7 +164,6 @@ export default function NewsArticlePage() {
                     </a>
                 </header>
 
-                {/* Article Content */}
                 <div className="article-body">
                     {contentLoading ? (
                         <div className="content-skeleton slide-up">
@@ -169,10 +171,19 @@ export default function NewsArticlePage() {
                             <p style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>Extracting publisher content...</p>
                         </div>
                     ) : (
-                        <div
-                            className="article-html-content fade-in"
-                            dangerouslySetInnerHTML={{ __html: content }}
-                        />
+                        <>
+                            {leadImage && (
+                                <img
+                                    src={leadImage}
+                                    alt={articleMeta?.title || "Article Header"}
+                                    className="article-hero-image fade-in"
+                                />
+                            )}
+                            <div
+                                className="article-html-content fade-in"
+                                dangerouslySetInnerHTML={{ __html: content }}
+                            />
+                        </>
                     )}
                 </div>
 

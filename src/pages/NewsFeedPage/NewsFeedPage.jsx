@@ -169,7 +169,32 @@ const NewsFeedPage = () => {
     // Navigate to dedicated Article Page
     // Article metadata is already in Firestore from the batch write above
     const openReader = (article) => {
+<<<<<<< Updated upstream
         navigate(`/news/article/${article.id}`);
+=======
+        try {
+            const docRef = doc(db, 'feed_articles', article.id);
+            // Fire and forget the Firestore write to ensure UI keeps history
+            setDoc(docRef, {
+                id: article.id,
+                title: article.title,
+                url: article.url,
+                source: article.source,
+                sourceIcon: article.sourceIcon || null,
+                publishedAt: article.publishedAt,
+                description: article.description,
+                imageUrl: article.imageUrl || article.urlToImage || article.image || null,
+                createdAt: serverTimestamp()
+            }, { merge: true }).catch(err => {
+                console.error("Failed to save article route to Firestore:", err);
+            });
+
+            navigate(`/news/article/${article.id}`);
+        } catch (err) {
+            console.error("Critical routing error:", err);
+            navigate(`/news/article/${article.id}`);
+        }
+>>>>>>> Stashed changes
     };
 
     // Sub-components for rendering cards
