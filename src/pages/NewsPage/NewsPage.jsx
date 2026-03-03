@@ -155,7 +155,7 @@ export default function NewsPage() {
                             </div>
                         )}
 
-                        <CommentsView targetId={`news_${item.slug}`} type="news" />
+                        <CommentsView targetId={`news_${item.id}`} type="news" />
                     </article>
                 ))}
             </section>
