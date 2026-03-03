@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import {
     RefreshCw, Clock, Search, Globe, Zap, ChevronLeft, ChevronRight,
@@ -35,6 +35,7 @@ const persistArticlesToFirestore = async (articles) => {
                     imageUrl: article.imageUrl || null,
                     category: article.category || '',
                     channelId: article.channelId || '',
+                    fullContent: article.fullContent || '',
                     // Only set updatedAt; don't overwrite createdAt if doc already exists
                     updatedAt: new Date().toISOString(),
                 }, { merge: true });
@@ -71,6 +72,7 @@ const NewsFeedPage = () => {
     // Filtering & Pagination
     const [searchQuery, setSearchQuery] = useState('');
     const [activeCategory, setActiveCategory] = useState('all');
+    const [activeSource, setActiveSource] = useState(null);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalArticles, setTotalArticles] = useState(0);
@@ -138,6 +140,21 @@ const NewsFeedPage = () => {
     useEffect(() => {
         fetchFeed();
     }, [fetchFeed]);
+
+    // Reset source filter on category change
+    useEffect(() => {
+        setActiveSource(null);
+    }, [activeCategory, searchQuery]);
+
+    // Unique sources for the current feed
+    const availableSources = useMemo(() => {
+        const sources = articles.map(a => a.source).filter(Boolean);
+        return [...new Set(sources)].sort();
+    }, [articles]);
+
+    const filteredArticles = activeSource
+        ? articles.filter(a => a.source === activeSource)
+        : articles;
 
     // Auto-refresh every 5 minutes on page 1 only
     useEffect(() => {
@@ -286,10 +303,10 @@ const NewsFeedPage = () => {
 
 
     // Split articles into Magazine Layout (Hero, Trending, List)
-    const isFirstPageComplete = page === 1 && !searchQuery && activeCategory === 'all' && articles.length >= 5;
-    const heroArticle = isFirstPageComplete ? articles[0] : null;
-    const trendingArticles = isFirstPageComplete ? articles.slice(1, 5) : [];
-    const listArticles = isFirstPageComplete ? articles.slice(5) : articles;
+    const isFirstPageComplete = page === 1 && !searchQuery && activeCategory === 'all' && filteredArticles.length >= 5;
+    const heroArticle = isFirstPageComplete ? filteredArticles[0] : null;
+    const trendingArticles = isFirstPageComplete ? filteredArticles.slice(1, 5) : [];
+    const listArticles = isFirstPageComplete ? filteredArticles.slice(5) : filteredArticles;
 
     return (
         <main className="editorial-page container-wide">
@@ -369,63 +386,80 @@ const NewsFeedPage = () => {
                 </div>
             )}
 
-            {/* Magazine Layout */}
-            {!loading && articles.length > 0 && (
-                <div className="ed-content fade-in">
+            <div className="ed-content fade-in">
+                {/* Source Filters (Only if multiple sources exist) */}
+                {availableSources.length > 1 && (
+                    <div className="ed-source-filter-bar">
+                        <button
+                            className={`ed-source-chip ${!activeSource ? 'active' : ''}`}
+                            onClick={() => setActiveSource(null)}
+                        >
+                            All Sources
+                        </button>
+                        {availableSources.map(source => (
+                            <button
+                                key={source}
+                                className={`ed-source-chip ${activeSource === source ? 'active' : ''}`}
+                                onClick={() => setActiveSource(activeSource === source ? null : source)}
+                            >
+                                {source}
+                            </button>
+                        ))}
+                    </div>
+                )}
 
-                    {/* Top Section: Hero + Trending Grid */}
-                    {isFirstPageComplete && (
-                        <div className="ed-top-section section-fade-in delay-1">
-                            {/* Hero Article */}
-                            <div className="ed-hero-column">
-                                <div className="section-title"><Star size={18} /> Top Story</div>
-                                {renderArticleCard(heroArticle, 0, 'hero')}
-                            </div>
-
-                            {/* Trending Right Grid */}
-                            <div className="ed-trending-column">
-                                <div className="section-title"><TrendingUp size={18} /> Trending Now</div>
-                                <div className="ed-trending-grid">
-                                    {trendingArticles.map((article, idx) => renderArticleCard(article, idx + 1, 'trending'))}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Lower Section: Latest Feed List */}
-                    <div className="ed-latest-section section-fade-in delay-2">
-                        <div className="section-title-row">
-                            <div className="section-title"><Clock size={18} /> {isFirstPageComplete ? 'More Latest News' : 'Search Results'}</div>
-                            <div className="ed-feed-stats">
-                                <span>{totalArticles} articles available</span>
-                                {lastRefresh && <span>Updated {timeAgo(lastRefresh.toISOString())}</span>}
-                            </div>
+                {/* Top Section: Hero + Trending Grid */}
+                {isFirstPageComplete && (
+                    <div className="ed-top-section section-fade-in delay-1">
+                        {/* Hero Article */}
+                        <div className="ed-hero-column">
+                            <div className="section-title"><Star size={18} /> Top Story</div>
+                            {renderArticleCard(heroArticle, 0, 'hero')}
                         </div>
 
-                        <div className="ed-list-grid">
-                            {listArticles.map((article, idx) => renderArticleCard(article, isFirstPageComplete ? idx + 5 : idx, 'list'))}
+                        {/* Trending Right Grid */}
+                        <div className="ed-trending-column">
+                            <div className="section-title"><TrendingUp size={18} /> Trending Now</div>
+                            <div className="ed-trending-grid">
+                                {trendingArticles.map((article, idx) => renderArticleCard(article, idx + 1, 'trending'))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Lower Section: Latest Feed List */}
+                <div className="ed-latest-section section-fade-in delay-2">
+                    <div className="section-title-row">
+                        <div className="section-title"><Clock size={18} /> {isFirstPageComplete ? 'More Latest News' : 'Search Results'}</div>
+                        <div className="ed-feed-stats">
+                            <span>{totalArticles} articles available</span>
+                            {lastRefresh && <span>Updated {timeAgo(lastRefresh.toISOString())}</span>}
                         </div>
                     </div>
 
-                    {/* Pagination */}
-                    {totalPages > 1 && (
-                        <div className="ed-pagination section-fade-in delay-3">
-                            <button className="ed-page-btn" onClick={() => { setPage(1); window.scrollTo(0, 0); }} disabled={page <= 1}>
-                                First
-                            </button>
-                            <button className="ed-page-btn" onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo(0, 0); }} disabled={page <= 1}>
-                                <ChevronLeft size={18} /> Prev
-                            </button>
-                            <span className="ed-page-info">
-                                Page <span className="highlight-page">{page}</span> of {totalPages}
-                            </span>
-                            <button className="ed-page-btn" onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo(0, 0); }} disabled={page >= totalPages}>
-                                Next <ChevronRight size={18} />
-                            </button>
-                        </div>
-                    )}
+                    <div className="ed-list-grid">
+                        {listArticles.map((article, idx) => renderArticleCard(article, isFirstPageComplete ? idx + 5 : idx, 'list'))}
+                    </div>
                 </div>
-            )}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="ed-pagination section-fade-in delay-3">
+                        <button className="ed-page-btn" onClick={() => { setPage(1); window.scrollTo(0, 0); }} disabled={page <= 1}>
+                            First
+                        </button>
+                        <button className="ed-page-btn" onClick={() => { setPage(p => Math.max(1, p - 1)); window.scrollTo(0, 0); }} disabled={page <= 1}>
+                            <ChevronLeft size={18} /> Prev
+                        </button>
+                        <span className="ed-page-info">
+                            Page <span className="highlight-page">{page}</span> of {totalPages}
+                        </span>
+                        <button className="ed-page-btn" onClick={() => { setPage(p => Math.min(totalPages, p + 1)); window.scrollTo(0, 0); }} disabled={page >= totalPages}>
+                            Next <ChevronRight size={18} />
+                        </button>
+                    </div>
+                )}
+            </div>
         </main>
     );
 };

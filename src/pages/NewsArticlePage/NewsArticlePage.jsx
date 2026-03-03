@@ -61,11 +61,13 @@ export default function NewsArticlePage() {
             if (metaUrl) {
                 try {
                     const controller = new AbortController();
-                    // Timeout after 6 seconds to prevent hanging
-                    const timeoutId = setTimeout(() => controller.abort(), 6000);
+                    // Timeout after 12 seconds to allow slower or international publishers
+                    const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+                    const rssFallback = metaData?.fullContent ? `&rssContent=${encodeURIComponent(metaData.fullContent)}` : '';
 
                     // 2. Fetch full HTML content from local Node proxy parser asynchronously
-                    const res = await fetch(`${API_BASE_URL}/api/article-content?url=${encodeURIComponent(metaUrl)}`, {
+                    const res = await fetch(`${API_BASE_URL}/api/article-content?url=${encodeURIComponent(metaUrl)}${rssFallback}`, {
                         signal: controller.signal
                     });
 
@@ -78,7 +80,7 @@ export default function NewsArticlePage() {
                     } else {
                         // Fallback to description
                         setContent(
-                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${articleMeta?.description || ''}</p>
+                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${metaData?.description || ''}</p>
                              <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1.5rem; padding: 1rem; border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; background: rgba(239,68,68,0.05);">
                                <small><strong>Note:</strong> TorqueX could not extract the full text for this specific publisher format. Please read the original source for the complete story.</small>
                              </p>`
@@ -90,7 +92,7 @@ export default function NewsArticlePage() {
                     if (err.name === 'AbortError') {
                         // Timeout fallback
                         setContent(
-                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${articleMeta?.description || ''}</p>
+                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${metaData?.description || ''}</p>
                              <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1.5rem; padding: 1rem; border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; background: rgba(239,68,68,0.05);">
                                <small><strong>Timeout:</strong> The external publisher site took too long to respond. Read the full story on their site.</small>
                              </p>`

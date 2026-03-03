@@ -100,6 +100,7 @@ export const syncArticlesToFirestore = async () => {
                     imageUrl: article.imageUrl || null,
                     category: article.category || '',
                     channelId: article.channelId || '',
+                    fullContent: article.fullContent || '',
                     updatedAt: new Date().toISOString(),
                 }, { merge: true }); // merge: true preserves comment counts etc.
                 written++;

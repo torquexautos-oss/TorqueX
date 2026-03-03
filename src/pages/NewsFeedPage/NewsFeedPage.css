@@ -246,6 +246,50 @@
     color: #3b82f6;
 }
 
+/* Source Filter Bar */
+.ed-source-filter-bar {
+    display: flex;
+    gap: 0.6rem;
+    overflow-x: auto;
+    padding: 0.5rem 0 1.5rem;
+    margin-bottom: 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.ed-source-filter-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.ed-source-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.45rem 1.1rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ed-source-chip:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.ed-source-chip.active {
+    background: #fff;
+    border-color: #fff;
+    color: #000;
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+}
+
 /* ──────────────────────────────────────────────────────────────────
    LOADING & EMPTY STATES
    ────────────────────────────────────────────────────────────────── */
