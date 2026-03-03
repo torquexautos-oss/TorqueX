@@ -175,7 +175,6 @@ export default function NewsArticlePage() {
                     <div className="article-meta-tags">
                         {articleMeta.source && (
                             <span className="source-tag">
-                                {articleMeta.sourceIcon && <img src={articleMeta.sourceIcon} alt="" className="source-icon-small" />}
                                 {articleMeta.source}
                             </span>
                         )}
