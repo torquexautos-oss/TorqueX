@@ -6,10 +6,46 @@ import {
 } from 'lucide-react';
 
 import { useNavigate } from 'react-router-dom';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, writeBatch } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { API_BASE_URL } from '../../config';
 import './NewsFeedPage.css';
+
+// Batch-write article metadata to Firestore so every article gets
+// a stable, shareable URL immediately — not just after a click.
+const persistArticlesToFirestore = async (articles) => {
+    if (!articles || articles.length === 0) return;
+    try {
+        // Firestore batch writes are capped at 500 ops per batch
+        const BATCH_SIZE = 400;
+        for (let i = 0; i < articles.length; i += BATCH_SIZE) {
+            const batch = writeBatch(db);
+            const chunk = articles.slice(i, i + BATCH_SIZE);
+            for (const article of chunk) {
+                if (!article.id) continue;
+                const ref = doc(db, 'feed_articles', article.id);
+                batch.set(ref, {
+                    id: article.id,
+                    title: article.title || '',
+                    url: article.url || '',
+                    source: article.source || '',
+                    sourceIcon: article.sourceIcon || null,
+                    publishedAt: article.publishedAt || null,
+                    description: article.description || '',
+                    imageUrl: article.imageUrl || null,
+                    category: article.category || '',
+                    channelId: article.channelId || '',
+                    // Only set updatedAt; don't overwrite createdAt if doc already exists
+                    updatedAt: new Date().toISOString(),
+                }, { merge: true });
+            }
+            await batch.commit();
+        }
+    } catch (err) {
+        // Non-critical — if Firestore is unavailable or rules block it, we log quietly
+        console.warn('[Firestore] Could not persist articles:', err.code || err.message);
+    }
+};
 
 const timeAgo = (dateStr) => {
     if (!dateStr) return '';
@@ -81,10 +117,14 @@ const NewsFeedPage = () => {
             const data = await res.json();
 
             if (res.ok) {
-                setArticles(data.articles || []);
+                const fetchedArticles = data.articles || [];
+                setArticles(fetchedArticles);
                 setTotalPages(data.totalPages || 1);
                 setTotalArticles(data.total || 0);
                 setLastRefresh(new Date());
+                // Pre-write all articles to Firestore in the background
+                // so every article link is shareable immediately for all users
+                persistArticlesToFirestore(fetchedArticles);
             } else {
                 setError(data.error || 'Failed to fetch feed');
             }
@@ -126,29 +166,10 @@ const NewsFeedPage = () => {
         }
     };
 
-    // Go to dedicated Article Page
+    // Navigate to dedicated Article Page
+    // Article metadata is already in Firestore from the batch write above
     const openReader = (article) => {
-        try {
-            const docRef = doc(db, 'feed_articles', article.id);
-            // Fire and forget the Firestore write to ensure UI keeps history
-            setDoc(docRef, {
-                id: article.id,
-                title: article.title,
-                url: article.url,
-                source: article.source,
-                sourceIcon: article.sourceIcon || null,
-                publishedAt: article.publishedAt,
-                description: article.description,
-                createdAt: serverTimestamp()
-            }, { merge: true }).catch(err => {
-                console.error("Failed to save article route to Firestore:", err);
-            });
-
-            navigate(`/news/article/${article.id}`);
-        } catch (err) {
-            console.error("Critical routing error:", err);
-            navigate(`/news/article/${article.id}`);
-        }
+        navigate(`/news/article/${article.id}`);
     };
 
     // Sub-components for rendering cards

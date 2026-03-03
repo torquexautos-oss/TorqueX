@@ -13,7 +13,8 @@ import {
     doc,
     serverTimestamp,
     updateDoc,
-    arrayUnion
+    arrayUnion,
+    increment
 } from 'firebase/firestore';
 import { MessageSquare, Trash2, ShieldAlert, User, Reply, CornerDownRight } from 'lucide-react';
 import './CommentsView.css';
@@ -104,6 +105,7 @@ export default function CommentsView({ targetId, type }) {
         setError('');
 
         try {
+            // Write the comment document
             await addDoc(collection(db, 'comments'), {
                 targetId,
                 type,
@@ -112,13 +114,23 @@ export default function CommentsView({ targetId, type }) {
                 userEmail: currentUser.email,
                 text: text,
                 rating: type === 'car' ? rating : null,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
+                replies: [],
             });
+
+            // Increment the user's comment count in their profile doc (non-blocking)
+            const userRef = doc(db, 'users', currentUser.uid);
+            updateDoc(userRef, { commentCount: increment(1) }).catch(() => { });
+
             setNewComment('');
             setRating(0);
         } catch (err) {
-            console.error("Error posting comment:", err);
-            setError('Failed to post comment. Please try again.');
+            console.error('Error posting comment:', err);
+            if (err.code === 'permission-denied') {
+                setError('Comments are currently disabled. Please try again later.');
+            } else {
+                setError('Failed to post comment. Please try again.');
+            }
         } finally {
             setIsSubmitting(false);
         }
