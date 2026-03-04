@@ -2,6 +2,13 @@
    CAR DETAILS PAGE — "Mechanical Soul" Revamp
    ══════════════════════════════════════════════════════════════ */
 
+/* ── Page Layout ──────────────────────────────────────────────── */
+.details-page {
+    padding-top: calc(var(--header-height, 70px) + 2rem);
+    min-height: 100vh;
+    background: var(--bg-primary);
+}
+
 /* ── Hero Section ─────────────────────────────────────────────── */
 .hero {
     background: var(--bg-primary);

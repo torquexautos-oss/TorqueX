@@ -109,7 +109,7 @@ export default function CarDetailsPage() {
                 <div className="hero-inner container">
                     <div className="cd-hero-image-side">
                         <div className="image-blueprint-overlay">
-                            <span className="bp-coord bp-top">CHASSIS_SEC // {car.id.toUpperCase()}</span>
+                            <span className="bp-coord bp-top">CHASSIS_SEC // {String(car.id).toUpperCase()}</span>
                             <span className="bp-coord bp-right">AXLE_ALIGN // 0.00°</span>
                         </div>
                         <CarImage
@@ -164,8 +164,8 @@ export default function CarDetailsPage() {
                         ) : dynamicData ? (
                             <div className="dynamic-price-container">
                                 <p className="hero-price dynamic">
-                                    {dynamicData.onRoadPrice}
-                                    <span className="price-suffix"> On-Road ({dynamicData.city})</span>
+                                    {dynamicData.onRoadPrice || 'Calculating...'}
+                                    <span className="price-suffix"> On-Road ({dynamicData.city || 'Loading...'})</span>
                                 </p>
                                 <a href={dynamicData.sourceUrl} target="_blank" rel="noopener noreferrer" className="live-source-link">
                                     <span className="live-dot"></span> Live Scraped Data
