@@ -64,44 +64,70 @@ export default function NewsArticlePage() {
                     // Timeout after 12 seconds to allow slower or international publishers
                     const timeoutId = setTimeout(() => controller.abort(), 12000);
 
-                    const rssFallback = metaData?.fullContent ? `&rssContent=${encodeURIComponent(metaData.fullContent)}` : '';
-
                     // 2. Fetch full HTML content from local Node proxy parser asynchronously
-                    const res = await fetch(`${API_BASE_URL}/api/article-content?url=${encodeURIComponent(metaUrl)}${rssFallback}`, {
+                    // Using POST now to avoid "URL Too Long" errors for large RSS fallback content
+                    const res = await fetch(`${API_BASE_URL}/api/article-content`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            url: metaUrl,
+                            rssContent: metaData?.fullContent
+                        }),
                         signal: controller.signal
                     });
 
                     clearTimeout(timeoutId);
+
+                    // Handle non-OK status but still attempt to catch the JSON message
+                    if (!res.ok) {
+                        try {
+                            const errorData = await res.json();
+                            console.warn("Extraction failed:", errorData.error);
+                        } catch {
+                            console.warn("Extraction failed with status", res.status);
+                        }
+                        // Fallback logic
+                        if (metaData?.fullContent && metaData.fullContent.length > 250) {
+                            setContent(metaData.fullContent);
+                            setLeadImage(metaData.imageUrl);
+                            setContentLoading(false);
+                            return;
+                        }
+                        throw new Error("Failed to extract content");
+                    }
+
                     const data = await res.json();
 
-                    if (res.ok && data.content && data.content.length > 50) {
+                    if (data.content && data.content.length > 50) {
                         setContent(data.content);
                         setLeadImage(data.lead_image_url || metaData?.imageUrl || null);
                     } else {
-                        // Fallback to description
-                        setContent(
-                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${metaData?.description || ''}</p>
-                             <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1.5rem; padding: 1rem; border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; background: rgba(239,68,68,0.05);">
-                               <small><strong>Note:</strong> TorqueX could not extract the full text for this specific publisher format. Please read the original source for the complete story.</small>
-                             </p>`
-                        );
+                        // All attempts at extraction failed, using DB description as a last resort
+                        throw new Error("Empty content returned");
                     }
                 } catch (err) {
                     console.error("Error loading article content:", err);
 
-                    if (err.name === 'AbortError') {
+                    // If we have fullContent already, use it instead of showing an error
+                    if (metaData?.fullContent && metaData.fullContent.length > 100) {
+                        setContent(metaData.fullContent);
+                        setLeadImage(metaData.imageUrl);
+                    } else if (err.name === 'AbortError') {
                         // Timeout fallback
                         setContent(
-                            `<p class="reader-fallback-desc" style="color: #ccc; font-size: 1.1rem; line-height: 1.6;">${metaData?.description || ''}</p>
-                             <p class="reader-fallback-error" style="color: #ef4444; margin-top: 1.5rem; padding: 1rem; border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; background: rgba(239,68,68,0.05);">
-                               <small><strong>Timeout:</strong> The external publisher site took too long to respond. Read the full story on their site.</small>
-                             </p>`
+                            `<p class="reader-fallback-desc" style="color: var(--text-secondary); font-size: 1.25rem; line-height: 1.7; font-weight: 500;">${metaData?.description || ''}</p>
+                             <div class="reader-fallback-error" style="color: #ef4444; margin-top: 2rem; padding: 1.5rem; border: 1px solid rgba(239,68,68,0.2); background: rgba(239,68,68,0.03); font-family: 'Rajdhani', sans-serif;">
+                               <strong style="display: block; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Extraction Timeout</strong>
+                               <small style="font-size: 0.85rem; opacity: 0.8;">The external publisher site took too long to synchronize. Please check your network or read the original link.</small>
+                             </div>`
                         );
                     } else {
                         setContent(
-                            `<p class="reader-fallback-error" style="color: #ef4444; margin-top: 1rem;">
-                               <small>Failed to connect to extraction server. Please read original link.</small>
-                             </p>`
+                            `<p class="reader-fallback-desc" style="color: var(--text-secondary); font-size: 1.25rem; line-height: 1.7; font-weight: 500;">${metaData?.description || ''}</p>
+                             <div class="reader-fallback-error" style="color: #ef4444; margin-top: 2rem; padding: 1.5rem; border: 1px solid rgba(239,68,68,0.2); background: rgba(239,68,68,0.03); font-family: 'Rajdhani', sans-serif;">
+                               <strong style="display: block; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em;">Publisher Handshake Failed</strong>
+                               <small style="font-size: 0.85rem; opacity: 0.8;">Note: TorqueX could not bypass this publisher's specific security headers. Please access the original source via the button above for the full technical analysis.</small>
+                             </div>`
                         );
                     }
                 } finally {

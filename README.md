@@ -1,84 +1,101 @@
-<p align="center">
-  <img src="torquex-logo.png" alt="TorqueX Logo" width="350" />
-</p>
+<div align="center">
+  <img src="torquex-logo.png" alt="TorqueX Logo" width="400" />
+  <h1>TORQUEX // INTELLIGENT AUTOMOTIVE ADVISOR</h1>
+  <p><strong>A high-performance, AI-driven automotive intelligence platform tailored for the Indian car market.</strong></p>
 
-<h1 align="center">TorqueX: Intelligent Automotive Advisor</h1>
-
-<p align="center">
-  <strong>A next-generation car recommendation platform built for the Indian automotive market.</strong>
-</p>
-
----
-
-## 🏎️ Overview
-
-TorqueX is not a standard car search engine. Instead of relying purely on generic filters, TorqueX utilizes a **Custom Scoring Engine (V2)** that evaluates over 500+ cars across six distinct performance and lifestyle dimensions. 
-
-Wrapped in a sleek, hardware-accelerated **"Neon HUD"** interface inspired by supercar telemetry, TorqueX bridges the gap between raw automotive data and emotional driving decisions.
-
-## ✨ Key Features & Architecture
-
-### 1. The V2 Scoring Engine
-The backend doesn't just filter; it mathematically ranks vehicles based on user-weighted priorities (0-100 scales).
-- **Segment-Aware Percentile Ranking**: Cars are grouped by economic segments (Budget, Mid, Premium) to ensure fair comparisons. A heavy SUV isn't unfairly penalized for mileage against a lightweight hatchback.
-- **Weighted Harmonic Mean Aggregation**: Prevent cars with extreme "one-trick pony" stats (e.g., massive power but terrible safety) from dominating balanced, high-quality vehicles.
-- **Dynamic Brand Priors**: Incorporates real-world market sentiment by applying soft prior bumps to historically reliable or high-resale brands (e.g., Toyota, Skoda).
-- **Budget Maximization Sort**: The Top 10 results are isolated and sorted in descending order of price, guaranteeing the user sees the most premium options their budget allows without sacrificing core quality scores.
-
-### 2. Neon-Tech HUD Interface
-The frontend is built to feel alive.
-- **Telemetry-Style Adjusters**: Pure CSS/JS Boost sliders that glow from amber to redline as limits are pushed.
-- **Dynamic Stat Bars**: Engine scores are rendered via custom neon-glowing progress bars that inherit dynamic hex colors based on the dimension being measured.
-- **Hardware Accelerated**: Zero external UI libraries. Everything from the layout grid to the micro-animations is written in pure vanilla CSS3 for maximum rendering performance.
-
-### 3. Comprehensive Database
-- Native SQLite3 (`better-sqlite3`) database containing **500+ car models** and comprehensive JSON specs.
-- Contains nuanced vehicle data spanning MSRP prices, fuel types, body styles, localized Indian market resale values, and manufacturer service network ratings.
+  [![Project Status: Private](https://img.shields.io/badge/Status-Private_Proprietary-red?style=for-the-badge)](https://github.com/Ahuja2304/TorqueX)
+  [![Tech Stack: Fullstack JS](https://img.shields.io/badge/Tech_Stack-React_%7C_Node_%7C_SQLite-blue?style=for-the-badge)](https://github.com/Ahuja2304/TorqueX)
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## 🚫 PRIVATE & PROPRIETARY NOTICE
 
-- **Frontend Ecosystem**: React 18, Vite, Vanilla CSS3
-- **Backend Infrastructure**: Node.js, Express.js
-- **Database & Storage**: SQLite3 (`better-sqlite3`)
+**TorqueX is a private, commercial-grade project developed by our internal team.**
+
+> [!IMPORTANT]
+> **NO CONTRIBUTIONS OR COLLABORATIONS:** We are currently **not** accepting any external pull requests, issues, or collaborative inquiries. This repository exists as the primary codebase for our private operations and company. Any unsolicited contributions will be closed without review.
 
 ---
 
-## 🚀 Getting Started
+## 🏎️ THE MISSION
 
-### Prerequisites
-Ensure you have Node.js (v18 or higher) installed on your machine.
+TorqueX is more than a car search engine—it is an **Intelligent Advisory System**. We bridge the gap between cold specification sheets and the emotional reality of driving. By leveraging advanced heuristic scoring and real-time market data, TorqueX empowers users to find the vehicle that mathematically and emotionally fits their life.
 
-### Local Installation
+---
 
-1. **Clone the repository:**
+## 💎 CORE CAPABILITIES
+
+### 1. THE ODIN ENGINE (v2.4)
+Our proprietary scoring core evaluates every vehicle across 500+ data points:
+- **Heuristic Ranking**: Weighted multi-objective optimization based on user priorities (Performance, Safety, Utility, etc.).
+- **Segment-Aware Calibration**: Dynamic adjustment for entry-level budget cars vs. luxury flagships to maintain scoring parity.
+- **Harmonic Mean Aggregation**: Prevents "imbalanced" cars (high power but zero safety) from gaming the system.
+- **Market Sentiment Integration**: Real-world resale value algorithms and brand reliability priors.
+
+### 2. TELEMETRY-LEVEL INTERFACE
+A "Neon-HUD" UI that feels like sitting in a supercar cockpit:
+- **Mechanical HUD**: Hardware-accelerated CSS3 animations (60 FPS) with telemetry-inspired sliders.
+- **Dynamic Vibe Check**: Interactive filters that glow and respond with haptic-inspired visual feedback.
+- **Bespoke Components**: Zero external UI libraries. Everything is hand-crafted for maximum performance and zero bloat.
+
+### 3. AUTOMOTIVE DATA INTELLIGENCE
+- **Live Scraping Integration**: Real-time on-road price tracking across major Indian cities (Delhi, Mumbai, Bangalore).
+- **Comprehensive DB**: 500+ curated models with high-fidelity variant matrices and specification depth.
+
+---
+
+## 🛠️ TECHNICAL ARCHITECTURE
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | React 18 (Hooks/Context), Vite, Vanilla CSS3 (Custom Modules) |
+| **Backend** | Node.js, Express, RESTful API |
+| **Database** | SQLite3 via `better-sqlite3`, Firestore (Analytics/Sync) |
+| **Animations** | Framer Motion & CSS Mechanical Snap Transitions |
+
+---
+
+## 🚀 INTERNAL DEPLOYMENT
+
+### System Prerequisites
+- **Node.js**: v18.0.0 or higher
+- **NPM**: v9.0.0 or higher
+- **Memory**: 8GB RAM minimum for full-stack dev environment
+
+### Installation Protocol
+
+1. **Clone Internal Repo:**
    ```bash
    git clone https://github.com/Ahuja2304/TorqueX.git
-   cd "TorqueX"
+   cd TorqueX
    ```
 
-2. **Install project dependencies:**
+2. **Synchronize Dependencies:**
    ```bash
    npm install
    ```
 
-3. **Ignite the Engine (Start the dev server):**
+3. **Ignite Development Core:**
    ```bash
    npm run dev
    ```
-   *Note: This command concurrently boots both the Vite React frontend and the Express Node.js backend API.*
+   *This initializes the Vite HMR frontend and the Express API core concurrently.*
 
-4. **Access the Application:**
-   Open your browser and navigate to `http://localhost:5173`.
+4. **Access Local Node:**
+   `http://localhost:5173`
 
 ---
 
-## 🔀 Branch Strategy
+## 📊 REPOSITORY TOPOLOGY
 
-This repository actively utilizes three synchronized branches:
-- `main`: The stable production-ready release track.
-- `Mark-I`: The primary feature development and integration branch.
-- `sodium`: Experimental backend scaling and custom scoring logic sandbox.
+We maintain strict synchronization across three mission-critical branches:
+- **`main`**: Production-locked, stable release candidate.
+- **`Mark-I`**: Feature integration and QA sandbox.
+- **`sodium`**: Experimental R&D for next-gen scoring logic.
 
-*(Note: All three branches are strict-synced following the V2 Engine release to ensure codebase parity.)*
+---
+
+<div align="center">
+  <p>© 2026 TorqueX Automotive Intelligence. All Rights Reserved.</p>
+</div>

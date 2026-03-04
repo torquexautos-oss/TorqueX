@@ -149,102 +149,100 @@ const extractWithCheerio = (html) => {
 };
 
 // ── Full Article Extraction Endpoint ─────────────────────────────
-// GET /api/article-content?url=...&rssContent=<encoded>
-app.get('/api/article-content', async (req, res) => {
-    const targetUrl = req.query.url;
-    if (!targetUrl) return res.status(400).json({ error: 'URL is required' });
+// GET & POST support for /api/article-content
+app.all('/api/article-content', async (req, res) => {
+    try {
+        const targetUrl = req.query.url || req.body.url;
+        if (!targetUrl) return res.status(400).json({ error: 'URL is required' });
 
-    // Decode optional RSS content fallback sent from the client
-    const rssContent = req.query.rssContent
-        ? decodeURIComponent(req.query.rssContent)
-        : null;
+        // Decode optional RSS content fallback
+        const rssContent = req.body.rssContent || (req.query.rssContent ? decodeURIComponent(req.query.rssContent) : null);
 
-    // Check cache first to avoid hammering publishers
-    const cached = articleCache.get(targetUrl);
-    if (cached) return res.json(cached);
+        // Check cache first
+        const cached = articleCache.get(targetUrl);
+        if (cached) return res.json(cached);
 
-    let finalUrl = targetUrl;
-    let rawHtml = null;
+        let finalUrl = targetUrl;
+        let rawHtml = null;
 
-    // ── Layer 1: Resolve redirects (critical for Google News URLs) ──
-    console.log(`[Parser] Resolving: ${targetUrl}`);
-    const resolved = await resolveRedirect(targetUrl);
-    finalUrl = resolved.finalUrl || targetUrl;
-    rawHtml = typeof resolved.html === 'string' ? resolved.html : null;
-    console.log(`[Parser] Resolved to: ${finalUrl}`);
+        // ── Layer 1: Resolve redirects ──
+        console.log(`[Parser] Resolving: ${targetUrl}`);
+        const resolved = await resolveRedirect(targetUrl);
+        finalUrl = resolved.finalUrl || targetUrl;
+        rawHtml = typeof resolved.html === 'string' ? resolved.html : null;
+        console.log(`[Parser] Resolved to: ${finalUrl}`);
 
-    // ── Layer 2: Cheerio extraction ─────────────────────────────────
-    let content = null;
-    let leadImage = null;
+        // ── Layer 2: Cheerio extraction ──
+        let content = null;
+        let leadImage = null;
 
-    const isRedirectPage = (text, _url) => {
-        if (!text) return true;
-        const lower = text.toLowerCase();
-        // If it's very short and contains 'redirect' or the URL itself
-        if (text.length < 500 && (lower.includes('redirecting') || lower.includes('click here'))) return true;
-        return false;
-    };
+        const isRedirectPage = (text, _url) => {
+            if (!text) return true;
+            const lower = text.toLowerCase();
+            if (text.length < 500 && (lower.includes('redirecting') || lower.includes('click here'))) return true;
+            return false;
+        };
 
-    if (rawHtml) {
-        const extracted = extractWithCheerio(rawHtml);
-        if (extracted) {
-            const plainText = extracted.replace(/<[^>]+>/g, '');
-            if (!isRedirectPage(plainText, finalUrl)) {
-                content = extracted;
-                console.log(`[Parser] Cheerio extraction success (${content.length} chars)`);
-            } else {
-                console.log(`[Parser] Cheerio hit redirect page, skipping...`);
-            }
-        }
-    }
-
-    // ── Layer 3: Mercury Parser fallback ───────────────────────────
-    if (!content || content.length < 250) {
-        try {
-            console.log(`[Parser] Trying Mercury on: ${finalUrl}`);
-            const result = await parser.parse(finalUrl, {
-                contentType: 'html',
-                html: rawHtml || undefined,
-            });
-
-            if (result && result.content) {
-                const plainText = result.content.replace(/<[^>]+>/g, '');
-                if (!isRedirectPage(plainText, finalUrl) && plainText.length > 250) {
-                    content = result.content;
-                    leadImage = result.lead_image_url || null;
-                    console.log(`[Parser] Mercury success (${content.length} chars)`);
-                } else {
-                    console.log(`[Parser] Mercury hit redirect/short page, skipping...`);
+        if (rawHtml) {
+            const extracted = extractWithCheerio(rawHtml);
+            if (extracted) {
+                const plainText = extracted.replace(/<[^>]+>/g, '');
+                if (!isRedirectPage(plainText, finalUrl)) {
+                    content = extracted;
+                    console.log(`[Parser] Cheerio extraction success (${content.length} chars)`);
                 }
             }
-        } catch (err) {
-            console.warn(`[Parser] Mercury failed: ${err.message}`);
-        }
-    }
-
-    // ── Layer 4: RSS fullContent passthrough ────────────────────────
-    if ((!content || content.length < 250) && rssContent && rssContent.length > 100) {
-        console.log(`[Parser] Using RSS fullContent fallback (${rssContent.length} chars)`);
-        content = rssContent;
-    }
-
-    // ── Build response ──────────────────────────────────────────────
-    if (content && content.length > 50) {
-        // Extract lead image from rawHtml if not already found
-        if (!leadImage && rawHtml) {
-            const imgMatch = rawHtml.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i)
-                || rawHtml.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i);
-            if (imgMatch) leadImage = imgMatch[1];
         }
 
-        const payload = { content, lead_image_url: leadImage, resolved_url: finalUrl };
-        articleCache.set(targetUrl, payload);
-        return res.json(payload);
-    }
+        // ── Layer 3: Mercury Parser fallback ──
+        if (!content || content.length < 250) {
+            try {
+                console.log(`[Parser] Trying Mercury on: ${finalUrl}`);
+                const result = await parser.parse(finalUrl, {
+                    contentType: 'html',
+                    html: rawHtml || undefined,
+                });
 
-    // All layers failed
-    console.error(`[Parser] All extraction layers failed for: ${targetUrl}`);
-    res.status(500).json({ error: 'Could not extract article content from this publisher.' });
+                if (result && result.content) {
+                    const plainText = result.content.replace(/<[^>]+>/g, '');
+                    if (!isRedirectPage(plainText, finalUrl) && plainText.length > 250) {
+                        content = result.content;
+                        leadImage = result.lead_image_url || null;
+                        console.log(`[Parser] Mercury success (${content.length} chars)`);
+                    }
+                }
+            } catch (err) {
+                console.warn(`[Parser] Mercury failed: ${err.message}`);
+            }
+        }
+
+        // ── Layer 4: RSS fullContent passthrough ──
+        if ((!content || content.length < 250) && rssContent && rssContent.length > 100) {
+            console.log(`[Parser] Using RSS fullContent fallback (${rssContent.length} chars)`);
+            content = rssContent;
+        }
+
+        // ── Build response ──
+        if (content && content.length > 50) {
+            if (!leadImage && rawHtml) {
+                const imgMatch = rawHtml.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/i)
+                    || rawHtml.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:image"/i);
+                if (imgMatch) leadImage = imgMatch[1];
+            }
+
+            const payload = { content, lead_image_url: leadImage, resolved_url: finalUrl };
+            articleCache.set(targetUrl, payload);
+            return res.json(payload);
+        }
+
+        // All layers failed
+        console.error(`[Parser] All extraction layers failed for: ${targetUrl}`);
+        return res.status(500).json({ error: 'Could not extract article content from this publisher.' });
+
+    } catch (globalErr) {
+        console.error(`[Parser CRITICAL] Fatal extraction failure:`, globalErr);
+        return res.status(500).json({ error: 'Internal extraction server error.', message: globalErr.message });
+    }
 });
 
 // ── Live Feed Endpoint ─────────────────────────────────────────
