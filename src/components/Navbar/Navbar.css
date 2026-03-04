@@ -381,16 +381,20 @@
         right: -100%;
         width: 85%;
         max-width: 320px;
-        height: 100vh;
+        height: 100dvh;
+        /* Dynamic viewport height - accounts for mobile browser chrome */
         background: var(--bg-primary);
         border-left: 2px solid var(--accent-primary);
         flex-direction: column;
         align-items: flex-start;
-        padding: 5rem 1.5rem 2rem;
+        padding: 5rem 1.5rem env(safe-area-inset-bottom, 2rem);
+        padding-bottom: max(2rem, env(safe-area-inset-bottom));
         gap: 0.5rem;
         transition: right 0.3s var(--ease-snap);
         box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
         overflow-y: auto;
+        /* Ensure content is above phone navigation bars */
+        padding-right: max(1.5rem, env(safe-area-inset-right));
     }
 
     .navbar-links.mobile-open {

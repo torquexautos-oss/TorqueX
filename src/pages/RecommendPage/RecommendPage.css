@@ -9,6 +9,8 @@
     padding-left: 4rem;
     padding-right: 4rem;
     min-height: 100vh;
+    /* Prevent horizontal overflow from decorative elements */
+    overflow-x: hidden;
 }
 
 .mach-container {
@@ -233,6 +235,8 @@
     opacity: 0;
     cursor: ns-resize;
     z-index: 5;
+    touch-action: none;
+    /* Prevent page scroll when dragging sliders on mobile */
 }
 
 /* Conrod removed to fix overlap */
@@ -405,6 +409,8 @@
     appearance: none;
     z-index: 20;
     transform: translateY(-50%);
+    touch-action: none;
+    /* Prevent page scroll when dragging sliders on mobile */
 }
 
 .boost-input::-webkit-slider-thumb {
@@ -774,6 +780,74 @@
 
     .res-bars {
         grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .mach-page {
+        padding-top: calc(var(--header-height) + 2rem);
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 4rem;
+    }
+
+    .engine-block {
+        padding: 1.5rem;
+    }
+
+    .engine-block::before {
+        display: none;
+        /* Hide the decorative gradient corner on mobile */
+    }
+
+    .pistons-row {
+        /* Allow horizontal scroll within the engine block if all 6 cylinders don't fit */
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+    }
+
+    .boost-container {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .boost-meter-container {
+        flex-direction: row;
+        border-left: none;
+        border-top: 1px solid var(--border-light);
+        padding-left: 0;
+        padding-top: 1rem;
+    }
+
+    .boost-meter-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+    }
+
+    .boost-meter {
+        height: 10px;
+        width: 100%;
+    }
+
+    .boost-meter-fill {
+        bottom: auto;
+        left: 0;
+        top: 0;
+        width: var(--fill-w, 50%);
+        height: 100%;
+    }
+
+    .action-row {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: stretch;
+    }
+
+    .ignition-btn,
+    .ecu-reset {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
     }
 }
 

@@ -255,6 +255,111 @@
     animation: engine-idle 0.1s infinite;
 }
 
+/* ── HOME SEARCH WRAPPER (Dropdown Positioning) ── */
+.home-search-wrapper {
+    position: relative;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.search-suggestions-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--accent-primary);
+    z-index: 100;
+    box-shadow: var(--shadow-hard);
+    max-height: 320px;
+    overflow-y: auto;
+}
+
+.suggestions-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.suggestion-item {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-primary);
+    padding: 0.75rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.suggestion-item:hover {
+    background: var(--bg-card-hover);
+    padding-left: 1.5rem;
+}
+
+.suggestion-icon {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+.suggestion-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.suggestion-name {
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+}
+
+.suggestion-brand {
+    font-size: 0.75rem;
+    color: var(--accent-primary);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.suggestion-footer {
+    border-top: 1px solid var(--border-light);
+}
+
+.suggestion-footer button {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-transform: uppercase;
+}
+
+.suggestion-footer button:hover {
+    color: var(--accent-primary);
+}
+
+.suggestions-loading,
+.suggestions-empty {
+    padding: 1rem 1.25rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
 /* ── TOOL CARDS GRID ── */
 .editorial-tools {
     margin-top: -3rem;
@@ -445,6 +550,12 @@
         margin-top: 0;
     }
 
+    /* Hide absolute-positioned technical decorations that overlap content */
+    .hero-technical-callout,
+    .hero-top-ruler {
+        display: none;
+    }
+
     .editorial-headline {
         font-size: 2.8rem;
     }
@@ -488,7 +599,8 @@
     }
 
     .editorial-tools {
-        margin-top: -1.5rem;
+        margin-top: 1rem;
+        /* Was -1.5rem, causing overlap on mobile */
         margin-bottom: 4rem;
     }
 
