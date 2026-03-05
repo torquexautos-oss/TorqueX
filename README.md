@@ -1,10 +1,10 @@
 <div align="center">
-  <img src="logo.png" alt="TorqueX Logo" width="200" />
+  <img src="logo.png" alt="TorqueX Logo" width="100" />
   <h1>TORQUEX // INTELLIGENT AUTOMOTIVE ADVISOR</h1>
   <p><strong>A high-performance, AI-driven automotive intelligence platform tailored for the Indian car market.</strong></p>
 
-  [![Project Status: Private](https://img.shields.io/badge/Status-Private_Proprietary-red?style=for-the-badge)](https://github.com/Ahuja2304/TorqueX)
-  [![Tech Stack: Fullstack JS](https://img.shields.io/badge/Tech_Stack-React_%7C_Node_%7C_SQLite-blue?style=for-the-badge)](https://github.com/Ahuja2304/TorqueX)
+  [![Project Status: Private](https://img.shields.io/badge/Status-Private_Proprietary-red?style=for-the-badge)](https://github.com/torquexautos-oss/TorqueX)
+  [![Tech Stack: Fullstack JS](https://img.shields.io/badge/Tech_Stack-React_%7C_Node_%7C_SQLite-blue?style=for-the-badge)](https://github.com/torquexautos-oss/TorqueX)
 </div>
 
 ---
@@ -67,7 +67,7 @@ A "Neon-HUD" UI that feels like sitting in a supercar cockpit:
 
 1. **Clone Internal Repo:**
    ```bash
-   git clone https://github.com/Ahuja2304/TorqueX.git
+   git clone https://github.com/torquexautos-oss/TorqueX.git
    cd TorqueX
    ```
 

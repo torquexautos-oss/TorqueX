@@ -43,16 +43,30 @@
     border-bottom: var(--border-strong);
 }
 
+.footer-logo-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1.5rem;
+}
+
+.footer-logo-img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 12px rgba(230, 30, 37, 0.4));
+}
+
 .footer-logo {
     font-family: 'Teko', sans-serif;
-    font-size: 3rem;
+    font-size: 2.8rem;
     font-weight: 600;
     color: var(--text-primary);
     letter-spacing: 0.05em;
     line-height: 1;
     text-transform: uppercase;
     display: block;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .footer-logo span {

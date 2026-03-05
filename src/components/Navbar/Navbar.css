@@ -29,14 +29,21 @@
 /* ── Logo ──────────────────────────────────── */
 .navbar-logo {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     text-decoration: none;
-    gap: 2px;
+    gap: 10px;
+}
+
+.logo-img {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 8px rgba(230, 30, 37, 0.4));
 }
 
 .logo-torque {
     font-family: 'Teko', sans-serif;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--text-primary);
     letter-spacing: 0.04em;
@@ -45,10 +52,11 @@
 
 .logo-x {
     font-family: 'Teko', sans-serif;
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--accent-primary);
     line-height: 1;
+    letter-spacing: 0.04em;
 }
 
 /* ── Links ──────────────────────────────────── */

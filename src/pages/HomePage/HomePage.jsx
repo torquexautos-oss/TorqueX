@@ -126,7 +126,7 @@ export default function HomePage() {
                             Drive into the <span className="hero-highlight">Future.</span>
                         </h1>
                         <p className="hero-description">
-                            Expert reviews, real-world data, and the most comprehensive car catalog in India—all powered by TorqueX intelligence.
+                            Expert reviews, real-world data, and the most comprehensive car catalog in India—all powered by TorqueX Autos intelligence.
                         </p>
                     </div>
 

@@ -27,7 +27,7 @@ function GlobalAuthModal() {
 export default function App() {
   useEffect(() => {
     console.log(
-      "%c 🏎️ TorqueX System Status: FULL THROTTLE ",
+      "%c 🏎️ TorqueX Autos System Status: FULL THROTTLE ",
       "background: #e74c3c; color: white; font-weight: bold; border-radius: 4px; padding: 4px 8px;"
     );
     console.log(

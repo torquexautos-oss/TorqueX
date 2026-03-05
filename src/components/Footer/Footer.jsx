@@ -33,8 +33,11 @@ export default function Footer() {
         <footer className="footer">
             <div className="footer-inner container">
                 <div className="footer-brand">
-                    <span className="footer-logo">TORQUE<span>X</span></span>
-                    <p className="footer-tagline">India's premium automotive intelligence platform. Real specs, honest reviews, AI-powered insights.</p>
+                    <div className="footer-logo-wrapper">
+                        <img src="/logo.png" alt="TorqueX Logo" className="footer-logo-img" />
+                        <span className="footer-logo">TORQUEX<span>AUTOS</span></span>
+                    </div>
+                    <p className="footer-tagline">India's premium automotive intelligence platform. Expert reviews, real-world data, and technical excellence.</p>
                     <div className="footer-system-status">
                         <div className="status-item">
                             <span className="dot pulse-green"></span>
