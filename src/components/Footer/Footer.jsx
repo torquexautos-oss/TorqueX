@@ -71,7 +71,7 @@ export default function Footer() {
             <div className="footer-bottom container">
                 <div className="footer-meta">
                     <div className="footer-branding-info">
-                        <p>&copy; {new Date().getFullYear()} TorqueX.</p>
+                        <p>&copy; {new Date().getFullYear()} TorqueX Autos.</p>
                         <p className="footer-signature">Made with ❤️ by Pranav Ahuja (~ Optimus Prime) & Saket Jindal (~ sodiumcyanide)</p>
                     </div>
                     <ChassisTracker />

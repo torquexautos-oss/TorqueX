@@ -144,7 +144,7 @@ const NewsFeedPage = () => {
                 setError(data.error || 'Failed to fetch feed');
             }
         } catch {
-            setError('Lost connection to the TorqueX feed.');
+            setError('Lost connection to the TorqueX Autos feed.');
         } finally {
             setLoading(false);
         }
@@ -323,7 +323,7 @@ const NewsFeedPage = () => {
                         <div className="radar-sweep"></div>
                         <span className="live-dot" /> SIGNAL INTERCEPT
                     </div>
-                    <h1>TorqueX <span className="gradient-text">Media</span></h1>
+                    <h1>TorqueX Autos <span className="gradient-text">Media</span></h1>
                     <p className="ed-subtitle">Curated live feeds from premium automotive publishers, supercharged with AI.</p>
                 </div>
 
