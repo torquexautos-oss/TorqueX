@@ -535,6 +535,29 @@
     font-size: 0.8rem;
 }
 
+.verification-notice {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.btn-text {
+    background: transparent;
+    border: none;
+    color: var(--accent-primary);
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 800;
+}
+
 .danger-zone {
     border-color: rgba(239, 68, 68, 0.2);
 }
@@ -577,6 +600,17 @@
 .btn-danger-outline:hover {
     background: rgba(239, 68, 68, 0.1);
     border-color: #ef4444;
+}
+
+.danger-confirm-wrap {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.danger-confirm-wrap .glass-input {
+    flex: 1;
 }
 
 /* Responsiveness */

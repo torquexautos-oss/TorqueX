@@ -17,6 +17,8 @@ import ProfilePage from './pages/ProfilePage/ProfilePage';
 import CatalogPage from './pages/CatalogPage/CatalogPage';
 import AuthModal from './pages/Auth/AuthModal';
 import NewsArticlePage from './pages/NewsArticlePage/NewsArticlePage';
+import AnalyticsTracker from './components/AnalyticsTracker/AnalyticsTracker';
+import AdminConsole from './pages/AdminConsole/AdminConsole';
 import FloatingCompareBar from './components/FloatingCompareBar/FloatingCompareBar';
 
 function GlobalAuthModal() {
@@ -60,6 +62,7 @@ export default function App() {
         <BrowserRouter>
           <CompareProvider>
             <Navbar />
+            <AnalyticsTracker />
             <ScrollRestoration />
             <PageTransition>
               <Routes>
@@ -72,6 +75,7 @@ export default function App() {
                 <Route path="/news/article/:id" element={<NewsArticlePage />} />
                 <Route path="/recommend" element={<RecommendPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/admin" element={<AdminConsole />} />
               </Routes>
             </PageTransition>
             <GlobalAuthModal />

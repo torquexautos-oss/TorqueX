@@ -136,6 +136,12 @@ export default function Navbar() {
                                         <User size={16} />
                                         My Profile
                                     </Link>
+                                    {isSuperUser && (
+                                        <Link to="/admin" className="nav-dropdown-item admin-pulse-link" onClick={() => setIsMenuOpen(false)}>
+                                            <Layers size={16} />
+                                            Dev Console
+                                        </Link>
+                                    )}
                                     <button onClick={handleLogout} className="nav-dropdown-item text-red">
                                         <LogOut size={16} />
                                         Sign Out

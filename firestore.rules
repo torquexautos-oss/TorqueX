@@ -21,6 +21,15 @@ service cloud.firestore {
       allow read: if true;
       allow create: if isOwner(userId);
       allow update: if isOwner(userId) || isSuperAdmin();
+      allow delete: if isOwner(userId) || isSuperAdmin();
+    }
+
+    // ── Analytics & Traffic ────────────────────────────────────────
+    // Anyone can create entries (automatic tracking).
+    // Only superadmins can read/manage logs.
+    match /analytics_traffic/{logId} {
+      allow create: if true;
+      allow read: if isSuperAdmin();
       allow delete: if isSuperAdmin();
     }
 

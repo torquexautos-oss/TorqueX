@@ -8,7 +8,7 @@ import { User, MessageSquare, Clock, ArrowRight, ShieldAlert, LogOut, Settings, 
 import './ProfilePage.css';
 
 export default function ProfilePage() {
-    const { currentUser, isSuperUser, logout } = useAuth();
+    const { currentUser, isSuperUser, logout, changeEmail, deleteAccount, sendVerification } = useAuth();
     const navigate = useNavigate();
     const [userComments, setUserComments] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -18,6 +18,18 @@ export default function ProfilePage() {
     const [isUpdatingName, setIsUpdatingName] = useState(false);
     const [nameSuccess, setNameSuccess] = useState('');
     const [nameError, setNameError] = useState('');
+
+    const [newEmail, setNewEmail] = useState(currentUser?.email || '');
+    const [emailPassword, setEmailPassword] = useState('');
+    const [isUpdatingEmail, setIsUpdatingEmail] = useState(false);
+    const [emailSuccess, setEmailSuccess] = useState('');
+    const [emailError, setEmailError] = useState('');
+
+    const [delPassword, setDelPassword] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [delError, setDelError] = useState('');
+
+    const [verifyMessage, setVerifyMessage] = useState('');
 
     useEffect(() => {
         if (!currentUser && !loading) {
@@ -71,12 +83,63 @@ export default function ProfilePage() {
             await updateProfile(currentUser, {
                 displayName: newName.trim()
             });
-            setNameSuccess('Profile name updated successfully! Refresh to see changes globally.');
+            setNameSuccess('Profile name updated successfully!');
         } catch (err) {
             console.error("Error updating profile:", err);
-            setNameError('Failed to update name. Please try again.');
+            setNameError('Failed to update name.');
         } finally {
             setIsUpdatingName(false);
+        }
+    };
+
+    const handleUpdateEmail = async () => {
+        if (!newEmail.trim() || newEmail.trim() === currentUser.email) return;
+        if (!emailPassword) {
+            setEmailError('Current password is required to change email.');
+            return;
+        }
+
+        setIsUpdatingEmail(true);
+        setEmailSuccess('');
+        setEmailError('');
+
+        try {
+            await changeEmail(newEmail.trim(), emailPassword);
+            setEmailSuccess('Email updated successfully!');
+            setEmailPassword('');
+        } catch (err) {
+            setEmailError(err.message.replace('Firebase:', '').trim());
+        } finally {
+            setIsUpdatingEmail(false);
+        }
+    };
+
+    const handleDeleteAccount = async () => {
+        if (!delPassword) {
+            setDelError('Password is required to delete account.');
+            return;
+        }
+        if (!window.confirm('WARNING: THIS ACTION IS IRREVERSIBLE. Are you sure you want to permanently delete your TorqueX account and all associated data?')) return;
+
+        setIsDeleting(true);
+        setDelError('');
+
+        try {
+            await deleteAccount(delPassword);
+            navigate('/');
+        } catch (err) {
+            setDelError(err.message.replace('Firebase:', '').trim());
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
+    const handleResendVerification = async () => {
+        try {
+            await sendVerification();
+            setVerifyMessage('Verification email sent! Check your inbox.');
+        } catch (err) {
+            setVerifyMessage('Error sending verification. Try later.');
         }
     };
 
@@ -284,7 +347,41 @@ export default function ProfilePage() {
                                 </div>
                                 <div className="settings-field">
                                     <label>Email Address</label>
-                                    <input type="email" value={currentUser.email} disabled className="glass-input locked" />
+                                    {!currentUser.emailVerified && (
+                                        <div className="verification-notice">
+                                            <span style={{ color: '#ef4444' }}>Email Not Verified</span>
+                                            <button onClick={handleResendVerification} className="btn-text">Resend Email</button>
+                                            {verifyMessage && <small className="d-block">{verifyMessage}</small>}
+                                        </div>
+                                    )}
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                                        <input
+                                            type="email"
+                                            value={newEmail}
+                                            onChange={(e) => setNewEmail(e.target.value)}
+                                            className="glass-input"
+                                            placeholder="Enter new email address"
+                                        />
+                                        <div style={{ display: 'flex', gap: '10px' }}>
+                                            <input
+                                                type="password"
+                                                value={emailPassword}
+                                                onChange={(e) => setEmailPassword(e.target.value)}
+                                                className="glass-input"
+                                                placeholder="Confirm current password"
+                                                style={{ flex: 1 }}
+                                            />
+                                            <button
+                                                className="btn btn-primary"
+                                                onClick={handleUpdateEmail}
+                                                disabled={isUpdatingEmail || newEmail.trim() === currentUser.email || !newEmail.trim()}
+                                            >
+                                                {isUpdatingEmail ? 'Updating...' : 'Update Email'}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {emailSuccess && <small style={{ color: '#22c55e', display: 'block', marginTop: '5px' }}>{emailSuccess}</small>}
+                                    {emailError && <small style={{ color: '#ef4444', display: 'block', marginTop: '5px' }}>{emailError}</small>}
                                 </div>
                             </div>
 
@@ -292,10 +389,34 @@ export default function ProfilePage() {
                                 <h3>Danger Zone</h3>
                                 <div className="danger-action">
                                     <div>
-                                        <h4>Log Out of All Devices</h4>
-                                        <p>Securely end all active sessions.</p>
+                                        <h4>Delete Account</h4>
+                                        <p>Permanently remove your account and all data. This cannot be undone.</p>
                                     </div>
-                                    <button className="btn-danger-outline" onClick={handleSignOut}>Sign Out</button>
+                                    <div className="danger-confirm-wrap">
+                                        <input
+                                            type="password"
+                                            value={delPassword}
+                                            onChange={(e) => setDelPassword(e.target.value)}
+                                            className="glass-input"
+                                            placeholder="Verify password to delete"
+                                        />
+                                        <button
+                                            className="btn-danger-outline"
+                                            onClick={handleDeleteAccount}
+                                            disabled={isDeleting || !delPassword}
+                                        >
+                                            {isDeleting ? 'Deleting...' : 'Delete Permanently'}
+                                        </button>
+                                    </div>
+                                </div>
+                                {delError && <small style={{ color: '#ef4444', display: 'block', marginTop: '10px' }}>{delError}</small>}
+
+                                <div className="danger-action" style={{ marginTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '2rem' }}>
+                                    <div>
+                                        <h4>Session Management</h4>
+                                        <p>Log out of the current device.</p>
+                                    </div>
+                                    <button className="btn-outline" onClick={handleSignOut}>Log Out</button>
                                 </div>
                             </div>
                         </div>

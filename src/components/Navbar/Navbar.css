@@ -363,6 +363,17 @@
     background: rgba(230, 30, 37, 0.05);
 }
 
+.nav-dropdown-item.admin-pulse-link {
+    color: var(--accent-primary);
+    background: rgba(230, 30, 37, 0.05);
+    border-left: 2px solid var(--accent-primary);
+    border-radius: 0;
+}
+
+.nav-dropdown-item.admin-pulse-link:hover {
+    background: rgba(230, 30, 37, 0.1);
+}
+
 .mobile-menu-btn {
     display: none;
     background: none;

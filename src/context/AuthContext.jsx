@@ -7,7 +7,13 @@ import {
     onAuthStateChanged,
     updateProfile,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    sendEmailVerification,
+    sendPasswordResetEmail,
+    updateEmail as firebaseUpdateEmail,
+    deleteUser,
+    reauthenticateWithCredential,
+    EmailAuthProvider
 } from 'firebase/auth';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../firebase';
@@ -74,10 +80,41 @@ export function AuthProvider({ children }) {
 
     async function signup(email, password, displayName) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // Send verification email immediately
+        await sendEmailVerification(userCredential.user);
         // Apply displayName to the Auth profile first so upsertUserDoc picks it up
         await updateProfile(userCredential.user, { displayName });
         await upsertUserDoc({ ...userCredential.user, displayName }, true);
         return userCredential;
+    }
+
+    function resetPassword(email) {
+        return sendPasswordResetEmail(auth, email);
+    }
+
+    async function sendVerification() {
+        if (currentUser) await sendEmailVerification(currentUser);
+    }
+
+    async function changeEmail(newEmail, password) {
+        if (!currentUser) return;
+        const credential = EmailAuthProvider.credential(currentUser.email, password);
+        await reauthenticateWithCredential(currentUser, credential);
+        await firebaseUpdateEmail(currentUser, newEmail);
+        await upsertUserDoc({ ...currentUser, email: newEmail }, false);
+    }
+
+    async function deleteAccount(password) {
+        if (!currentUser) return;
+        const uid = currentUser.uid;
+        const credential = EmailAuthProvider.credential(currentUser.email, password);
+        await reauthenticateWithCredential(currentUser, credential);
+
+        // 1. Delete Firestore user data
+        await deleteDoc(doc(db, 'users', uid));
+
+        // 2. Delete Auth user
+        await deleteUser(currentUser);
     }
 
     function login(email, password) {
@@ -128,6 +165,10 @@ export function AuthProvider({ children }) {
         isAuthModalOpen,
         openAuthModal,
         closeAuthModal,
+        resetPassword,
+        sendVerification,
+        changeEmail,
+        deleteAccount,
     };
 
     return (

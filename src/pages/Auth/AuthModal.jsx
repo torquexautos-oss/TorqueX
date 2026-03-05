@@ -11,7 +11,9 @@ const AuthModal = ({ isOpen, onClose }) => {
     const [password, setPassword] = useState('');
     const [name, setName] = useState('');
     const [error, setError] = useState('');
+    const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const [showReset, setShowReset] = useState(false);
 
     // Automatically close the modal when the user state updates successfully
     useEffect(() => {
@@ -26,16 +28,24 @@ const AuthModal = ({ isOpen, onClose }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        setMessage('');
         setLoading(true);
 
         try {
-            if (isLogin) {
-                await login(email, password);
+            if (showReset) {
+                await resetPassword(email);
+                setMessage('Password reset link sent! Check your inbox.');
+                setTimeout(() => setShowReset(false), 3000);
+            } else if (isLogin) {
+                const cred = await login(email, password);
+                if (!cred.user.emailVerified) {
+                    setError('Please verify your email to access all features. Check your inbox.');
+                }
             } else {
                 if (!name.trim()) throw new Error('Name is required');
                 await signup(email, password, name);
+                setMessage('Account created! A verification email has been sent to your inbox.');
             }
-            onClose(); // Close modal on success
         } catch (err) {
             setError(err.message.replace('Firebase:', '').trim());
         }
@@ -51,9 +61,20 @@ const AuthModal = ({ isOpen, onClose }) => {
                 </button>
 
                 <div className="auth-header">
-                    <h2>{isLogin ? 'Welcome Back' : 'Create Account'}</h2>
-                    <p>{isLogin ? 'Sign in to access your profile and join the conversation.' : 'Join TorqueX to comment, review, and save cars.'}</p>
+                    <h2>{showReset ? 'Reset Password' : (isLogin ? 'Welcome Back' : 'Create Account')}</h2>
+                    <p>
+                        {showReset
+                            ? 'Enter your email to receive a password recovery link.'
+                            : (isLogin ? 'Sign in to access your profile and join the conversation.' : 'Join TorqueX Autos to comment, review, and save cars.')
+                        }
+                    </p>
                 </div>
+
+                {message && (
+                    <div className="auth-success">
+                        <span>{message}</span>
+                    </div>
+                )}
 
                 {error && (
                     <div className="auth-error">
@@ -93,23 +114,34 @@ const AuthModal = ({ isOpen, onClose }) => {
                         </div>
                     </div>
 
-                    <div className="auth-input-group">
-                        <label>Password</label>
-                        <div className="auth-input-wrapper">
-                            <Lock className="auth-input-icon" size={20} />
-                            <input
-                                type="password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                required
-                                minLength={6}
-                            />
+                    {!showReset && (
+                        <div className="auth-input-group">
+                            <label>Password</label>
+                            <div className="auth-input-wrapper">
+                                <Lock className="auth-input-icon" size={20} />
+                                <input
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    placeholder="••••••••"
+                                    required
+                                    minLength={6}
+                                />
+                            </div>
+                            {isLogin && (
+                                <button
+                                    type="button"
+                                    className="auth-forgot-link"
+                                    onClick={() => setShowReset(true)}
+                                >
+                                    Forgot Password?
+                                </button>
+                            )}
                         </div>
-                    </div>
+                    )}
 
                     <button type="submit" className="auth-submit" disabled={loading}>
-                        {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
+                        {loading ? 'Processing...' : (showReset ? 'Send Reset Link' : (isLogin ? 'Sign In' : 'Create Account'))}
                     </button>
 
                     <div className="auth-divider">
@@ -145,18 +177,25 @@ const AuthModal = ({ isOpen, onClose }) => {
                 </form>
 
                 <div className="auth-footer">
-                    <p>
-                        {isLogin ? "Don't have an account?" : "Already have an account?"}
-                        <button
-                            className="auth-switch"
-                            onClick={() => {
-                                setIsLogin(!isLogin);
-                                setError('');
-                            }}
-                        >
-                            {isLogin ? 'Sign Up' : 'Log In'}
+                    {showReset ? (
+                        <button className="auth-switch" onClick={() => setShowReset(false)}>
+                            Back to Login
                         </button>
-                    </p>
+                    ) : (
+                        <p>
+                            {isLogin ? "Don't have an account?" : "Already have an account?"}
+                            <button
+                                className="auth-switch"
+                                onClick={() => {
+                                    setIsLogin(!isLogin);
+                                    setError('');
+                                    setMessage('');
+                                }}
+                            >
+                                {isLogin ? 'Sign Up' : 'Log In'}
+                            </button>
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
