@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="TorqueX Logo" width="400" />
+  <img src="logo.png" alt="TorqueX Logo" width="200" />
   <h1>TORQUEX // INTELLIGENT AUTOMOTIVE ADVISOR</h1>
   <p><strong>A high-performance, AI-driven automotive intelligence platform tailored for the Indian car market.</strong></p>
 
