@@ -65,7 +65,7 @@ export default function Navbar() {
                 <Link to="/" className="navbar-logo">
                     <img src="/logo.png" alt="TorqueX Logo" className="logo-img" />
                     <span className="logo-torque">TORQUEX</span>
-                    <span className="logo-x">AUTOS</span>
+                    <span className="logo-x"> AUTOS</span>
                 </Link>
 
                 <div className={`navbar-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>

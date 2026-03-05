@@ -1,6 +1,3 @@
-// eslint-disable-next-line no-unused-vars
-import { motion } from 'framer-motion';
-
 const LAPS = [
     { track: 'NÜRBURGRING', car: '911 GT2 RS', time: '06:43.30' },
     { track: 'PIKES PEAK', car: 'VWP I.D. R', time: '07:57.14' },
@@ -14,15 +11,7 @@ export default function LegendaryLapTicker() {
         <div className="lap-ticker-container">
             <div className="ticker-label">LATEST_TRACK_RECORDS:</div>
             <div className="ticker-content">
-                <motion.div
-                    className="ticker-track"
-                    animate={{ x: [0, -1000] }}
-                    transition={{
-                        duration: 30,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                >
+                <div className="ticker-track">
                     {[...LAPS, ...LAPS].map((lap, i) => (
                         <div key={i} className="lap-item">
                             <span className="lap-track">{lap.track}</span>
@@ -30,7 +19,7 @@ export default function LegendaryLapTicker() {
                             <span className="lap-time">{lap.time}</span>
                         </div>
                     ))}
-                </motion.div>
+                </div>
             </div>
         </div>
     );

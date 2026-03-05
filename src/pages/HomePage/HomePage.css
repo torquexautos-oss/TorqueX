@@ -1042,6 +1042,22 @@
     display: flex;
     gap: 4rem;
     white-space: nowrap;
+    width: fit-content;
+    animation: ticker-marquee 60s linear infinite;
+}
+
+@keyframes ticker-marquee {
+    0% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    100% {
+        transform: translate3d(-50%, 0, 0);
+    }
+}
+
+.ticker-track:hover {
+    animation-play-state: paused;
 }
 
 .lap-item {
